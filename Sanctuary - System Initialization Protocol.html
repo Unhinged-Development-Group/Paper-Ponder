@@ -284,7 +284,7 @@
 
         /* Persona card header — fixed height, title always at same top position */
         .persona-header {
-            height: 9rem;
+            min-height: 7rem;
             padding: 1.25rem 1.5rem;
             text-align: center;
             display: flex;
@@ -294,7 +294,7 @@
         }
         .persona-header h4 {
             font-family: 'Lora', serif;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 600;
             letter-spacing: 0.02em;
             line-height: 1.2;
@@ -304,9 +304,50 @@
             font-size: 0.65rem;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.18em;
+            letter-spacing: 0.12em;
             opacity: 0.75;
             margin: 0;
+        }
+
+        /* ── Responsive additions ── */
+
+        /* SVG diagram: contain within viewport, scroll internally */
+        #diagram-scroll {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Persona card: restore larger sizes on tablet+ */
+        @media (min-width: 768px) {
+            .persona-header {
+                min-height: 9rem;
+            }
+            .persona-header h4 {
+                font-size: 1.6rem;
+            }
+            .persona-header p {
+                letter-spacing: 0.18em;
+            }
+        }
+
+        /* Mobile-only: hide nav text labels, compress step indicator */
+        @media (max-width: 639px) {
+            .nav-label {
+                display: none;
+            }
+            .main-nav-btn {
+                padding: 0.25rem 0.5rem;
+            }
+            .step-btn .label {
+                display: none;
+            }
+            .step-btn {
+                gap: 0.25rem;
+            }
+            .folder-item span {
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
@@ -527,19 +568,19 @@
                             Sanctuary</h1>
                     </button>
 
-                    <nav class="flex items-center gap-7 text-base font-sans">
+                    <nav class="flex items-center gap-3 sm:gap-7 text-base font-sans">
                         <button onclick="switchMainTab('tab-build')" class="main-nav-btn active"
                             data-target="tab-build"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-build"></use>
-                            </svg> The Build</button>
+                            </svg><span class="nav-label"> The Build</span></button>
                         <button onclick="switchMainTab('tab-personas')" class="main-nav-btn"
                             data-target="tab-personas"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-personas"></use>
-                            </svg> The Personas</button>
+                            </svg><span class="nav-label"> The Personas</span></button>
                         <button onclick="switchMainTab('tab-prompts')" class="main-nav-btn"
                             data-target="tab-prompts"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-prompt-library"></use>
-                            </svg> Prompt Library</button>
+                            </svg><span class="nav-label"> Prompt Library</span></button>
                     </nav>
                 </div>
             </div>
@@ -559,7 +600,7 @@
                 </div>
 
                 <!-- Stepper Nav -->
-                <div class="mb-8">
+                <div class="mb-4 sm:mb-8">
                     <div class="flex items-center justify-between relative max-w-4xl mx-auto">
                         <div
                             class="absolute left-0 top-1/2 w-full h-0.5 bg-[#D2C4A7]/30 -z-10 transform -translate-y-1/2">
@@ -934,7 +975,7 @@
                                     <span class="text-xs font-bold text-[#2C4C3B] uppercase tracking-wider">💡 Suggested Project Instructions</span>
                                     <button onclick="var b=document.getElementById('pi-body');b.classList.toggle('hidden');this.textContent=b.classList.contains('hidden')?'show':'hide'" class="text-xs text-gray-400 hover:text-gray-600">hide</button>
                                 </div>
-                                <div id="pi-body" class="p-3 bg-[#1a1a1a] text-[#a7d2b4] font-mono text-[10.5px] leading-relaxed">
+                                <div id="pi-body" class="p-3 bg-[#1a1a1a] text-[#a7d2b4] font-mono text-[11px] sm:text-[10.5px] leading-relaxed overflow-x-auto">
                                         You are Claude, operating inside the Sanctuary journaling system.<br><br>
                                         <span class="text-[#D2C4A7]"># Your role</span><br>
                                         You are a private, non-judgmental journal analyst. You read hand-written journal entries (transcribed from PDF scans), identify patterns in mood, energy, and recurring themes, and produce structured reports to help the user understand themselves over time.<br><br>
@@ -989,7 +1030,7 @@
                                     </div>
 
                                     <!-- Prompt body -->
-                                    <div class="p-4 bg-[#1a1a1a] text-[#a7d2b4] font-mono text-[10.5px] leading-relaxed">
+                                    <div class="p-4 bg-[#1a1a1a] text-[#a7d2b4] font-mono text-[11px] sm:text-[10.5px] leading-relaxed overflow-x-auto">
                                         <span class="text-[#D2C4A7]"># Weekly Sanctuary Synthesis</span><br><br>
                                         Check <code>/Raw_Scans/</code> for unprocessed PDFs. Also check <code>/Processed_Archive/</code> for any historical PDFs not yet transcribed.<br><br>
                                         <span class="text-[#D2C4A7]">## Transcription rule — applies to all streams</span><br>
@@ -1026,7 +1067,7 @@
                                     </div>
 
                                     <!-- Prompt body -->
-                                    <div class="p-4 bg-[#1a1a1a] text-[#a7d2b4] font-mono text-[10.5px] leading-relaxed">
+                                    <div class="p-4 bg-[#1a1a1a] text-[#a7d2b4] font-mono text-[11px] sm:text-[10.5px] leading-relaxed overflow-x-auto">
                                         <span class="text-[#D2C4A7]"># Monthly Sanctuary Combination</span><br><br>
                                         Gather all <code>Week_Input-*.md</code> files in <code>/Processed_Archive/</code> dated within the <strong>previous calendar month</strong>.<br><br>
                                         <span class="text-[#D2C4A7]">## Combination rule</span><br>
@@ -1107,7 +1148,7 @@
                                     <p class="text-[10.5px] font-bold uppercase tracking-wider text-[#D2C4A7] mb-1">To use it</p>
                                     <p class="text-xs opacity-80">Open any conversation in your Sanctuary project, type <code class="bg-white/10 px-1 rounded font-mono">/transcribe</code> and hit enter. Claude runs the skill, confirms what was processed, then you're ready to talk.</p>
                                 </div>
-                                <div class="p-3 bg-[#111] text-[#a7d2b4] font-mono text-[10px] leading-relaxed border-t border-white/10">
+                                <div class="p-3 bg-[#111] text-[#a7d2b4] font-mono text-[11px] leading-relaxed border-t border-white/10 overflow-x-auto">
                                     <span class="text-[#D2C4A7]"># /transcribe — Sanctuary On-Demand Transcription</span><br><br>
                                     Check <code>/Raw_Scans/</code> for any unprocessed PDFs.<br><br>
                                     <span class="text-[#D2C4A7]">## Transcription rule</span><br>
@@ -1316,7 +1357,7 @@
     </div>
 
     <!-- Persona Cards - INLINE STYLES for colored headers (guaranteed to work) -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
 
         <!-- The Researcher -->
         <div class="bg-white rounded-2xl border border-[#2C4C3B]/20 overflow-hidden shadow-sm flex flex-col h-full">
@@ -1605,13 +1646,13 @@
             <div class="flex items-center justify-between px-5 py-3 border-b border-[#D2C4A7]/40">
                 <p class="text-xs font-semibold text-[#2C4C3B] uppercase tracking-wider">Interaction Map</p>
                 <div class="flex items-center gap-2">
-                    <button onclick="svgZoom('diagram-svg',1.2)" class="text-xs bg-[#2C4C3B] text-[#D2C4A7] px-2.5 py-1 rounded font-bold hover:bg-[#3a6350]">+</button>
-                    <button onclick="svgZoom('diagram-svg',0.83)" class="text-xs bg-[#2C4C3B] text-[#D2C4A7] px-2.5 py-1 rounded font-bold hover:bg-[#3a6350]">&minus;</button>
-                    <button onclick="svgReset('diagram-svg')" class="text-xs text-gray-500 hover:text-gray-800 px-2 py-1">Reset</button>
+                    <button onclick="svgZoom('diagram-svg',1.2)" class="text-xs bg-[#2C4C3B] text-[#D2C4A7] px-4 py-2 rounded font-bold hover:bg-[#3a6350] min-w-[2.5rem]">+</button>
+                    <button onclick="svgZoom('diagram-svg',0.83)" class="text-xs bg-[#2C4C3B] text-[#D2C4A7] px-4 py-2 rounded font-bold hover:bg-[#3a6350] min-w-[2.5rem]">&minus;</button>
+                    <button onclick="svgReset('diagram-svg')" class="text-xs text-gray-500 hover:text-gray-800 px-4 py-2">Reset</button>
                 </div>
             </div>
-            <div id="diagram-scroll" style="overflow:auto;cursor:grab;" onmousedown="svgDragStart(event)" onmousemove="svgDragMove(event)" onmouseup="svgDragEnd()" onmouseleave="svgDragEnd()">
-<svg id="diagram-svg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="width:100%;min-width:900px;display:block;transition:transform 0.15s;transform-origin:top left;" font-family="Georgia,serif">
+            <div id="diagram-scroll" style="overflow:auto;cursor:grab;" onmousedown="svgDragStart(event)" onmousemove="svgDragMove(event)" onmouseup="svgDragEnd()" onmouseleave="svgDragEnd()" ontouchstart="svgTouchStart(event)" ontouchmove="svgTouchMove(event)" ontouchend="svgDragEnd()">
+<svg id="diagram-svg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="width:900px;min-width:0;display:block;transition:transform 0.15s;transform-origin:top left;" font-family="Georgia,serif">
   <!-- Background -->
   <rect width="1100" height="520" fill="#F2EBDA"/>
 
@@ -1767,6 +1808,8 @@
             window.svgDragStart=function(e){drag=true;sx=e.clientX-tx*scale;sy=e.clientY-ty*scale;e.currentTarget.style.cursor='grabbing';};
             window.svgDragMove=function(e){if(!drag)return;tx=(e.clientX-sx)/scale;ty=(e.clientY-sy)/scale;apply('diagram-svg');};
             window.svgDragEnd=function(){drag=false;var el=document.getElementById('diagram-scroll');if(el)el.style.cursor='grab';};
+            window.svgTouchStart=function(e){if(e.touches.length===1){drag=true;sx=e.touches[0].clientX-tx*scale;sy=e.touches[0].clientY-ty*scale;e.preventDefault();}};
+            window.svgTouchMove=function(e){if(!drag||e.touches.length!==1)return;tx=(e.touches[0].clientX-sx)/scale;ty=(e.touches[0].clientY-sy)/scale;apply('diagram-svg');e.preventDefault();};
         })();
         </script>
 
@@ -2061,7 +2104,7 @@
                                 <use href="#sip-icon-eye"></use>
                             </svg> Weekly Report Structure</h3>
                         <p class="text-sm text-gray-700 mb-4">Generated every Sunday during Task 1. This report is designed to catch micro-adjustments, identify immediate triggers, and provide somatic validation before a new week begins.</p>
-                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#a7d2b4] font-mono space-y-4 flex-1 border-l-4 border-[#D2C4A7]">
+                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#a7d2b4] font-mono space-y-4 flex-1 border-l-4 border-[#D2C4A7] overflow-x-auto">
                             <div>
                                 <span class="text-[#D2C4A7] font-bold text-[13px]"># 1. The Somatic Review</span><br>
                                 <span class="text-gray-400 italic mb-1 block">[Invoke The Somatic Guide + The Researcher]</span>
@@ -2097,7 +2140,7 @@
                                 <use href="#sip-icon-magnifier"></use>
                             </svg> Monthly Report Structure</h3>
                         <p class="text-sm text-gray-700 mb-4">Generated on the 1st of the month during Task 2. This report ignores daily fluctuations to focus entirely on macro-trends, overarching themes, and long-term trajectory tracking.</p>
-                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#a7d2b4] font-mono space-y-4 flex-1 border-l-4 border-[#2C4C3B]">
+                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#a7d2b4] font-mono space-y-4 flex-1 border-l-4 border-[#2C4C3B] overflow-x-auto">
                             <div>
                                 <span class="text-[#D2C4A7] font-bold text-[13px]"># 1. The Macro Themes</span><br>
                                 <span class="text-gray-400 italic mb-1 block">[Invoke The Archivist]</span>
