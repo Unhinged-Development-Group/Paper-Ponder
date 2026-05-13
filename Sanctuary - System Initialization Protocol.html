@@ -591,7 +591,7 @@
 
             <!-- TAB 1: THE BUILD -->
             <section id="tab-build" class="tab-content active">
-                <div class="mb-8 border-b border-[#ffedd5]/30 pb-6">
+                <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
                     <h2 class="text-3xl mb-3">System Architecture</h2>
                     <p class="text-gray-600 leading-relaxed max-w-3xl">
                         The step-by-step roadmap to configuring your Claude CoWork local environment using your computer
@@ -607,47 +607,47 @@
                             class="absolute left-0 top-1/2 w-full h-0.5 bg-[#ffedd5]/30 -z-10 transform -translate-y-1/2">
                         </div>
                         <button onclick="goToStep(1)"
-                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group">
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
                             <div
-                                class="w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-medium transition-colors text-sm indicator">
+                                class="w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
                                 1</div>
                             <span
-                                class="text-xs font-medium text-[#7c2d12] uppercase tracking-wider text-center label">The
+                                class="font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label">The
                                 Vault</span>
                         </button>
                         <button onclick="goToStep(2)"
-                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group">
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
                             <div
-                                class="w-8 h-8 rounded-full border-2 border-[#ffedd5] bg-[#fafaf9] text-gray-400 flex items-center justify-center font-medium transition-colors text-sm indicator">
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
                                 2</div>
                             <span
-                                class="text-xs font-medium text-gray-500 uppercase tracking-wider text-center label">The
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">The
                                 Capture</span>
                         </button>
                         <button onclick="goToStep(3)"
-                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group">
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
                             <div
-                                class="w-8 h-8 rounded-full border-2 border-[#ffedd5] bg-[#fafaf9] text-gray-400 flex items-center justify-center font-medium transition-colors text-sm indicator">
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
                                 3</div>
                             <span
-                                class="text-xs font-medium text-gray-500 uppercase tracking-wider text-center label">CoWork
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">CoWork
                                 Setup</span>
                         </button>
                         <button onclick="goToStep(4)"
-                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group">
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
                             <div
-                                class="w-8 h-8 rounded-full border-2 border-[#ffedd5] bg-[#fafaf9] text-gray-400 flex items-center justify-center font-medium transition-colors text-sm indicator">
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
                                 4</div>
                             <span
-                                class="text-xs font-medium text-gray-500 uppercase tracking-wider text-center label">Automations</span>
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">Automations</span>
                         </button>
                         <button onclick="goToStep(5)"
-                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group">
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
                             <div
-                                class="w-8 h-8 rounded-full border-2 border-[#ffedd5] bg-[#fafaf9] text-gray-400 flex items-center justify-center font-medium transition-colors text-sm indicator">
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
                                 5</div>
                             <span
-                                class="text-xs font-medium text-gray-500 uppercase tracking-wider text-center label">The
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">The
                                 Practice</span>
                         </button>
                     </div>
@@ -748,7 +748,7 @@
                     </div>
                     <div class="flex justify-end">
                         <button onclick="goToStep(2)"
-                            class="bg-[#7c2d12] text-[#fafaf9] px-6 py-2 rounded-lg font-medium shadow-sm flex items-center gap-2">Next
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
                             Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-arrow-forward"></use>
                             </svg></button>
@@ -847,9 +847,9 @@
                         </div>
                     </div>
                     <div class="flex justify-between">
-                        <button onclick="goToStep(1)" class="text-gray-500 font-medium flex items-center gap-2"><svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-back"></use></svg> Back</button>
+                        <button onclick="goToStep(1)" class="text-[#7c2d12]/60 hover:text-[#7c2d12] px-4 py-2 font-mono text-[0.65rem] tracking-widest uppercase flex items-center gap-2 transition-colors"><svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-back"></use></svg> Back</button>
                         <button onclick="goToStep(3)"
-                            class="bg-[#7c2d12] text-[#fafaf9] px-6 py-2 rounded-lg font-medium shadow-sm flex items-center gap-2">Next
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
                             Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-forward"></use></svg></button>
                     </div>
                 </div>
@@ -993,9 +993,9 @@
                     </div>
                     <div class="flex justify-between">
                         <button onclick="goToStep(2)"
-                            class="text-gray-500 hover:text-gray-800 px-4 py-2 font-medium flex items-center gap-2"><svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-back"></use></svg> Back</button>
+                            class="text-[#7c2d12]/60 hover:text-[#7c2d12] px-4 py-2 font-mono text-[0.65rem] tracking-widest uppercase flex items-center gap-2 transition-colors"><svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-back"></use></svg> Back</button>
                         <button onclick="goToStep(4)"
-                            class="bg-[#7c2d12] text-[#fafaf9] px-6 py-2 rounded-lg font-medium shadow-sm flex items-center gap-2">Next
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
                             Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-arrow-forward"></use>
                             </svg></button>
@@ -1165,12 +1165,12 @@
                     </div>
                     <div class="flex justify-between">
                         <button onclick="goToStep(3)"
-                            class="text-gray-500 hover:text-gray-800 px-4 py-2 font-medium flex items-center gap-2"><svg
+                            class="text-[#7c2d12]/60 hover:text-[#7c2d12] px-4 py-2 font-mono text-[0.65rem] tracking-widest uppercase flex items-center gap-2 transition-colors"><svg
                                 class="sip-icon sip-icon-btn" aria-hidden="true">
                                 <use href="#sip-icon-arrow-back"></use>
                             </svg> Back</button>
                         <button onclick="goToStep(5)"
-                            class="bg-[#7c2d12] text-[#fafaf9] px-6 py-2 rounded-lg font-medium shadow-sm flex items-center gap-2">Next
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
                             Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-arrow-forward"></use>
                             </svg></button>
@@ -1326,7 +1326,7 @@
 <!-- TAB 2: THE PERSONAS (Fixed Colored Headers) -->
 <!-- ========================================== -->
 <section id="tab-personas" class="tab-content">
-    <div class="mb-8 border-b border-[#ffedd5]/30 pb-6">
+    <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
         <h2 class="text-3xl mb-3 flex items-center gap-3">
             <svg class="sip-icon sip-icon-lg" aria-hidden="true">
                 <use href="#sip-icon-personas"></use>
@@ -1968,7 +1968,7 @@
             <!-- TAB 3: THE PROMPTS (Linguistic Tools)      -->
             <!-- ========================================== -->
             <section id="tab-prompts" class="tab-content">
-                <div class="mb-8 border-b border-[#ffedd5]/30 pb-6">
+                <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
                     <h2 class="text-3xl mb-3 flex items-center gap-3"><svg class="sip-icon sip-icon-lg"
                             aria-hidden="true">
                             <use href="#sip-icon-prompt-library"></use>
@@ -2249,19 +2249,19 @@
                 if (stepNum === step && stepNum === 5) {
                     indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-medium transition-colors text-sm indicator';
                     indicator.innerHTML = '&#10003;';
-                    label.className = 'text-xs font-medium text-[#7c2d12] uppercase tracking-wider text-center label';
+                    label.className = 'font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label';
                 } else if (stepNum === step) {
-                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-medium transition-colors text-sm indicator';
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
                     indicator.innerHTML = stepNum;
-                    label.className = 'text-xs font-medium text-[#7c2d12] uppercase tracking-wider text-center label';
+                    label.className = 'font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label';
                 } else if (stepNum < step) {
-                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#fafaf9] text-[#7c2d12] flex items-center justify-center font-medium transition-colors text-sm indicator';
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#fafaf9] text-[#7c2d12] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
                     indicator.innerHTML = '&#10003;';
-                    label.className = 'text-xs font-medium text-[#7c2d12] uppercase tracking-wider text-center label';
+                    label.className = 'font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label';
                 } else {
-                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#ffedd5] bg-[#fafaf9] text-gray-400 flex items-center justify-center font-medium transition-colors text-sm indicator';
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
                     indicator.innerHTML = stepNum;
-                    label.className = 'text-xs font-medium text-gray-500 uppercase tracking-wider text-center label';
+                    label.className = 'font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label';
                 }
             });
             if (step === 4 && !chartInitialized) initEfficiencyChart();
