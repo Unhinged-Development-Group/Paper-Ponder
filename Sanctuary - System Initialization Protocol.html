@@ -548,22 +548,18 @@
             <svg class="w-28 h-28 mb-8 mx-auto flex-shrink-0 drop-shadow-xl" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="128" cy="128" r="120" fill="rgba(124,45,18,0.55)" stroke="#ffedd5" stroke-width="1.5"/>
                 <circle cx="128" cy="128" r="108" fill="none" stroke="#ffedd5" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
-                <text x="80" y="155" font-family="Georgia,serif" font-size="52" font-weight="500" fill="#ffedd5">P</text>
-                <text x="154" y="155" font-family="Georgia,serif" font-size="52" font-weight="500" fill="#ffedd5">P</text>
-                <text x="128" y="152" font-family="Georgia,serif" font-size="58" fill="#fb923c" text-anchor="middle" transform="rotate(-12,128,128)">&amp;</text>
+                <text x="22" y="174" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#ffedd5">P</text>
+                <text x="146" y="174" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#ffedd5">P</text>
+                <text x="128" y="169" font-family="Georgia,serif" font-size="94" fill="#fb923c" text-anchor="middle" transform="rotate(-10,128,169)">&amp;</text>
             </svg>
 
             <h1 class="text-6xl sm:text-8xl tracking-wide mb-3 handwritten sanctuary-heading leading-tight" style="color:#ffedd5;">
                 Paper <span style="color:#fb923c;">&amp;</span> Ponder
             </h1>
 
-            <p class="mb-8 font-mono text-xs tracking-widest uppercase" style="color:rgba(255,237,213,0.45);">System Initialization Protocol</p>
-
             <div class="w-12 h-px mx-auto mb-7 opacity-30" style="background:#fb923c;"></div>
 
             <p class="text-lg sm:text-xl font-light leading-relaxed mb-12 max-w-xl mx-auto" style="color:rgba(255,237,213,0.75);">
-                The tactile act of writing by hand — kept sacred.
-                <br><br>
                 This blueprint guides you through building a secure, local-first journaling system. Write on paper. Let the AI sit alongside it. Map your patterns entirely on your own terms.
             </p>
 
@@ -592,9 +588,9 @@
                             viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="128" cy="128" r="120" fill="#7c2d12"/>
                             <circle cx="128" cy="128" r="108" fill="none" stroke="#ffedd5" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
-                            <text x="72" y="160" font-family="Georgia,serif" font-size="56" font-weight="500" fill="#ffedd5">P</text>
-                            <text x="150" y="160" font-family="Georgia,serif" font-size="56" font-weight="500" fill="#ffedd5">P</text>
-                            <text x="128" y="156" font-family="Georgia,serif" font-size="62" fill="#fb923c" text-anchor="middle" transform="rotate(-12,128,128)">&amp;</text>
+                            <text x="22" y="174" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#ffedd5">P</text>
+                            <text x="146" y="174" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#ffedd5">P</text>
+                            <text x="128" y="169" font-family="Georgia,serif" font-size="94" fill="#fb923c" text-anchor="middle" transform="rotate(-10,128,169)">&amp;</text>
                         </svg>
                         <h1 class="text-3xl font-medium tracking-tight sanctuary-heading leading-none transition-colors group-hover:text-[#9a3412]">
                             Paper <span style="color:#fb923c;">&amp;</span> Ponder
@@ -623,7 +619,7 @@
 
             <!-- TAB 1: THE BUILD -->
             <section id="tab-build" class="tab-content active">
-                <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
+                <div id="build-tab-header" class="mb-8 border-b pb-6" style="border-color:#efece8;">
                     <h2 class="text-3xl mb-3">System Architecture</h2>
                     <p class="text-[#57534e] leading-relaxed max-w-3xl">
                         The step-by-step roadmap to configuring your Claude CoWork local environment using your computer
@@ -641,10 +637,10 @@
                         <button onclick="goToStep(1)"
                             class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
                             <div
-                                class="w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
                                 1</div>
                             <span
-                                class="font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label">The
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">The
                                 Vault</span>
                         </button>
                         <button onclick="goToStep(2)"
@@ -686,7 +682,7 @@
                 </div>
 
                 <!-- Step 1: The Vault -->
-                <div id="step-1" class="step-content active">
+                <div id="step-1" class="step-content">
                     <div class="bg-white rounded-xl shadow-sm border border-[#ffedd5]/40 overflow-hidden mb-8">
                         <div class="grid grid-cols-1 md:grid-cols-5">
                             <div
@@ -2172,7 +2168,28 @@
     <script>
         let chartInitialized = false;
 
+        const stepMeta = {
+            1: { title: 'Directory Setup',       desc: 'Create your Google Drive folder structure. This vault holds everything — scans, transcriptions, reports, and Claude\'s core instructions.' },
+            2: { title: 'Mobile Scanning',        desc: 'Configure your phone to drop scanned PDFs directly into the vault. One tap gets the pages in; the rest is automated.' },
+            3: { title: 'Connecting Claude',      desc: 'Use Claude CoWork to give the AI sandboxed, direct access to your local Sanctuary folder. This is the bridge between brain and machine.' },
+            4: { title: 'Automating the Routine', desc: 'Set up Claude\'s weekly synthesis and monthly rollup schedules. These run automatically and keep the system compounding without effort.' },
+            5: { title: 'The Sanctuary Ritual',   desc: 'The vault is built. The AI is trained. This is the three-part practice that makes it work.' }
+        };
+
+        function resetBuildTab() {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.step-btn').forEach((btn, i) => {
+                btn.querySelector('.indicator').className = 'w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
+                btn.querySelector('.indicator').innerHTML = i + 1;
+                btn.querySelector('.label').className = 'font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label';
+            });
+            const header = document.getElementById('build-tab-header');
+            if (header) header.innerHTML = '<h2 class="text-3xl mb-3">System Architecture</h2><p class="text-[#57534e] leading-relaxed max-w-3xl">The step-by-step roadmap to configuring your Claude CoWork local environment using your computer (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow the phases to build the digital vault.</p>';
+            switchMainTab('tab-build');
+        }
+
         function enterSanctuary() {
+            resetBuildTab();
             const landing = document.getElementById('landing-page');
             const app = document.getElementById('main-app');
             landing.classList.add('fade-out');
@@ -2236,6 +2253,11 @@
         function goToStep(step) {
             document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
             document.getElementById(`step-${step}`).classList.add('active');
+            const meta = stepMeta[step];
+            if (meta) {
+                const header = document.getElementById('build-tab-header');
+                if (header) header.innerHTML = `<h2 class="text-3xl mb-3">${meta.title}</h2><p class="text-[#57534e] leading-relaxed max-w-3xl">${meta.desc}</p>`;
+            }
             document.querySelectorAll('.step-btn').forEach((btn, index) => {
                 const stepNum = index + 1;
                 const indicator = btn.querySelector('.indicator');
