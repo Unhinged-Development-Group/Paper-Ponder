@@ -550,22 +550,23 @@
     <!-- MAIN APPLICATION -->
     <div id="main-app" class="hidden-view flex-grow flex flex-col w-full">
 
-        <header class="border-b border-[#ffedd5]/40 bg-[#fafaf9] sticky top-0 z-40 shadow-sm">
+        <header class="border-b bg-[#fafaf9] sticky top-0 z-40 shadow-sm" style="border-color:#efece8;">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <button type="button" onclick="showLandingPage()" class="flex items-center gap-3 text-left group"
                         aria-label="Return to landing page">
-                        <!-- Velvet Light logo in header -->
-                        <svg class="w-11 h-11 shadow-sm rounded-xl flex-shrink-0 transition-transform group-hover:scale-105"
-                            viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="6" y="6" width="88" height="88" rx="22" fill="#ffedd5" stroke="#7c2d12" stroke-width="5"/>
-                            <path d="M50 80 V28" stroke="#7c2d12" stroke-width="5" stroke-linecap="round"/>
-                            <path d="M50 56 Q30 56 30 36 Q50 36 50 56Z" fill="#7c2d12"/>
-                            <path d="M50 44 Q70 44 70 24 Q50 24 50 44Z" fill="#7c2d12"/>
+                        <!-- P&P Monogram -->
+                        <svg class="w-11 h-11 flex-shrink-0 transition-transform group-hover:scale-105 drop-shadow-sm"
+                            viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="128" cy="128" r="120" fill="#7c2d12"/>
+                            <circle cx="128" cy="128" r="108" fill="none" stroke="#ffedd5" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
+                            <text x="72" y="160" font-family="Georgia,serif" font-size="56" font-weight="500" fill="#ffedd5">P</text>
+                            <text x="150" y="160" font-family="Georgia,serif" font-size="56" font-weight="500" fill="#ffedd5">P</text>
+                            <text x="128" y="156" font-family="Georgia,serif" font-size="62" fill="#fb923c" text-anchor="middle" transform="rotate(-12,128,128)">&amp;</text>
                         </svg>
-                        <h1
-                            class="text-4xl font-medium tracking-tight sanctuary-heading leading-none transition-colors group-hover:text-[#9a3412]">
-                            Sanctuary</h1>
+                        <h1 class="text-3xl font-medium tracking-tight sanctuary-heading leading-none transition-colors group-hover:text-[#9a3412]">
+                            Paper <span style="color:#fb923c;">&amp;</span> Ponder
+                        </h1>
                     </button>
 
                     <nav class="flex items-center gap-3 sm:gap-7 text-base font-sans">
