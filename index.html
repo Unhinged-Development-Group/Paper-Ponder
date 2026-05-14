@@ -1,19 +1,2511 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Paper & Ponder — Modern Journaling, Brought to You On Paper</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="pragma" content="no-cache">
-  <meta http-equiv="expires" content="0">
-  <link rel="stylesheet" href="site.css?v=2">
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="0">
+    <title>Paper &amp; Ponder: System Blueprint</title>
+
+    <!-- Paper & Ponder Favicon — warm clay monogram circle -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%237c2d12'/%3E%3Ccircle cx='50' cy='50' r='42' fill='none' stroke='%23ffedd5' stroke-width='1.5' stroke-dasharray='4 3'/%3E%3Ctext x='32' y='62' font-family='Georgia,serif' font-size='26' font-weight='500' fill='%23ffedd5'%3EP%3C/text%3E%3Ctext x='58' y='62' font-family='Georgia,serif' font-size='26' font-weight='500' fill='%23ffedd5'%3EP%3C/text%3E%3Ctext x='50' y='60' font-family='Georgia,serif' font-size='32' fill='%23fb923c' text-anchor='middle' transform='rotate(-12,50,50)'%3E%26amp%3B%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Paper & Ponder — Warm Clay design tokens */
+        :root {
+            --pp-deep-clay:   #7c2d12;
+            --pp-clay:        #9a3412;
+            --pp-terracotta:  #fb923c;
+            --pp-sand:        #ffedd5;
+            --pp-sand-soft:   #fff7ed;
+            --pp-charcoal:    #1c1917;
+            --pp-alabaster:   #fafaf9;
+            --pp-stone-200:   #e7e5e4;
+            --pp-stone-400:   #a8a29e;
+            --pp-stone-500:   #78716c;
+            --pp-border-warm: #fde4c4;
+            --pp-border-soft: #efece8;
+        }
+
+        body {
+            background-color: var(--pp-alabaster);
+            color: #292524;
+            font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .journal-font {
+            font-family: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+            font-weight: 300;
+            color: var(--pp-deep-clay);
+        }
+
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            letter-spacing: 0.005em;
+        }
+
+        .sanctuary-heading {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .hidden-view {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out forwards;
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .tab-content,
+        .step-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .tab-content.active,
+        .step-content.active {
+            display: block;
+        }
+
+        /* Paper & Ponder — Warm charcoal cover: clay glow on dark ground */
+        .bg-leather {
+            background-color: #1c1917;
+            background-image:
+                radial-gradient(ellipse 70% 55% at 30% 20%, rgba(251, 146, 60, 0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 75% 80%, rgba(124, 45, 18, 0.30) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.55) 130%),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.06 0 0 0 0 0.04 0 0 0 0.35 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
+            background-size: 100% 100%, 100% 100%, 100% 100%, 400px 400px;
+            background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+            background-blend-mode: screen, multiply, multiply, soft-light;
+        }
+
+        .folder-item {
+            transition: all 0.2s ease;
+            border-left: 2px solid transparent;
+        }
+
+        .folder-item.active {
+            background-color: #ffedd5;
+            border-left: 2px solid #7c2d12;
+        }
+
+        .sip-icon {
+            width: 1.08em;
+            height: 1.08em;
+            display: inline-block;
+            vertical-align: -0.18em;
+            flex-shrink: 0;
+        }
+
+        .sip-icon-nav {
+            width: 1.22rem;
+            height: 1.22rem;
+            vertical-align: -0.24em;
+        }
+
+        .sip-icon-btn {
+            width: 1.1rem;
+            height: 1.1rem;
+            vertical-align: -0.22em;
+        }
+
+        .sip-icon-lg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .sip-icon-heading {
+            width: 1.85rem;
+            height: 1.85rem;
+            vertical-align: -0.35em;
+        }
+
+        .sip-icon-claude-setup {
+            width: 7.4rem;
+            height: 7.4rem;
+        }
+
+        .sip-icon-mobile {
+            width: 4.2rem;
+            height: 4.2rem;
+            vertical-align: -1.15em;
+        }
+
+        .sip-icon-historical {
+            width: 3rem;
+            height: 3rem;
+            vertical-align: -0.8em;
+        }
+
+        .sip-icon-sync {
+            width: 7.2rem;
+            height: 7.2rem;
+        }
+
+        .sip-icon-xl {
+            width: 2.65rem;
+            height: 2.65rem;
+        }
+
+        .sip-icon-list {
+            width: 1.25rem;
+            height: 1.25rem;
+            vertical-align: -0.28em;
+        }
+
+        .sip-icon-list-file {
+            width: 1.9rem;
+            height: 1.9rem;
+            vertical-align: -0.55em;
+        }
+
+        .sip-icon-list-claude {
+            width: 2.15rem;
+            height: 2.15rem;
+            vertical-align: -0.68em;
+        }
+
+        .sip-icon-action {
+            width: 1.15rem;
+            height: 1.15rem;
+            vertical-align: -0.24em;
+        }
+
+        .main-nav-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            color: #78716c;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+        }
+
+        .main-nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: -6px;
+            width: calc(100% + 12px);
+            height: 2px;
+            background-color: #7c2d12;
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .main-nav-btn.active {
+            color: #7c2d12;
+            font-weight: 600;
+        }
+
+        .main-nav-btn.active::after {
+            transform: scaleX(1);
+        }
+
+        .main-nav-btn .sip-icon-nav {
+            transform: translateY(2px);
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            height: 250px;
+            max-height: 300px;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fafaf9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ffedd5;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #fb923c;
+        }
+
+        /* Persona card header — fixed height, title always at same top position */
+        .persona-header {
+            min-height: 7rem;
+            padding: 1.25rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .persona-header h4 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+        .persona-header p {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.75;
+            margin: 0;
+        }
+
+        /* ── Responsive additions ── */
+
+        /* SVG diagram: contain within viewport, scroll internally */
+        #diagram-scroll {
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Persona card: restore larger sizes on tablet+ */
+        @media (min-width: 768px) {
+            .persona-header {
+                min-height: 9rem;
+            }
+            .persona-header h4 {
+                font-size: 1.8rem;
+            }
+            .persona-header p {
+                letter-spacing: 0.18em;
+            }
+        }
+
+        /* Mobile-only: hide nav text labels, compress step indicator */
+        @media (max-width: 639px) {
+            .nav-label {
+                display: none;
+            }
+            .main-nav-btn {
+                padding: 0.25rem 0.5rem;
+            }
+            .step-btn .label {
+                display: none;
+            }
+            .step-btn {
+                gap: 0.25rem;
+            }
+            .folder-item span {
+                font-size: 0.75rem;
+            }
+        }
+
+        /* Mobile hamburger */
+        .mobile-hamburger {
+            display: none;
+            flex-direction: column; justify-content: center; gap: 5px;
+            background: none; border: none; cursor: pointer;
+            padding: 6px; margin: -6px;
+        }
+        .mobile-hamburger span {
+            display: block; width: 22px; height: 2px;
+            background: #7c2d12; border-radius: 2px;
+            transition: transform 250ms ease, opacity 250ms ease;
+            transform-origin: center;
+        }
+        .mobile-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .mobile-hamburger.open span:nth-child(2) { opacity: 0; }
+        .mobile-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+        @media (max-width: 639px) {
+            .mobile-hamburger { display: flex; }
+        }
+
+        /* Mobile nav overlay + drawer */
+        .mobile-nav-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(28, 25, 23, 0.4); z-index: 45;
+        }
+        .mobile-nav-overlay.open { display: block; }
+        .mobile-nav-drawer {
+            position: fixed; top: 0; right: 0; bottom: 0; width: 260px;
+            background: #fafaf9; padding: 88px 28px 40px;
+            display: flex; flex-direction: column; gap: 0;
+            border-left: 1px solid #efece8;
+            transform: translateX(100%);
+            transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 50;
+        }
+        .mobile-nav-drawer.open { transform: translateX(0); }
+        .mobile-drawer-btn {
+            font-size: 0.8rem; padding: 16px 0;
+            border-bottom: 1px solid #efece8;
+            width: 100%; justify-content: flex-start; gap: 10px; text-align: left;
+        }
+        .mobile-drawer-btn:last-child { border-bottom: none; }
+
+        /* P&P card hover — shadow deepens sm → md (300ms ease-out) */
+        .pp-card-hover {
+            transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .pp-card-hover:hover {
+            box-shadow: 0 4px 12px -2px rgba(28, 25, 23, 0.08), 0 2px 4px -2px rgba(28, 25, 23, 0.05);
+        }
+
+        /* Persona cards hover */
+        #tab-personas .bg-white.rounded-2xl {
+            transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #tab-personas .bg-white.rounded-2xl:hover {
+            box-shadow: 0 4px 12px -2px rgba(28, 25, 23, 0.08), 0 2px 4px -2px rgba(28, 25, 23, 0.05);
+        }
+
+        /* Interaction cards hover */
+        #tab-personas .grid > div.bg-white {
+            transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        #tab-personas .grid > div.bg-white:hover {
+            box-shadow: 0 4px 12px -2px rgba(28, 25, 23, 0.08), 0 2px 4px -2px rgba(28, 25, 23, 0.05);
+        }
+
+        /* Prompt template cards hover */
+        .space-y-4 > .bg-\[#1a1a1a\] {
+            transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .space-y-4 > .bg-\[#1a1a1a\]:hover {
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.20);
+        }
+
+        /* Landing monogram — hover lifts and glows */
+        .monogram-seal {
+            transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 350ms ease;
+            cursor: default;
+        }
+        .monogram-seal:hover {
+            transform: scale(1.07);
+            filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.55));
+        }
+        .pp-amp {
+            transform-box: fill-box;
+            transform-origin: center;
+            transform: rotate(-12deg);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .monogram-seal:hover .pp-amp {
+            transform: rotate(-22deg);
+        }
+
+        /* Header badge — extend transition to include filter */
+        header button svg {
+            transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 300ms ease;
+        }
+        header button:hover svg {
+            filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.4));
+        }
+    </style>
 </head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel" src="site.jsx?v=2"></script>
+
+<body class="antialiased min-h-screen flex flex-col">
+    <svg width="0" height="0" style="position:absolute;visibility:hidden" aria-hidden="true">
+        <symbol id="sip-icon-folder" viewBox="0 0 100 100">
+            <path
+                d="M15 23 C15 18 19 14 25 14 H43 L51 22 H81 C87 22 91 27 91 33 V79 C91 84 86 89 81 89 H19 C14 89 11 84 11 79 V23 Z"
+                fill="#ffedd5" stroke="#7c2d12" stroke-width="5" />
+            <path d="M15 38 L43 38 L51 30 L81 30" fill="none" stroke="#7c2d12" stroke-width="4" />
+        </symbol>
+        <symbol id="sip-icon-write" viewBox="0 0 100 100">
+            <rect x="18" y="22" width="64" height="56" rx="12" ry="12" fill="#fafaf9" stroke="#7c2d12"
+                stroke-width="4" />
+            <line x1="50" y1="22" x2="50" y2="78" stroke="#7c2d12" stroke-width="4" />
+            <line x1="24" y1="34" x2="46" y2="34" stroke="#7c2d12" stroke-width="2" />
+            <line x1="24" y1="42" x2="46" y2="42" stroke="#7c2d12" stroke-width="2" />
+            <line x1="24" y1="50" x2="46" y2="50" stroke="#7c2d12" stroke-width="2" />
+            <line x1="24" y1="58" x2="46" y2="58" stroke="#7c2d12" stroke-width="2" />
+            <line x1="54" y1="34" x2="76" y2="34" stroke="#7c2d12" stroke-width="2" />
+            <line x1="54" y1="42" x2="76" y2="42" stroke="#7c2d12" stroke-width="2" />
+            <line x1="54" y1="50" x2="76" y2="50" stroke="#7c2d12" stroke-width="2" />
+            <line x1="54" y1="58" x2="76" y2="58" stroke="#7c2d12" stroke-width="2" />
+            <path d="M82 30 Q88 26 88 32 Q88 36 82 34 Z" fill="#ffedd5" stroke="#7c2d12" stroke-width="2" />
+        </symbol>
+        <symbol id="sip-icon-archive" viewBox="0 0 100 100">
+            <path
+                d="M15 23 C15 18 19 14 25 14 H43 L51 22 H81 C87 22 91 27 91 33 V79 C91 84 86 89 81 89 H19 C14 89 11 84 11 79 V23 Z"
+                fill="#ffedd5" stroke="#7c2d12" stroke-width="5" />
+            <rect x="28" y="44" width="44" height="10" rx="2" fill="#7c2d12" />
+        </symbol>
+        <symbol id="sip-icon-file" viewBox="0 0 100 100">
+            <rect x="17" y="13" width="66" height="76" rx="10" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" /><text
+                x="50" y="48" font-family="Inter" font-size="21" font-weight="700" fill="#7c2d12"
+                text-anchor="middle">MD</text>
+            <line x1="28" y1="61" x2="72" y2="61" stroke="#7c2d12" stroke-width="3" />
+            <line x1="28" y1="69" x2="72" y2="69" stroke="#7c2d12" stroke-width="3" />
+        </symbol>
+        <symbol id="sip-icon-core" viewBox="0 0 100 100">
+            <rect x="18" y="18" width="64" height="64" rx="14" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <circle cx="50" cy="42" r="9" fill="#7c2d12" />
+            <rect x="46" y="50" width="8" height="16" rx="2" fill="#7c2d12" />
+            <circle cx="50" cy="42" r="5" fill="#ffedd5" />
+        </symbol>
+        <symbol id="sip-icon-phone" viewBox="0 0 100 100">
+            <rect x="26" y="12" width="48" height="76" rx="12" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <rect x="33" y="22" width="34" height="54" rx="5" fill="#ffedd5" />
+            <circle cx="50" cy="48" r="8" fill="#7c2d12" />
+            <rect x="39" y="17" width="22" height="3" rx="1.5" fill="#7c2d12" />
+        </symbol>
+        <symbol id="sip-icon-coffee" viewBox="0 0 100 100">
+            <!-- Steam wisps -->
+            <path d="M38 22 Q34 17 38 12 Q42 7 38 2" fill="none" stroke="#7c2d12" stroke-width="3" stroke-linecap="round"/>
+            <path d="M52 22 Q48 17 52 12 Q56 7 52 2" fill="none" stroke="#7c2d12" stroke-width="3" stroke-linecap="round"/>
+            <!-- Cup body — tapered, wider at top -->
+            <path d="M24 30 L30 76 Q30 80 36 80 H64 Q70 80 70 76 L76 30 Z" fill="#ffedd5" stroke="#7c2d12" stroke-width="4.5" stroke-linejoin="round"/>
+            <!-- Handle — proper C-curve -->
+            <path d="M70 42 Q86 42 86 55 Q86 68 70 68" fill="none" stroke="#7c2d12" stroke-width="4.5" stroke-linecap="round"/>
+            <!-- Saucer -->
+            <path d="M16 84 Q50 90 84 84" fill="none" stroke="#7c2d12" stroke-width="4" stroke-linecap="round"/>
+        </symbol>
+        <symbol id="sip-icon-eye" viewBox="0 0 100 100">
+            <ellipse cx="50" cy="50" rx="24" ry="17" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <circle cx="50" cy="50" r="10" fill="#7c2d12" />
+            <circle cx="54" cy="46" r="4" fill="#fafaf9" />
+        </symbol>
+        <symbol id="sip-icon-magnifier" viewBox="0 0 100 100">
+            <circle cx="40" cy="40" r="18" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <line x1="55" y1="55" x2="76" y2="76" stroke="#7c2d12" stroke-width="5" stroke-linecap="round" />
+            <circle cx="40" cy="40" r="9" fill="none" stroke="#7c2d12" stroke-width="3" />
+        </symbol>
+        <symbol id="sip-icon-check" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="28" fill="#ffedd5" stroke="#7c2d12" stroke-width="5" />
+            <path d="M32 50 L44 64 L70 36" fill="none" stroke="#7c2d12" stroke-width="6" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+        <symbol id="sip-icon-arrow-back" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="28" fill="#ffedd5" stroke="#7c2d12" stroke-width="5" />
+            <path d="M62 35 L38 50 L62 65" fill="none" stroke="#7c2d12" stroke-width="6" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+        <symbol id="sip-icon-arrow-forward" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="28" fill="#ffedd5" stroke="#7c2d12" stroke-width="5" />
+            <path d="M38 35 L62 50 L38 65" fill="none" stroke="#7c2d12" stroke-width="6" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </symbol>
+        <symbol id="sip-icon-build" viewBox="0 0 100 100">
+            <rect x="18" y="22" width="64" height="56" rx="8" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <line x1="26" y1="34" x2="74" y2="34" stroke="#7c2d12" stroke-width="3" />
+            <line x1="26" y1="46" x2="74" y2="46" stroke="#7c2d12" stroke-width="3" />
+            <line x1="26" y1="58" x2="74" y2="58" stroke="#7c2d12" stroke-width="3" />
+            <path d="M50 18 L30 26 L70 26 Z" fill="#ffedd5" stroke="#7c2d12" stroke-width="4" />
+        </symbol>
+        <symbol id="sip-icon-personas" viewBox="0 0 100 100">
+            <circle cx="35" cy="35" r="13" fill="#ffedd5" stroke="#7c2d12" stroke-width="4" />
+            <circle cx="65" cy="35" r="13" fill="#fafaf9" stroke="#7c2d12" stroke-width="4" />
+            <path d="M25 68 Q35 58 45 68" fill="none" stroke="#7c2d12" stroke-width="4" stroke-linecap="round" />
+            <path d="M55 68 Q65 58 75 68" fill="none" stroke="#7c2d12" stroke-width="4" stroke-linecap="round" />
+        </symbol>
+        <symbol id="sip-icon-prompt-library" viewBox="0 0 100 100">
+            <path d="M18 28 Q50 12 82 28" fill="none" stroke="#7c2d12" stroke-width="5" stroke-linecap="round" />
+            <path d="M18 28 L18 72 Q50 82 82 72 L82 28" fill="none" stroke="#7c2d12" stroke-width="5" />
+            <line x1="50" y1="28" x2="50" y2="78" stroke="#7c2d12" stroke-width="4" />
+            <line x1="26" y1="40" x2="44" y2="40" stroke="#ffedd5" stroke-width="2" />
+            <line x1="26" y1="50" x2="44" y2="50" stroke="#ffedd5" stroke-width="2" />
+            <line x1="56" y1="40" x2="74" y2="40" stroke="#ffedd5" stroke-width="2" />
+            <line x1="56" y1="50" x2="74" y2="50" stroke="#ffedd5" stroke-width="2" />
+        </symbol>
+        <symbol id="sip-icon-phone-apple" viewBox="0 0 100 100">
+            <rect x="24" y="10" width="52" height="80" rx="14" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <rect x="40" y="16" width="20" height="4" rx="2" fill="#7c2d12" />
+            <path d="M50 32 C45 32 40 36 40 43 C40 54 46 62 50 62 C54 62 60 54 60 43 C60 36 55 32 50 32 Z"
+                fill="#ffedd5" />
+            <circle cx="61" cy="45" r="6" fill="#fafaf9" />
+            <path d="M51 32 C51 26 56 26 59 26 C54 26 51 32 51 32 Z" fill="#7c2d12" />
+        </symbol>
+        <symbol id="sip-icon-phone-android" viewBox="0 0 100 100">
+            <rect x="25" y="10" width="50" height="80" rx="8" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" />
+            <circle cx="50" cy="17" r="2" fill="#7c2d12" />
+            <path d="M35 52 A15 15 0 0 1 65 52 L35 52 Z" fill="#7c2d12" />
+            <line x1="42" y1="41" x2="38" y2="34" stroke="#7c2d12" stroke-width="3" stroke-linecap="round" />
+            <line x1="58" y1="41" x2="62" y2="34" stroke="#7c2d12" stroke-width="3" stroke-linecap="round" />
+            <circle cx="43" cy="46" r="1.5" fill="#fafaf9" />
+            <circle cx="57" cy="46" r="1.5" fill="#fafaf9" />
+            <circle cx="42" cy="72" r="2.5" fill="#ffedd5" />
+            <circle cx="50" cy="72" r="2.5" fill="#ffedd5" />
+            <circle cx="58" cy="72" r="2.5" fill="#ffedd5" />
+        </symbol>
+        <symbol id="sip-icon-claude" viewBox="0 0 100 100">
+            <rect x="22" y="22" width="56" height="56" rx="14" fill="#ffedd5" stroke="#7c2d12" stroke-width="5" />
+            <circle cx="38" cy="42" r="6" fill="#7c2d12" />
+            <circle cx="62" cy="42" r="6" fill="#7c2d12" />
+            <path d="M34 58 Q50 66 66 58" fill="none" stroke="#7c2d12" stroke-width="4" stroke-linecap="round" />
+            <circle cx="50" cy="16" r="5" fill="#fafaf9" stroke="#7c2d12" stroke-width="3" />
+        </symbol>
+        <symbol id="sip-icon-claude-large" viewBox="0 0 100 100">
+            <rect x="22" y="22" width="56" height="56" rx="14" fill="#ffedd5" stroke="#7c2d12" stroke-width="3.2" />
+            <circle cx="38" cy="42" r="5.5" fill="#7c2d12" />
+            <circle cx="62" cy="42" r="5.5" fill="#7c2d12" />
+            <path d="M34 58 Q50 66 66 58" fill="none" stroke="#7c2d12" stroke-width="2.8" stroke-linecap="round" />
+            <circle cx="50" cy="16" r="5" fill="#fafaf9" stroke="#7c2d12" stroke-width="2.2" />
+        </symbol>
+        <symbol id="sip-icon-api-limits" viewBox="0 0 100 100">
+            <rect x="15" y="18" width="70" height="64" rx="10" fill="#fafaf9" stroke="#7c2d12" stroke-width="5" /><text
+                x="50" y="40" font-family="Inter" font-size="15" font-weight="700" fill="#7c2d12"
+                text-anchor="middle">API</text>
+            <line x1="22" y1="52" x2="78" y2="52" stroke="#7c2d12" stroke-width="4" />
+            <line x1="22" y1="60" x2="52" y2="60" stroke="#ffedd5" stroke-width="5" />
+            <circle cx="78" cy="56" r="5" fill="#7c2d12" />
+        </symbol>
+        <symbol id="sip-icon-api" viewBox="0 0 100 100">
+            <path d="M30 35 L20 50 L30 65" stroke="#7c2d12" stroke-width="5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <path d="M70 35 L80 50 L70 65" stroke="#7c2d12" stroke-width="5" stroke-linecap="round"
+                stroke-linejoin="round" />
+            <circle cx="50" cy="50" r="10" fill="#ffedd5" stroke="#7c2d12" stroke-width="4" />
+            <line x1="30" y1="50" x2="40" y2="50" stroke="#7c2d12" stroke-width="3" />
+            <line x1="60" y1="50" x2="70" y2="50" stroke="#7c2d12" stroke-width="3" />
+        </symbol>
+    </svg>
+
+    <!-- LANDING PAGE (COVER) -->
+    <div id="landing-page"
+        class="fixed inset-0 z-50 bg-leather flex flex-col items-center justify-center px-4 sm:px-6 transition-opacity duration-700">
+        <div class="max-w-2xl text-center fade-in relative z-10" style="margin-top:-5vh">
+            <!-- P&P Monogram -->
+            <svg class="monogram-seal w-28 h-28 mb-8 mx-auto flex-shrink-0 drop-shadow-xl" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="128" cy="128" r="120" fill="rgba(255,237,213,0.3)"/>
+                <circle cx="128" cy="128" r="108" fill="none" stroke="rgba(251,146,60,0.5)" stroke-width="1.5" stroke-dasharray="5 5"/>
+                <text x="94"  y="164" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#7c2d12" text-anchor="middle">P</text>
+                <text x="162" y="164" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#7c2d12" text-anchor="middle">P</text>
+                <text class="pp-amp" x="128" y="162" font-family="Dancing Script,cursive" font-size="108" font-weight="700" fill="#fb923c" text-anchor="middle">&amp;</text>
+            </svg>
+
+            <h1 class="text-6xl sm:text-8xl tracking-wide mb-3 handwritten sanctuary-heading leading-tight" style="color:#ffedd5;">
+                Paper <span style="color:#fb923c;">&amp;</span> Ponder
+            </h1>
+
+            <div class="w-12 h-px mx-auto mb-7 opacity-30" style="background:#fb923c;"></div>
+
+            <p class="text-lg sm:text-xl font-light leading-relaxed mb-12 max-w-xl mx-auto" style="color:rgba(255,237,213,0.75);">
+                This blueprint guides you through building a secure, local-first journaling system. Write on paper. Let the AI sit alongside it. Map your patterns entirely on your own terms.
+            </p>
+
+            <button onclick="enterSanctuary()"
+                class="px-10 py-4 rounded-full font-medium transition-all hover:scale-105 shadow-lg flex items-center gap-3 mx-auto"
+                style="background:#ffedd5;color:#7c2d12;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.18em;text-transform:uppercase;">
+                Open the Blueprint <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                    <use href="#sip-icon-arrow-forward"></use>
+                </svg>
+            </button>
+        </div>
+
+        <div class="absolute bottom-8 font-mono text-xs tracking-widest uppercase" style="color:rgba(255,237,213,0.35);">Paper &amp; Ponder · Handbound in the UK</div>
+    </div>
+
+    <!-- MAIN APPLICATION -->
+    <div id="main-app" class="hidden-view flex-grow flex flex-col w-full">
+
+        <header class="border-b bg-[#fafaf9] sticky top-0 z-40 shadow-sm" style="border-color:#efece8;">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+                <div class="flex items-center justify-between gap-4">
+                    <button type="button" onclick="showLandingPage()" class="flex items-center gap-3 text-left group"
+                        aria-label="Return to landing page">
+                        <!-- P&P Monogram -->
+                        <svg class="w-11 h-11 flex-shrink-0 transition-transform group-hover:scale-105 drop-shadow-sm"
+                            viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="128" cy="128" r="120" fill="rgba(255,237,213,0.3)"/>
+                            <circle cx="128" cy="128" r="108" fill="none" stroke="rgba(251,146,60,0.5)" stroke-width="1.5" stroke-dasharray="5 5"/>
+                            <text x="94"  y="164" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#7c2d12" text-anchor="middle">P</text>
+                            <text x="162" y="164" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#7c2d12" text-anchor="middle">P</text>
+                            <text x="128" y="162" font-family="Dancing Script,cursive" font-size="108" font-weight="700" fill="#fb923c" text-anchor="middle" transform="rotate(-12,128,128)">&amp;</text>
+                        </svg>
+                        <h1 class="text-3xl font-medium tracking-tight sanctuary-heading leading-none transition-colors group-hover:text-[#9a3412]">
+                            Paper <span style="color:#fb923c;">&amp;</span> Ponder
+                        </h1>
+                    </button>
+
+                    <nav class="hidden sm:flex items-center gap-7 text-base font-sans">
+                        <button onclick="switchMainTab('tab-build')" class="main-nav-btn active"
+                            data-target="tab-build"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                                <use href="#sip-icon-build"></use>
+                            </svg><span class="nav-label"> The Build</span></button>
+                        <button onclick="switchMainTab('tab-personas')" class="main-nav-btn"
+                            data-target="tab-personas"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                                <use href="#sip-icon-personas"></use>
+                            </svg><span class="nav-label"> The Personas</span></button>
+                        <button onclick="switchMainTab('tab-prompts')" class="main-nav-btn"
+                            data-target="tab-prompts"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                                <use href="#sip-icon-prompt-library"></use>
+                            </svg><span class="nav-label"> Prompt Library</span></button>
+                    </nav>
+                    <button id="mobile-nav-toggle" class="mobile-hamburger sm:hidden"
+                            onclick="toggleMobileNav()" aria-label="Toggle menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                </div>
+            </div>
+        </header>
+        <div id="mobile-nav-overlay" class="mobile-nav-overlay" onclick="closeMobileNav()"></div>
+        <div id="mobile-nav-drawer" class="mobile-nav-drawer">
+            <button onclick="switchMainTab('tab-build'); closeMobileNav()" class="main-nav-btn mobile-drawer-btn" data-target="tab-build">
+                <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-build"></use></svg> The Build
+            </button>
+            <button onclick="switchMainTab('tab-personas'); closeMobileNav()" class="main-nav-btn mobile-drawer-btn" data-target="tab-personas">
+                <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-personas"></use></svg> The Personas
+            </button>
+            <button onclick="switchMainTab('tab-prompts'); closeMobileNav()" class="main-nav-btn mobile-drawer-btn" data-target="tab-prompts">
+                <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-prompt-library"></use></svg> Prompt Library
+            </button>
+        </div>
+
+        <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+
+            <!-- TAB 1: THE BUILD -->
+            <section id="tab-build" class="tab-content active">
+                <div id="build-tab-header" class="mb-8 border-b pb-6" style="border-color:#efece8;">
+                    <h2 class="text-3xl mb-3">System Architecture</h2>
+                    <p class="text-[#57534e] leading-relaxed max-w-3xl">
+                        The step-by-step roadmap to configuring your Claude CoWork local environment using your computer
+                        (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow the phases to build
+                        the digital vault.
+                    </p>
+                </div>
+
+                <!-- Stepper Nav -->
+                <div class="mb-4 sm:mb-8">
+                    <div class="flex items-center justify-between relative max-w-4xl mx-auto">
+                        <div
+                            class="absolute left-0 top-1/2 w-full h-0.5 bg-[#ffedd5]/30 -z-10 transform -translate-y-1/2">
+                        </div>
+                        <button onclick="goToStep(1)"
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
+                                1</div>
+                            <span
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">The
+                                Vault</span>
+                        </button>
+                        <button onclick="goToStep(2)"
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
+                                2</div>
+                            <span
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">The
+                                Capture</span>
+                        </button>
+                        <button onclick="goToStep(3)"
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
+                                3</div>
+                            <span
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">CoWork
+                                Setup</span>
+                        </button>
+                        <button onclick="goToStep(4)"
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
+                                4</div>
+                            <span
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">Automations</span>
+                        </button>
+                        <button onclick="goToStep(5)"
+                            class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
+                            <div
+                                class="w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator">
+                                5</div>
+                            <span
+                                class="font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label">The
+                                Practice</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Step 1: The Vault -->
+                <div id="step-1" class="step-content">
+                    <div class="bg-white rounded-xl shadow-sm border border-[#ffedd5]/40 overflow-hidden mb-8">
+                        <div class="grid grid-cols-1 md:grid-cols-5">
+                            <div
+                                class="p-6 border-b md:border-b-0 md:border-r border-[#ffedd5]/40 bg-[#fff7ed] md:col-span-2">
+                                <h3 class="text-sm font-bold uppercase tracking-widest text-[#a8a29e] mb-4 font-sans">
+                                    Directory Setup</h3>
+                                <div class="font-mono text-sm">
+                                    <div class="text-xs text-[#78716c] mb-1 font-sans">Windows Path:</div>
+                                    <div
+                                        class="flex items-center gap-2 mb-3 font-bold text-[#7c2d12] text-xs sm:text-sm">
+                                        <svg class="sip-icon sip-icon-list">
+                                            <use href="#sip-icon-folder"></use>
+                                        </svg> G:\My Drive\Paper-ponder\
+                                    </div>
+                                    <div class="text-xs text-[#78716c] mb-1 font-sans">Mac Path:</div>
+                                    <div
+                                        class="flex items-center gap-2 mb-3 font-bold text-[#7c2d12] text-xs break-all">
+                                        <svg class="sip-icon sip-icon-list">
+                                            <use href="#sip-icon-folder"></use>
+                                        </svg> /Users/YourName/Google Drive/My Drive/Paper-ponder/
+                                    </div>
+                                    <div class="ml-6 space-y-1 border-l border-[#efece8] pl-3">
+                                        <button onclick="showFolderDetails('raw')"
+                                            class="folder-item active w-full text-left px-2 py-1.5 rounded grid grid-cols-[2.5rem_1fr] items-center gap-2 text-[#44403c] hover:bg-[#f5f5f4]">
+                                            <svg class="sip-icon sip-icon-list justify-self-center">
+                                                <use href="#sip-icon-folder"></use>
+                                            </svg><span class="min-w-0">Raw_Scans\</span>
+                                        </button>
+                                        <button onclick="showFolderDetails('archive')"
+                                            class="folder-item w-full text-left px-2 py-1.5 rounded grid grid-cols-[2.5rem_1fr] items-center gap-2 text-[#44403c] hover:bg-[#f5f5f4]">
+                                            <svg class="sip-icon sip-icon-list justify-self-center">
+                                                <use href="#sip-icon-archive"></use>
+                                            </svg><span class="min-w-0">Processed_Archive\</span>
+                                        </button>
+                                        <button onclick="showFolderDetails('reports')"
+                                            class="folder-item w-full text-left px-2 py-1.5 rounded grid grid-cols-[2.5rem_1fr] items-center gap-2 text-[#44403c] hover:bg-[#f5f5f4]">
+                                            <svg class="sip-icon sip-icon-list justify-self-center">
+                                                <use href="#sip-icon-folder"></use>
+                                            </svg><span class="min-w-0">Reports\</span>
+                                        </button>
+                                        <button onclick="showFolderDetails('claude')"
+                                            class="folder-item w-full text-left px-2 py-1.5 rounded grid grid-cols-[2.5rem_1fr] items-center gap-2 text-[#57534e] hover:bg-[#f5f5f4] mt-2">
+                                            <svg class="sip-icon sip-icon-list-claude justify-self-center">
+                                                <use href="#sip-icon-claude"></use>
+                                            </svg><span class="min-w-0">CLAUDE.md</span>
+                                        </button>
+                                        <button onclick="showFolderDetails('memory')"
+                                            class="folder-item w-full text-left px-2 py-1.5 rounded grid grid-cols-[2.5rem_1fr] items-center gap-2 text-[#57534e] hover:bg-[#f5f5f4]">
+                                            <svg class="sip-icon sip-icon-list-file justify-self-center">
+                                                <use href="#sip-icon-core"></use>
+                                            </svg><span class="min-w-0">Core_Memory.md</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-[#a8a29e] mt-6 italic leading-relaxed">* Create these exact
+                                    folders inside your synced Drive (via Windows Explorer or Mac Finder) so your mobile
+                                    device can reach them seamlessly.</p>
+                            </div>
+                            <div class="p-6 bg-white md:col-span-3">
+                                <div id="folder-details" class="h-full flex flex-col justify-start">
+                                    <div class="flex items-center gap-3 mb-4 border-b border-[#ffedd5]/30 pb-3">
+                                        <svg class="sip-icon sip-icon-xl">
+                                            <use href="#sip-icon-folder"></use>
+                                        </svg>
+                                        <h4 class="text-xl font-medium text-[#7c2d12]">Raw_Scans\</h4>
+                                    </div>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <h5 class="text-xs font-bold uppercase tracking-widest text-[#a8a29e] mb-1">
+                                                Purpose</h5>
+                                            <p class="text-[#44403c] leading-relaxed text-sm">The drop-zone. This is the
+                                                only folder your phone will actively interact with. When you run your
+                                                mobile scanner, the newly scanned daily PDFs land here temporarily.</p>
+                                        </div>
+                                        <div class="bg-[#ffedd5] p-4 rounded-lg border border-[#ffedd5]/50">
+                                            <h5
+                                                class="text-xs font-bold text-[#7c2d12] uppercase tracking-wider mb-2 flex items-center gap-2">
+                                                <svg class="sip-icon sip-icon-action">
+                                                    <use href="#sip-icon-check"></use>
+                                                </svg> Setup Action required
+                                            </h5>
+                                            <p class="text-xs text-[#57534e] leading-relaxed">Ensure this folder is empty
+                                                to start. In the next step, you will point your mobile scanner directly
+                                                to this specific folder path inside Google Drive so your phone knows
+                                                exactly where to dump new images.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end">
+                        <button onclick="goToStep(2)"
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
+                            Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                                <use href="#sip-icon-arrow-forward"></use>
+                            </svg></button>
+                    </div>
+                </div>
+
+                <!-- Step 2: The Capture -->
+                <div id="step-2" class="step-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 items-start">
+                        <div class="bg-[#fafaf9] rounded-lg p-5 border border-[#efece8] shadow-sm h-full pp-card-hover">
+                            <h4
+                                class="font-semibold text-[#7c2d12] mb-3 grid grid-cols-[1.5rem_1fr] items-center gap-6">
+                                <svg class="sip-icon sip-icon-mobile justify-self-center">
+                                    <use href="#sip-icon-phone-apple"></use>
+                                </svg><span>iOS (Apple Shortcuts)</span>
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="flex gap-3">
+                                    <div
+                                        class="shrink-0 w-6 h-6 rounded bg-[#ffedd5]/30 text-[#7c2d12] flex items-center justify-center font-bold text-sm">
+                                        1</div>
+                                    <p class="text-sm text-[#57534e]">Open Shortcuts, hit "+" and name it "Scan Journal".
+                                    </p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div
+                                        class="shrink-0 w-6 h-6 rounded bg-[#ffedd5]/30 text-[#7c2d12] flex items-center justify-center font-bold text-sm">
+                                        2</div>
+                                    <p class="text-sm text-[#57534e]">Add 'Scan Document', 'Format Date' (YYYY-MM-DD),
+                                        and 'Set Name'.</p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div
+                                        class="shrink-0 w-6 h-6 rounded bg-[#ffedd5]/30 text-[#7c2d12] flex items-center justify-center font-bold text-sm">
+                                        3</div>
+                                    <p class="text-sm text-[#57534e]">Add 'Save File', turn OFF 'Ask Where to Save', and
+                                        set destination to your <code>/Raw_Scans/</code> folder.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-[#ffedd5] p-6 rounded-xl border border-[#ffedd5]/50 shadow-sm h-full">
+                            <h4 class="text-[#7c2d12] text-xl mb-3">Zero Clutter Philosophy</h4>
+                            <p class="text-sm text-[#44403c] leading-relaxed mb-4">By routing the PDF scan directly to
+                                the connected cloud folder, the image of your journal <strong>never touches your phone's
+                                    camera roll</strong>. It skips your personal photo cloud entirely. It exists only in
+                                the physical book, and safely in the Paper &amp; Ponder vault.</p>
+                        </div>
+                        <div class="bg-[#fafaf9] rounded-lg p-5 border border-[#efece8] shadow-sm h-full pp-card-hover">
+                            <h4
+                                class="font-semibold text-[#7c2d12] mb-3 grid grid-cols-[1.5rem_1fr] items-center gap-6">
+                                <svg class="sip-icon sip-icon-mobile justify-self-center">
+                                    <use href="#sip-icon-phone-android"></use>
+                                </svg><span>Android (Google Drive)</span>
+                            </h4>
+                            <div class="space-y-3">
+                                <div class="flex gap-3">
+                                    <div
+                                        class="shrink-0 w-6 h-6 rounded bg-[#ffedd5]/30 text-[#7c2d12] flex items-center justify-center font-bold text-sm">
+                                        1</div>
+                                    <p class="text-sm text-[#57534e]">Add the "Google Drive Scanner" widget to your home
+                                        screen.</p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div
+                                        class="shrink-0 w-6 h-6 rounded bg-[#ffedd5]/30 text-[#7c2d12] flex items-center justify-center font-bold text-sm">
+                                        2</div>
+                                    <p class="text-sm text-[#57534e]">Tap to scan your pages. Manually rename the
+                                        resulting PDF to the current date (YYYY-MM-DD).</p>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div
+                                        class="shrink-0 w-6 h-6 rounded bg-[#ffedd5]/30 text-[#7c2d12] flex items-center justify-center font-bold text-sm">
+                                        3</div>
+                                    <p class="text-sm text-[#57534e]">Save it directly into your connected
+                                        <code>/Raw_Scans/</code> folder.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm h-full pp-card-hover">
+                            <h4 class="text-[#7c2d12] text-xl mb-3 flex items-center gap-3"><svg
+                                    class="sip-icon sip-icon-historical">
+                                    <use href="#sip-icon-archive"></use>
+                                </svg> Historical Scans</h4>
+                            <p class="text-sm text-[#44403c] leading-relaxed mb-4">If you scan old journals using your
+                                daily shortcut, they will be stamped with today's date and dropped into your current
+                                week's queue. To prevent this, build an archivist shortcut:</p>
+                            <div class="bg-[#fafaf9] p-4 rounded text-xs text-[#57534e] border border-[#efece8]">
+                                <strong>Create a 2nd shortcut named "Scan History"</strong>
+                                <ul class="list-disc ml-4 mt-2 space-y-1">
+                                    <li>Set it to ask you to manually type the date (YYYY-MM-DD).</li>
+                                    <li>Change the save destination straight to your <code>/Processed_Archive/</code>
+                                        folder so it bypasses Task 1.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button onclick="goToStep(1)" class="text-[#7c2d12]/60 hover:text-[#7c2d12] px-4 py-2 font-mono text-[0.65rem] tracking-widest uppercase flex items-center gap-2 transition-colors"><svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-back"></use></svg> Back</button>
+                        <button onclick="goToStep(3)"
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
+                            Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-forward"></use></svg></button>
+                    </div>
+                </div>
+
+                <!-- Step 3: CoWork Setup -->
+                <div id="step-3" class="step-content">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <div class="flex flex-col items-center text-center mb-8">
+                                <h3
+                                    class="text-2xl font-medium text-[#1c1917] mb-4 font-sans flex flex-col items-center justify-center gap-[5px]">
+                                    <svg class="sip-icon sip-icon-claude-setup" aria-hidden="true">
+                                        <use href="#sip-icon-claude-large"></use>
+                                    </svg>
+                                    <span>Connecting Claude Desktop</span>
+                                </h3>
+                                <p class="text-base text-[#57534e] leading-relaxed max-w-md">
+                                    To allow Claude to seamlessly read your PDFs and update your core files, you must
+                                    use the CoWork feature to link directly to your local drive.
+                                </p>
+                            </div>
+                            <div class="space-y-5">
+                                <div class="flex items-start gap-3">
+                                    <div class="mt-[0.6rem] h-1.5 w-1.5 rounded-full bg-[#7c2d12] flex-shrink-0"></div>
+                                    <div>
+                                        <strong class="text-base text-[#1c1917] block">Open CoWork</strong>
+                                        <p class="text-sm text-[#57534e]">Open Claude Desktop. In the left sidebar, click
+                                            <strong>'CoWork'</strong>. <br><em class="text-[#9a3412] font-medium">Note:
+                                                Do NOT click 'Projects', which only creates a regular chat
+                                                environment.</em>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="mt-[0.6rem] h-1.5 w-1.5 rounded-full bg-[#7c2d12] flex-shrink-0"></div>
+                                    <div>
+                                        <strong class="text-base text-[#1c1917] block">Create the Project</strong>
+                                        <p class="text-sm text-[#57534e]">Once inside CoWork, click
+                                            <strong>'Create Project'</strong> and name it <strong>"Paper &amp; Ponder"</strong>.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="mt-[0.6rem] h-1.5 w-1.5 rounded-full bg-[#7c2d12] flex-shrink-0"></div>
+                                    <div>
+                                        <strong class="text-base text-[#1c1917] block">Link Your Vault Folder</strong>
+                                        <p class="text-sm text-[#57534e]">Inside your new project, click the folder icon to <strong>Select a Folder</strong>. Navigate to and select your Paper &amp; Ponder vault:
+                                            <br><code class="text-xs bg-[#f5f5f4] px-1.5 py-0.5 rounded mt-1 inline-block font-mono text-[#7c2d12]">Windows: G:\My Drive\Paper-ponder\</code>
+                                            <br><code class="text-xs bg-[#f5f5f4] px-1.5 py-0.5 rounded mt-1 inline-block font-mono text-[#7c2d12]">Mac: ~/Google Drive/My Drive/Paper-ponder/</code>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="mt-[0.6rem] h-1.5 w-1.5 rounded-full bg-[#7c2d12] flex-shrink-0"></div>
+                                    <div>
+                                        <strong class="text-base text-[#1c1917] block">Add Project Instructions</strong>
+                                        <p class="text-sm text-[#57534e]">In project settings, open <strong>'Project Instructions'</strong> and paste in your Paper &amp; Ponder system prompt. This tells Claude how to behave within your journaling environment every session.</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div class="mt-[0.6rem] h-1.5 w-1.5 rounded-full bg-[#7c2d12] flex-shrink-0"></div>
+                                    <div>
+                                        <strong class="text-base text-[#1c1917] block">Verify Access</strong>
+                                        <p class="text-sm text-[#57534e]">Start a new conversation and ask Claude: <em>"List the files you can see in my Paper-ponder folder."</em> If it returns your folder structure, the link is live.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Visual + Project Instructions panel -->
+                        <div class="self-start flex flex-col gap-4">
+
+                            <!-- Connection diagram card -->
+                            <div class="bg-white p-3 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
+                                <div class="absolute top-0 w-full h-2 bg-[#7c2d12]"></div>
+                                <div class="flex items-center justify-center gap-4 w-full pt-3 pb-3 border-b border-[#f5f5f4]">
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-[#ffedd5] rounded-lg flex items-center justify-center mb-1.5 mx-auto border border-[#ffedd5]">
+                                            <svg class="sip-icon sip-icon-xl">
+                                                <use href="#sip-icon-claude"></use>
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs font-bold text-[#78716c] uppercase">Claude</span>
+                                    </div>
+                                    <div class="flex-grow flex flex-col items-center">
+                                        <span class="text-xs text-[#7c2d12] font-medium mb-1 bg-[#fafaf9] px-2 z-10">CoWork Sync</span>
+                                        <div class="w-full h-px border-t-2 border-dashed border-[#ffedd5]"></div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-12 h-12 bg-[#ffedd5] rounded-lg flex items-center justify-center mb-1.5 mx-auto border border-[#ffedd5]">
+                                            <svg class="sip-icon sip-icon-xl">
+                                                <use href="#sip-icon-folder"></use>
+                                            </svg>
+                                        </div>
+                                        <span class="text-xs font-bold text-[#78716c] uppercase">Vault</span>
+                                    </div>
+                                </div>
+
+                                <!-- Access breakdown -->
+                                <div class="mt-3 space-y-2.5">
+                                    <p class="text-[10px] font-semibold text-[#7c2d12] uppercase tracking-wider">What Claude can access</p>
+
+                                    <div class="grid grid-cols-2 gap-1.5 text-[10.5px]">
+                                        <div class="bg-[#fff7ed] border border-[#fde4c4] rounded-lg px-2.5 py-2">
+                                            <p class="font-semibold text-[#9a3412] mb-1">&#10003; Can Read</p>
+                                            <p class="text-[#7c2d12] leading-relaxed"><code class="bg-[#ffedd5] px-0.5 rounded">/Raw_Scans/</code> — your uploaded PDF scans<br><code class="bg-[#ffedd5] px-0.5 rounded">/Processed_Archive/</code> — historical entries<br><code class="bg-[#ffedd5] px-0.5 rounded">Core_Memory.md</code> — your running profile<br><code class="bg-[#ffedd5] px-0.5 rounded">/Reports/</code> — past weekly & monthly reports</p>
+                                        </div>
+                                        <div class="bg-[#fff7ed] border border-[#fde4c4] rounded-lg px-2.5 py-2">
+                                            <p class="font-semibold text-[#9a3412] mb-1">&#10003; Can Write</p>
+                                            <p class="text-[#7c2d12] leading-relaxed">New <code class="bg-[#ffedd5] px-0.5 rounded">.md</code> transcription files<br>Weekly &amp; monthly report files<br>Updates to <code class="bg-[#ffedd5] px-0.5 rounded">Core_Memory.md</code><br>Move files between vault folders</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-[#1c1917] border border-[#3a322c] rounded-lg px-2.5 py-2 text-[10.5px]">
+                                        <p class="font-semibold text-[#fb923c] mb-1">&#10005; Cannot Access</p>
+                                        <p class="text-[#ffedd5]/80 leading-relaxed">Anything outside your <code class="bg-[#ffedd5]/10 px-0.5 rounded">Paper-ponder/</code> folder. Your desktop, documents, other drives, browser history, and all other apps are completely off-limits. CoWork hard-limits Claude to the single folder you select — nothing else on your machine is visible.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Project Instructions suggestion card -->
+                            <div class="bg-white rounded-xl border border-[#efece8] shadow-sm overflow-hidden">
+                                <div class="bg-[#fafaf9] px-4 py-2.5 border-b border-[#ffedd5] flex items-center justify-between">
+                                    <span class="text-xs font-bold text-[#7c2d12] uppercase tracking-wider">💡 Suggested Project Instructions</span>
+                                    <button onclick="var b=document.getElementById('pi-body');b.classList.toggle('hidden');this.textContent=b.classList.contains('hidden')?'show':'hide'" class="text-xs text-[#a8a29e] hover:text-[#57534e]">hide</button>
+                                </div>
+                                <div id="pi-body" class="p-3 bg-[#1a1a1a] text-[#fdba74] font-mono text-[11px] sm:text-[10.5px] leading-relaxed overflow-x-auto">
+                                        You are Claude, operating inside the Paper &amp; Ponder journaling system.<br><br>
+                                        <span class="text-[#ffedd5]"># Your role</span><br>
+                                        You are a private, non-judgmental journal analyst. You read hand-written journal entries (transcribed from PDF scans), identify patterns in mood, energy, and recurring themes, and produce structured reports to help the user understand themselves over time.<br><br>
+                                        <span class="text-[#ffedd5]"># Tone</span><br>
+                                        Warm, direct, and honest. Never sycophantic. Surface hard truths gently but clearly. Do not therapise — observe and reflect.<br><br>
+                                        <span class="text-[#ffedd5]"># File access</span><br>
+                                        You have read/write access to the Paper &amp; Ponder vault only. Always confirm file paths before writing. Never delete files unless explicitly instructed.<br><br>
+                                        <span class="text-[#ffedd5]"># Privacy</span><br>
+                                        This data is deeply personal. Never quote raw journal content back verbatim in reports. Summarise and synthesise only.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button onclick="goToStep(2)"
+                            class="text-[#7c2d12]/60 hover:text-[#7c2d12] px-4 py-2 font-mono text-[0.65rem] tracking-widest uppercase flex items-center gap-2 transition-colors"><svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-back"></use></svg> Back</button>
+                        <button onclick="goToStep(4)"
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
+                            Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                                <use href="#sip-icon-arrow-forward"></use>
+                            </svg></button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Automations -->
+                <div id="step-4" class="step-content">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                        <div>
+                            <h3 class="text-2xl font-medium text-[#1c1917] mb-5 font-sans flex items-center gap-3">
+                                <svg style="width:3rem;height:3rem;flex-shrink:0;vertical-align:-0.6em" aria-hidden="true">
+                                    <use href="#sip-icon-api"></use>
+                                </svg> Scheduled Automations
+                            </h3>
+                            <div class="space-y-4">
+
+                                <!-- Weekly Automation -->
+                                <div class="bg-white border border-[#ffedd5] rounded-lg overflow-hidden shadow-sm">
+                                    <div class="bg-[#fafaf9] px-4 py-2.5 border-b border-[#ffedd5] flex justify-between items-center">
+                                        <span class="font-bold text-[#7c2d12] text-sm">Task 1: Weekly Synthesis & Archive</span>
+                                        <span class="text-xs bg-[#7c2d12] text-[#fafaf9] px-2 py-1 rounded font-medium">Every Sunday</span>
+                                    </div>
+
+                                    <!-- Setup instructions -->
+                                    <div class="px-4 py-3 border-b border-[#ffedd5]/40 bg-[#fafaf9]">
+                                        <p class="text-[10.5px] font-semibold text-[#7c2d12] uppercase tracking-wider mb-2">CoWork Setup</p>
+                                        <ol class="space-y-1 text-xs text-[#57534e] list-decimal list-inside leading-relaxed">
+                                            <li>Inside your Paper &amp; Ponder project, click <strong>Schedule</strong> in the left sidebar</li>
+                                            <li>Click <strong>New Scheduled Task</strong> → set cadence to <strong>Weekly, Sunday</strong></li>
+                                            <li>Paste the prompt below as the task body, then click <strong>Save</strong></li>
+                                        </ol>
+                                    </div>
+
+                                    <!-- Prompt body -->
+                                    <div class="p-4 bg-[#1a1a1a] text-[#fdba74] font-mono text-[11px] sm:text-[10.5px] leading-relaxed overflow-x-auto">
+                                        <span class="text-[#ffedd5]"># Weekly Paper &amp; Ponder Synthesis</span><br><br>
+                                        Check <code>/Raw_Scans/</code> for unprocessed PDFs. Also check <code>/Processed_Archive/</code> for any historical PDFs not yet transcribed.<br><br>
+                                        <span class="text-[#ffedd5]">## Transcription rule — applies to all streams</span><br>
+                                        Transcribe handwritten content <strong>word for word, exactly as written</strong>. Do not correct spelling, grammar, or punctuation. Do not paraphrase, summarise, or clean up. If a word is illegible, write <code>[illegible]</code>. The raw voice of the entry must be preserved completely.<br><br>
+                                        <span class="text-[#ffedd5]">## Stream A — Current Week (<code>/Raw_Scans/</code>)</span><br>
+                                        For each PDF in <code>/Raw_Scans/</code>:<br>
+                                        1. Transcribe verbatim into a temporary transcript<br>
+                                        2. Check if <code>Week_Input-[YYYY-MM-DD].md</code> already exists in <code>/Processed_Archive/</code> for this week — <strong>if it does, append the new content</strong> with a dated separator (<code>--- [date] ---</code>); if not, create it<br>
+                                        3. Confirm the <code>.md</code> file in <code>/Processed_Archive/</code> is non-empty, then <strong>permanently delete</strong> the original PDF from <code>/Raw_Scans/</code><br>
+                                        4. Once all PDFs are processed, generate or update <code>Weekly_Report-[YYYY-MM-DD].md</code> in <code>/Reports/</code> — analyse mood, energy, recurring themes, and notable shifts vs last week's report<br>
+                                        5. Update <code>Core_Memory.md</code> — add new active triggers, patterns, or context. Do not remove existing entries without flagging them<br><br>
+                                        <span class="text-[#ffedd5]">## Stream B — Historical Backfill (<code>/Processed_Archive/</code>)</span><br>
+                                        1. Transcribe any untranscribed historical PDFs verbatim into <code>Historical-[Original Date].md</code> in <code>/Processed_Archive/</code><br>
+                                        2. Confirm transcript exists and is non-empty, then <strong>permanently delete</strong> the original PDF<br>
+                                        3. Update <code>Core_Memory.md</code> with historical baselines only — do NOT surface these in the current Weekly Report
+                                    </div>
+                                </div>
+
+                                <!-- Monthly Automation -->
+                                <div class="bg-white border border-[#ffedd5] rounded-lg overflow-hidden shadow-sm">
+                                    <div class="bg-[#fafaf9] px-4 py-2.5 border-b border-[#ffedd5] flex justify-between items-center">
+                                        <span class="font-bold text-[#7c2d12] text-sm">Task 2: Monthly Combination & Report</span>
+                                        <span class="text-xs bg-[#7c2d12] text-[#fafaf9] px-2 py-1 rounded font-medium">1st of Month</span>
+                                    </div>
+
+                                    <!-- Setup instructions -->
+                                    <div class="px-4 py-3 border-b border-[#ffedd5]/40 bg-[#fafaf9]">
+                                        <p class="text-[10.5px] font-semibold text-[#7c2d12] uppercase tracking-wider mb-2">CoWork Setup</p>
+                                        <ol class="space-y-1 text-xs text-[#57534e] list-decimal list-inside leading-relaxed">
+                                            <li>Inside your Paper &amp; Ponder project, click <strong>Schedule</strong> in the left sidebar</li>
+                                            <li>Click <strong>New Scheduled Task</strong> → set cadence to <strong>Monthly, 1st day</strong></li>
+                                            <li>Paste the prompt below as the task body, then click <strong>Save</strong></li>
+                                        </ol>
+                                    </div>
+
+                                    <!-- Prompt body -->
+                                    <div class="p-4 bg-[#1a1a1a] text-[#fdba74] font-mono text-[11px] sm:text-[10.5px] leading-relaxed overflow-x-auto">
+                                        <span class="text-[#ffedd5]"># Monthly Paper &amp; Ponder Combination</span><br><br>
+                                        Gather all <code>Week_Input-*.md</code> files in <code>/Processed_Archive/</code> dated within the <strong>previous calendar month</strong>.<br><br>
+                                        <span class="text-[#ffedd5]">## Combination rule</span><br>
+                                        Copy content <strong>exactly as it appears</strong> in each weekly file — word for word, character for character. Do not summarise, rephrase, correct, or omit anything. This is a verbatim merge, not an edit. Preserve all dated separators (<code>--- [date] ---</code>) so the chronological record remains intact.<br><br>
+                                        1. Combine all weekly files verbatim into <code>Month-[Month Name]-[YYYY].md</code> saved to <code>/Processed_Archive/</code><br>
+                                        2. Verify the combined file contains all content from all source files — check line counts if needed<br>
+                                        3. <strong>Permanently delete</strong> the individual <code>Week_Input-*.md</code> source files only after the combined file is confirmed complete<br>
+                                        4. Generate <code>Monthly_Report-[Month Name]-[YYYY].md</code> in <code>/Reports/</code> — analyse macro-trends: dominant emotional states, recurring themes, trajectory vs prior months (reference previous Monthly Reports for comparison)<br>
+                                        5. Update <code>Core_Memory.md</code> with any durable patterns identified this month
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Right column wrapper -->
+                        <div class="self-start flex flex-col gap-4 mt-[3.25rem]">
+
+                            <!-- White heatmap card -->
+                            <div class="bg-white p-5 rounded-xl border border-[#efece8] shadow-sm flex flex-col">
+                                <h3 class="text-lg font-medium text-[#7c2d12] mb-1 font-sans flex items-center gap-2.5">
+                                    <svg class="sip-icon sip-icon-xl">
+                                        <use href="#sip-icon-api-limits"></use>
+                                    </svg> Your Automation Rhythm
+                                </h3>
+                                <p class="text-xs text-[#78716c] mb-4">52 weekly runs. 12 monthly rollups. One year of compounding clarity.</p>
+
+                                <!-- Year heatmap grid -->
+                                <div id="yearHeatmap" class="mb-4"></div>
+
+                                <!-- Legend -->
+                                <div class="flex items-center gap-4 mb-4 flex-wrap">
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="w-3 h-3 rounded-sm bg-[#7c2d12]"></div>
+                                        <span class="text-[10.5px] text-[#78716c]">Weekly Synthesis (Sun)</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="w-3 h-3 rounded-sm bg-[#ffedd5]"></div>
+                                        <span class="text-[10.5px] text-[#78716c]">Monthly Rollup (1st)</span>
+                                    </div>
+                                    <div class="flex items-center gap-1.5">
+                                        <div class="w-3 h-3 rounded-sm bg-[#f5f5f4] border border-[#efece8]"></div>
+                                        <span class="text-[10.5px] text-[#78716c]">Rest</span>
+                                    </div>
+                                </div>
+
+                                <!-- Stat tiles -->
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div class="bg-[#ffedd5] rounded-lg p-3 text-center border border-[#ffedd5]/50">
+                                        <p class="text-2xl font-bold text-[#7c2d12]">52</p>
+                                        <p class="text-[10px] text-[#78716c] mt-0.5 leading-tight">Weekly<br>syntheses/yr</p>
+                                    </div>
+                                    <div class="bg-[#ffedd5] rounded-lg p-3 text-center border border-[#ffedd5]/50">
+                                        <p class="text-2xl font-bold text-[#7c2d12]">12</p>
+                                        <p class="text-[10px] text-[#78716c] mt-0.5 leading-tight">Monthly<br>rollups/yr</p>
+                                    </div>
+                                    <div class="bg-[#ffedd5] rounded-lg p-3 text-center border border-[#ffedd5]/50">
+                                        <p class="text-2xl font-bold text-[#7c2d12]">0</p>
+                                        <p class="text-[10px] text-[#78716c] mt-0.5 leading-tight">Manual<br>steps needed</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Not just on Sundays — outside the white box -->
+                            <div class="bg-[#7c2d12] rounded-xl overflow-hidden">
+                                <div class="p-4 text-[#fafaf9]">
+                                    <p class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] mb-2">Not just on Sundays</p>
+                                    <p class="text-xs leading-relaxed opacity-90 mb-4">The scheduled tasks handle the heavy lifting — but you can talk to Claude about your entries <strong>any time</strong>. Set up the <code class="bg-white/10 px-1 rounded font-mono">/transcribe</code> skill once, and a single slash command will transcribe everything waiting in <code class="bg-white/10 px-1 rounded font-mono">/Raw_Scans/</code> before your conversation — no copy-pasting, no report generated, no Core_Memory touched.</p>
+
+                                    <p class="text-[10.5px] font-bold uppercase tracking-wider text-[#ffedd5] mb-2">One-time skill setup</p>
+                                    <ol class="space-y-1.5 text-xs opacity-90 list-decimal list-inside leading-relaxed mb-4">
+                                        <li>Inside your Paper &amp; Ponder CoWork project, open <strong>Settings → Skills</strong></li>
+                                        <li>Click <strong>New Skill</strong> and name it <strong>transcribe</strong> — this sets the slash command to <code class="bg-white/10 px-1 rounded font-mono">/transcribe</code></li>
+                                        <li>Set the description to: <em>"Transcribes all unprocessed PDFs in /Raw_Scans/ verbatim and archives them. Run before discussing recent entries."</em></li>
+                                        <li>Paste the prompt below into the <strong>Skill Instructions</strong> field and save</li>
+                                    </ol>
+
+                                    <p class="text-[10.5px] font-bold uppercase tracking-wider text-[#ffedd5] mb-1">To use it</p>
+                                    <p class="text-xs opacity-80">Open any conversation in your Paper &amp; Ponder project, type <code class="bg-white/10 px-1 rounded font-mono">/transcribe</code> and hit enter. Claude runs the skill, confirms what was processed, then you're ready to talk.</p>
+                                </div>
+                                <div class="p-3 bg-[#111] text-[#fdba74] font-mono text-[11px] leading-relaxed border-t border-white/10 overflow-x-auto">
+                                    <span class="text-[#ffedd5]"># /transcribe — Paper &amp; Ponder On-Demand Transcription</span><br><br>
+                                    Check <code>/Raw_Scans/</code> for any unprocessed PDFs.<br><br>
+                                    <span class="text-[#ffedd5]">## Transcription rule</span><br>
+                                    Transcribe <strong>word for word, exactly as written</strong>. No corrections, no paraphrasing, no tidying. Mark illegible words as <code>[illegible]</code>.<br><br>
+                                    For each PDF found:<br>
+                                    1. Check if <code>Week_Input-[YYYY-MM-DD].md</code> already exists in <code>/Processed_Archive/</code> — if yes, <strong>append</strong> with a <code>--- [date] ---</code> separator; if no, create it<br>
+                                    2. Confirm the <code>.md</code> is non-empty, then <strong>permanently delete</strong> the original PDF from <code>/Raw_Scans/</code><br><br>
+                                    Do <strong>not</strong> generate a Weekly Report or update <code>Core_Memory.md</code>. When complete, confirm what was processed and wait for the user's question.
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="flex justify-between">
+                        <button onclick="goToStep(3)"
+                            class="text-[#7c2d12]/60 hover:text-[#7c2d12] px-4 py-2 font-mono text-[0.65rem] tracking-widest uppercase flex items-center gap-2 transition-colors"><svg
+                                class="sip-icon sip-icon-btn" aria-hidden="true">
+                                <use href="#sip-icon-arrow-back"></use>
+                            </svg> Back</button>
+                        <button onclick="goToStep(5)"
+                            class="bg-[#7c2d12] text-[#ffedd5] px-6 py-3 rounded-xl font-mono text-[0.65rem] tracking-widest uppercase shadow-sm flex items-center gap-2 hover:bg-[#9a3412] transition-colors">Next
+                            Phase <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                                <use href="#sip-icon-arrow-forward"></use>
+                            </svg></button>
+                    </div>
+                </div>
+
+                <!-- Step 5: The Practice -->
+                <div id="step-5" class="step-content">
+
+                    <div class="mb-10 text-center max-w-2xl mx-auto fade-in">
+                        <h3 class="text-2xl text-[#7c2d12] mb-3">The <button type="button"
+                                onclick="showLandingPage()"
+                                class="sanctuary-heading text-4xl leading-none align-middle transition-colors hover:text-[#9a3412]"
+                                aria-label="Return to landing page">Paper <span style="color:#fb923c;">&amp;</span> Ponder</button> Ritual</h3>
+                        <p class="text-sm text-[#57534e]">You have built the vault. You have trained the AI. This is how
+                            you use it.</p>
+                    </div>
+
+                    <div class="relative grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6 lg:gap-10 mb-12">
+
+                        <!-- Connecting workflow line (desktop only) -->
+                        <div
+                            class="hidden md:block absolute top-1/2 left-[10%] w-[80%] h-[3px] bg-gradient-to-r from-[#ffedd5] via-[#d6d3d1] to-[#7c2d12] opacity-50 transform -translate-y-1/2 z-0 rounded-full">
+                        </div>
+
+                        <!-- Card 1: Write -->
+                        <div class="relative group z-10 cursor-default mt-2">
+                            <!-- Tactile Drop Shadow -->
+                            <div
+                                class="absolute inset-0 bg-[#ffedd5] rounded-2xl transform translate-x-2 translate-y-2 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3 z-0">
+                            </div>
+                            <!-- Main Card -->
+                            <div
+                                class="relative bg-white p-8 rounded-2xl border border-[#ffedd5] h-full flex flex-col items-center text-center transition-transform duration-300 group-hover:-translate-y-1 z-10">
+                                <div
+                                    class="w-16 h-16 bg-[#fafaf9] border-2 border-[#ffedd5] text-[#7c2d12] rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner">
+                                    <svg class="sip-icon sip-icon-xl">
+                                        <use href="#sip-icon-write"></use>
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-xl text-[#1c1917] mb-3">1. Write Freely</h4>
+                                <p class="text-sm text-[#57534e] leading-relaxed">Use your physical notebook. The somatic release of handwriting is the priority. Do not censor, structure, or edit. Write like no one will ever read it — because only Claude will, and it doesn't judge.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Scan -->
+                        <div class="relative group z-10 cursor-default mt-2">
+                            <!-- Tactile Drop Shadow -->
+                            <div
+                                class="absolute inset-0 bg-[#d6d3d1] rounded-2xl transform translate-x-2 translate-y-2 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3 z-0">
+                            </div>
+                            <!-- Main Card -->
+                            <div
+                                class="relative bg-white p-8 rounded-2xl border border-[#efece8] h-full flex flex-col items-center text-center transition-transform duration-300 group-hover:-translate-y-1 z-10">
+                                <div
+                                    class="w-16 h-16 bg-[#fafaf9] border-2 border-[#e7e5e4] text-[#57534e] rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner">
+                                    <svg class="sip-icon sip-icon-xl">
+                                        <use href="#sip-icon-phone"></use>
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-xl text-[#1c1917] mb-3">2. Scan & Forget</h4>
+                                <p class="text-sm text-[#57534e] leading-relaxed">Tap your iOS shortcut or Android widget. Snap the pages. The PDF routes directly to <code class="text-xs bg-[#f5f5f4] px-1 py-0.5 rounded text-[#7c2d12]">/Raw_Scans/</code> and leaves your phone. You're done — the system takes it from here.</p>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Review -->
+                        <div class="relative group z-10 cursor-default mt-2">
+                            <!-- Tactile Drop Shadow -->
+                            <div
+                                class="absolute inset-0 bg-[#7c2d12] rounded-2xl transform translate-x-2 translate-y-2 transition-transform duration-300 group-hover:translate-x-3 group-hover:translate-y-3 z-0">
+                            </div>
+                            <!-- Main Card -->
+                            <div
+                                class="relative bg-white p-8 rounded-2xl border border-[#7c2d12]/30 h-full flex flex-col items-center text-center transition-transform duration-300 group-hover:-translate-y-1 z-10">
+                                <div
+                                    class="w-16 h-16 bg-[#ffedd5] border-2 border-[#7c2d12] text-[#7c2d12] rounded-full flex items-center justify-center text-3xl mb-6 shadow-inner">
+                                    <svg class="sip-icon sip-icon-xl">
+                                        <use href="#sip-icon-coffee"></use>
+                                    </svg>
+                                </div>
+                                <h4 class="font-medium text-xl text-[#1c1917] mb-3">3. Routine Review</h4>
+                                <p class="text-sm text-[#57534e] leading-relaxed">Open your laptop on Sunday evening. Your weekly report is waiting in <code class="text-xs bg-[#f5f5f4] px-1 py-0.5 rounded text-[#7c2d12]">/Reports/</code>. Read it. Ask Claude follow-up questions. On the 1st, your monthly synthesis is there too. This is where the insight lives.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- What to ask Claude -->
+                    <div class="mb-8">
+                        <h4 class="text-base font-semibold text-[#44403c] mb-4 font-sans flex items-center gap-2">
+                            <span class="text-[#7c2d12]">—</span> Things worth asking Claude on a Sunday evening
+                        </h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">I felt completely exhausted on Thursday. Looking at my entries, what actually caused that crash?</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">I keep complaining about work but doing nothing. Am I avoiding something specific?</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">Did I actually handle that argument with Sarah better than last time, or am I just telling myself that?</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">I feel like I'm going backwards. Show me three things from this month that prove I'm not.</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">I'm dreading the family dinner tomorrow. What boundaries did I fail to hold last time that I need to prep for?</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">Based on my Core Memory file, what's one habit I need to drop this week, and one I need to protect?</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">I keep waking up at 3am. Is there a pattern in my entries from the days before this happens?</p>
+                            </div>
+                            <div class="bg-[#fafaf9] border border-[#ffedd5] rounded-xl px-4 py-3 flex items-start gap-3">
+                                <span class="text-[#7c2d12] font-mono text-lg mt-0.5 flex-shrink-0">"</span>
+                                <p class="text-sm text-[#44403c] italic leading-relaxed">I'm feeling really resentful towards Mark today. Have I been swallowing my anger with him all week?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Closing intention block -->
+                    <div class="bg-[#7c2d12] rounded-2xl p-7 text-[#fafaf9] flex flex-col md:flex-row items-center gap-6 mb-8">
+                        <div class="flex-shrink-0 w-14 h-14 bg-[#fafaf9]/10 rounded-full flex items-center justify-center border border-[#fafaf9]/20">
+                            <svg class="sip-icon sip-icon-xl" aria-hidden="true" style="filter: brightness(2)">
+                                <use href="#sip-icon-core"></use>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl mb-2 text-[#ffedd5]">What Paper &amp; Ponder is — and isn't</h4>
+                            <p class="text-sm leading-relaxed opacity-90">This is not a replacement for therapy, and it is not a productivity system. It is a private mirror — one that doesn't forget, doesn't judge, and gets more useful the longer you use it. The value compounds quietly. Show up honestly each week and let the system do the rest.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-start">
+                        <button onclick="goToStep(4)"
+                            class="text-[#78716c] hover:text-[#1c1917] px-4 py-2 font-medium transition-colors flex items-center gap-2"><svg
+                                class="sip-icon sip-icon-btn" aria-hidden="true">
+                                <use href="#sip-icon-arrow-back"></use>
+                            </svg> Back to Automations</button>
+                    </div>
+                </div>
+            </section>
+
+<!-- ========================================== -->
+<!-- TAB 2: THE PERSONAS (Fixed Colored Headers) -->
+<!-- ========================================== -->
+<section id="tab-personas" class="tab-content">
+    <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
+        <h2 class="text-3xl mb-3 flex items-center gap-3">
+            <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                <use href="#sip-icon-personas"></use>
+            </svg> 
+            The Persona Framework
+        </h2>
+        <p class="text-[#57534e] leading-relaxed max-w-3xl">
+            Because traditional therapy and authority figures can be triggers, you retain complete control over 
+            <em>how</em> the AI interacts with your data. These personas live in your <code>CLAUDE.md</code> file. 
+            You are the director — call upon the specific lens you need.
+        </p>
+    </div>
+
+    <!-- Default State -->
+    <div class="p-6 rounded-xl border-l-4 mb-10 shadow-sm" style="background:#fff7ed;border-left-color:#7c2d12;">
+        <h3 class="text-lg text-[#1c1917] mb-2 flex items-center gap-2" style="font-weight:500;">
+            <svg class="sip-icon" aria-hidden="true">
+                <use href="#sip-icon-core"></use>
+            </svg> 
+            The Default State (Base System)
+        </h3>
+        <p class="text-sm text-[#44403c] leading-relaxed mb-4">
+            If no persona is specified, Claude defaults to the master instructions in <code>CLAUDE.md</code>. 
+            It acts as a strictly objective, non-clinical research assistant — factual, neutral, and safe but deliberately dry. 
+        </p>
+        <p class="text-sm text-[#44403c] leading-relaxed">
+            <strong>Why is this important?</strong> In a heightened emotional state, well-meaning "therapist voice" or unsolicited advice can feel patronising or triggering. The Default State guarantees that unless you explicitly ask for emotional holding (The Observer) or pushback (The Challenger), the system will only ever reflect raw data back to you. It is a mirror, not a mentor.
+        </p>
+    </div>
+
+    <!-- Persona Cards - INLINE STYLES for colored headers (guaranteed to work) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+
+        <!-- The Researcher -->
+        <div class="bg-white rounded-2xl border border-[#7c2d12]/20 overflow-hidden shadow-sm flex flex-col h-full">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#7c2d12;">
+                <h4 style="color: #ffedd5;" class="font-semibold">The Researcher</h4>
+                <p style="color: #ffedd5;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-80">CLINICAL • OBJECTIVE • PATTERN-SEEKING</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Analyzes nervous system states (fight/flight/freeze), polyvagal theory, AvPD, and trauma mechanisms — no pity, just clear mapping. The Researcher remains strictly analytical, drawing only from documented psychological frameworks to explain the mechanics of your experiences without offering unsolicited advice or emotional coddling.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When you feel numb or confused and need to understand the <em>why</em> behind your reactions. Ideal for breaking down complex behavioral loops into logical, understandable components.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “This drop in fine motor control aligns with a dorsal vagal freeze state triggered by the administrative task.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Observer -->
+        <div class="bg-white rounded-2xl border overflow-hidden shadow-sm flex flex-col h-full" style="border-color:#fde4c4;">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#ffedd5;">
+                <h4 style="color: #7c2d12;" class="font-semibold">The Observer</h4>
+                <p style="color: #7c2d12;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-70">GROUNDING • EMPATHETIC • PEER</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Provides the emotional validation you struggle to give yourself. Sits in the mud with you without toxic positivity. The Observer acts as a non-judgmental witness to your pain, acknowledging the sheer effort it takes to exist during difficult periods. It never tries to "fix" you.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When experiencing deep heartbreak, zero self-worth, or the heavy physical weight of chronic tension. Use this persona when you simply need to be heard and seen, not analyzed or corrected.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “The physical weight of that chronic shoulder tension sounds exhausting. You survived a very heavy week.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Challenger -->
+        <div class="bg-white rounded-2xl border border-[#7c2d12]/20 overflow-hidden shadow-sm flex flex-col h-full">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#7c2d12;">
+                <h4 style="color: #ffedd5;" class="font-semibold">The Challenger</h4>
+                <p style="color: #ffedd5;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-80">LOGICAL • FIRM • COMPASSIONATE</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Gently pushes back against cognitive distortions, isolation loops, and separates emotional intensity from factual reality. The Challenger uses your own past entries as evidence to dismantle self-sabotaging narratives, demanding accountability while maintaining a foundation of deep respect.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When stuck in a trauma bond, limerence loop, or when your inner critic is feeding you false evidence of worthlessness. Call upon The Challenger when you need a reality check anchored in your own historical resilience.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “You maintained your routine today. That is evidence of active resilience, contradicting your statement of zero worth.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Historian -->
+        <div class="bg-white rounded-2xl border overflow-hidden shadow-sm flex flex-col h-full" style="border-color:#fde4c4;">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#ffedd5;">
+                <h4 style="color: #7c2d12;" class="font-semibold">The Historian</h4>
+                <p style="color: #7c2d12;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-70">ARCHIVAL • COMPARATIVE • LONG-TERM</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Synthesizes months or years of journal entries to highlight overarching growth trajectories. The Historian ignores daily fluctuations to focus entirely on the macro-level shifts in your mindset, habits, and healing progress over time.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When you feel like you aren't making any progress, or during your monthly/annual reviews. It provides the crucial perspective that healing is non-linear but trending upward.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “Six months ago, this same trigger caused a three-day isolation period. Today, you recognized it within hours and engaged a coping strategy.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Strategist -->
+        <div class="bg-white rounded-2xl border border-[#7c2d12]/20 overflow-hidden shadow-sm flex flex-col h-full">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#7c2d12;">
+                <h4 style="color: #ffedd5;" class="font-semibold">The Strategist</h4>
+                <p style="color: #ffedd5;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-80">ACTION-ORIENTED • PRAGMATIC • INCREMENTAL</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Translates emotional overwhelm into micro-steps. The Strategist breaks down insurmountable tasks or recovery goals into the smallest possible, low-friction actions. It focuses purely on the "what next" rather than the "why."</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When you are paralyzed by executive dysfunction or the sheer volume of things you need to handle. It helps bypass the emotional roadblock to create forward momentum.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “Your goal is not to clean the house. Your goal is to fill one glass of water and carry it to the sink. Start there.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Somatic -->
+        <div class="bg-white rounded-2xl border overflow-hidden shadow-sm flex flex-col h-full" style="border-color:#fde4c4;">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#ffedd5;">
+                <h4 style="color: #7c2d12;" class="font-semibold">The Somatic Guide</h4>
+                <p style="color: #7c2d12;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-70">PHYSICAL • SENSORY • REGULATING</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Shifts the focus entirely away from cognitive thoughts and into physical sensation. The Somatic Guide helps you identify where emotions are stored in the body and suggests physical interventions (temperature changes, movement, breathing) to regulate the nervous system.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">During a panic attack, intense dissociation, or when talking/thinking about the problem only makes it worse. Use this when you need to bypass the brain and soothe the body directly.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “Notice the shallow breathing. Before we analyze the text message, hold an ice cube for 30 seconds to shock the vagus nerve.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Archivist -->
+        <div class="bg-white rounded-2xl border border-[#7c2d12]/20 overflow-hidden shadow-sm flex flex-col h-full">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#7c2d12;">
+                <h4 style="color: #ffedd5;" class="font-semibold">The Archivist</h4>
+                <p style="color: #ffedd5;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-80">CONTEXTUAL • CONNECTIVE • ASSOCIATIVE</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Surfaces specific past entries that are directly relevant to what you're experiencing right now. The Archivist draws unexpected connections across time, linking current triggers to historical precedents without analyzing them—it simply presents the data.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When you feel like you're experiencing something for the first time, but suspect you've been here before. Use it to break the illusion of isolation by proving to yourself that you have survived this exact feeling previously.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “You wrote something almost identical to this on March 4th, 2023. Here's what happened in the weeks that followed.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Witness -->
+        <div class="bg-white rounded-2xl border overflow-hidden shadow-sm flex flex-col h-full" style="border-color:#fde4c4;">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#ffedd5;">
+                <h4 style="color: #7c2d12;" class="font-semibold">The Witness</h4>
+                <p style="color: #7c2d12;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-70">SILENT • NON-INTERPRETIVE • TRANSCRIPTIVE</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">The most minimal persona. It does not analyze, validate, challenge, or suggest. It simply reads back your own words to you—verbatim, or lightly reorganized by theme—so you can hear yourself from the outside.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">During states of extreme dissociation or when you distrust any external interpretation. Sometimes the most powerful intervention is your own voice reflected back without any filter.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “Here are the five times you mentioned feeling 'trapped' this month, exactly as you wrote them.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Boundary Auditor -->
+        <div class="bg-white rounded-2xl border border-[#7c2d12]/20 overflow-hidden shadow-sm flex flex-col h-full">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#7c2d12;">
+                <h4 style="color: #ffedd5;" class="font-semibold">The Boundary Auditor</h4>
+                <p style="color: #ffedd5;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-80">RELATIONAL • PROTECTIVE • FORENSIC</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Specifically designed for mapping interpersonal dynamics. It reviews entries involving specific people and tracks patterns of behavior—who drains you, who triggers which nervous system state, and where your boundaries were crossed.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When you are trying to decide whether a relationship is safe, or when you suspect you are in a trauma bond or limerence loop. It does not moralize about others; it simply maps the data.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “Every interaction with [Person] over the last 90 days has been followed by a 48-hour period of increased anxiety and hypervigilance.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Grief Keeper -->
+        <div class="bg-white rounded-2xl border overflow-hidden shadow-sm flex flex-col h-full" style="border-color:#fde4c4;">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#ffedd5;">
+                <h4 style="color: #7c2d12;" class="font-semibold">The Grief Keeper</h4>
+                <p style="color: #7c2d12;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-70">TENDER • UNHURRIED • CEREMONIAL</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Holds space for loss—not just bereavement, but the grief of identity, of a version of yourself that no longer exists, or of years lost to illness or trauma. It does not rush toward acceptance or resolution.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When the pain is simply about what is gone, and you need permission to mourn without being told to "look on the bright side." The tone is the most gentle of all personas.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “It makes complete sense that you are mourning the version of yourself you had to leave behind to survive that environment.”
+                </div>
+            </div>
+        </div>
+
+        <!-- The Devil's Advocate -->
+        <div class="bg-white rounded-2xl border border-[#7c2d12]/20 overflow-hidden shadow-sm flex flex-col h-full">
+            <!-- COLORED HEADER - inline style -->
+            <div class="persona-header" style="background-color:#7c2d12;">
+                <h4 style="color: #ffedd5;" class="font-semibold">The Devil's Advocate</h4>
+                <p style="color: #ffedd5;" class="text-[11px] font-bold uppercase tracking-[0.2em] mt-2 opacity-80">CONTRARIAN • PROBING • SOCRATIC</p>
+            </div>
+            <div class="p-6 flex-1 flex flex-col">
+                <div class="flex-1 space-y-6 text-[15px]">
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">What it does:</strong>
+                        <p class="text-[#1c1917]">Challenges your own narratives and assumptions. It asks uncomfortable questions about your motivations, blind spots, and the stories you tell yourself that might be self-serving or avoiding responsibility.</p>
+                    </div>
+                    <div>
+                        <strong class="block text-[#7c2d12] mb-2">When to use:</strong>
+                        <p class="text-[#1c1917]">When you want intellectual honesty over comfort. Use this when you are ready to be pushed and want to ensure you aren't creating an echo chamber that enables your own toxic behaviors.</p>
+                    </div>
+                </div>
+                <div class="mt-8 p-5 rounded-2xl text-sm italic text-[#44403c]" style="background:#fff7ed;border:1px solid #fde4c4;">
+                    “You've stated that they are entirely at fault here, but let's review your own actions leading up to the conflict. What role did you play in escalating this?”
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Cross-Persona Interaction Framework -->
+    <div class="mt-12 mb-8 border-t border-[#ffedd5]/30 pt-10">
+        <h3 class="text-2xl text-[#7c2d12] mb-4 flex items-center gap-3">
+            <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+                <use href="#sip-icon-sync"></use>
+            </svg> 
+            Cross-Persona Interactions
+        </h3>
+        <p class="text-[#57534e] leading-relaxed max-w-3xl mb-5">
+            The true power of Paper &amp; Ponder unlocks when you call upon multiple personas simultaneously. By setting up a dialogue between different lenses, you create a self-correcting system that balances empathy with accountability. Here is how they should interact when invoked together.
+        </p>
+        <div class="bg-[#7c2d12] text-[#ffedd5] rounded-xl px-6 py-4 mb-8 flex items-start gap-3 max-w-3xl">
+            <span class="text-xl mt-0.5 flex-shrink-0">&#8594;</span>
+            <p class="text-sm leading-relaxed"><strong>Response Order Rule:</strong> Personas always respond in the order they are called. If you invoke The Observer then The Challenger, The Observer speaks first and completes its response before The Challenger begins. This order is intentional — never call a challenging persona before a validating one unless you are ready for confrontation without comfort.</p>
+        </div>
+
+        <!-- Interaction Diagram — Inline SVG with pan/zoom -->
+        <div class="mb-10 rounded-2xl overflow-hidden border border-[#ffedd5]/40 shadow-sm bg-[#fafaf9]">
+            <div class="flex items-center justify-between px-5 py-3 border-b border-[#ffedd5]/40">
+                <p class="text-xs font-semibold text-[#7c2d12] uppercase tracking-wider">Interaction Map</p>
+                <div class="flex items-center gap-2">
+                    <button onclick="svgZoom('diagram-svg',1.2)" class="text-xs bg-[#7c2d12] text-[#ffedd5] px-4 py-2 rounded font-bold hover:bg-[#9a3412] min-w-[2.5rem]">+</button>
+                    <button onclick="svgZoom('diagram-svg',0.83)" class="text-xs bg-[#7c2d12] text-[#ffedd5] px-4 py-2 rounded font-bold hover:bg-[#9a3412] min-w-[2.5rem]">&minus;</button>
+                    <button onclick="svgReset('diagram-svg')" class="text-xs text-[#78716c] hover:text-[#1c1917] px-4 py-2">Reset</button>
+                </div>
+            </div>
+            <div id="diagram-scroll" style="overflow:auto;cursor:grab;" onmousedown="svgDragStart(event)" onmousemove="svgDragMove(event)" onmouseup="svgDragEnd()" onmouseleave="svgDragEnd()" ontouchstart="svgTouchStart(event)" ontouchmove="svgTouchMove(event)" ontouchend="svgDragEnd()">
+<svg id="diagram-svg" viewBox="0 0 1100 520" xmlns="http://www.w3.org/2000/svg" style="width:900px;min-width:0;display:block;transition:transform 0.15s;transform-origin:top left;" font-family="Georgia,serif">
+  <!-- Background -->
+  <rect width="1100" height="520" fill="#fafaf9"/>
+
+  <!-- ── SECTION PILLS ── -->
+  <rect x="295" y="14" width="510" height="28" rx="14" fill="#ffedd5" stroke="#7c2d12" stroke-width="1"/>
+  <text x="550" y="33" text-anchor="middle" font-size="11" fill="#7c2d12" font-weight="bold" letter-spacing="1.5">EMOTIONAL &amp; MEMORY LENSES</text>
+
+  <rect x="230" y="472" width="640" height="28" rx="14" fill="#ffedd5" stroke="#7c2d12" stroke-width="1"/>
+  <text x="550" y="491" text-anchor="middle" font-size="11" fill="#7c2d12" font-weight="bold" letter-spacing="1.5">ANALYTICAL · ACTION · RELATIONAL LENSES</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- TOP ROW NODES (y=52 to y=172) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- The Observer -->
+  <rect x="20" y="52" width="180" height="120" rx="12" fill="#ffedd5"/>
+  <text x="110" y="100" text-anchor="middle" font-size="15" fill="#7c2d12" font-weight="bold">The Observer</text>
+  <text x="110" y="118" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Grounding · Empathetic</text>
+  <text x="110" y="130" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Peer</text>
+
+  <!-- The Grief Keeper -->
+  <rect x="230" y="52" width="180" height="120" rx="12" fill="#ffedd5"/>
+  <text x="320" y="100" text-anchor="middle" font-size="15" fill="#7c2d12" font-weight="bold">The Grief Keeper</text>
+  <text x="320" y="118" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Tender · Unhurried</text>
+  <text x="320" y="130" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Ceremonial</text>
+
+  <!-- The Historian -->
+  <rect x="440" y="52" width="180" height="120" rx="12" fill="#ffedd5"/>
+  <text x="530" y="100" text-anchor="middle" font-size="15" fill="#7c2d12" font-weight="bold">The Historian</text>
+  <text x="530" y="118" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Archival · Comparative</text>
+  <text x="530" y="130" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Long-Term</text>
+
+  <!-- The Archivist -->
+  <rect x="650" y="52" width="180" height="120" rx="12" fill="#ffedd5"/>
+  <text x="740" y="100" text-anchor="middle" font-size="15" fill="#7c2d12" font-weight="bold">The Archivist</text>
+  <text x="740" y="118" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Contextual · Connective</text>
+  <text x="740" y="130" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Associative</text>
+
+  <!-- The Witness -->
+  <rect x="860" y="52" width="180" height="120" rx="12" fill="#ffedd5"/>
+  <text x="950" y="100" text-anchor="middle" font-size="15" fill="#7c2d12" font-weight="bold">The Witness</text>
+  <text x="950" y="118" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Silent · Non-Interpretive</text>
+  <text x="950" y="130" text-anchor="middle" font-size="9" fill="#7c2d12" opacity="0.7" font-style="italic">Transcriptive</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- BOTTOM ROW NODES (y=330 to y=450) -->
+  <!-- ═══════════════════════════════════════════════════ -->
+
+  <!-- The Researcher -->
+  <rect x="20" y="330" width="160" height="120" rx="12" fill="#7c2d12"/>
+  <text x="100" y="378" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">The Researcher</text>
+  <text x="100" y="396" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Clinical · Objective</text>
+  <text x="100" y="408" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Pattern-Seeking</text>
+
+  <!-- The Strategist -->
+  <rect x="200" y="330" width="160" height="120" rx="12" fill="#7c2d12"/>
+  <text x="280" y="378" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">The Strategist</text>
+  <text x="280" y="396" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Action-Oriented</text>
+  <text x="280" y="408" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Pragmatic · Incremental</text>
+
+  <!-- The Challenger -->
+  <rect x="380" y="330" width="160" height="120" rx="12" fill="#7c2d12"/>
+  <text x="460" y="378" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">The Challenger</text>
+  <text x="460" y="396" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Logical · Firm</text>
+  <text x="460" y="408" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Compassionate</text>
+
+  <!-- The Devil's Advocate -->
+  <rect x="560" y="330" width="160" height="120" rx="12" fill="#7c2d12"/>
+  <text x="640" y="371" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">The Devil's</text>
+  <text x="640" y="389" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">Advocate</text>
+  <text x="640" y="408" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Contrarian · Probing · Socratic</text>
+
+  <!-- The Boundary Auditor -->
+  <rect x="740" y="330" width="160" height="120" rx="12" fill="#7c2d12"/>
+  <text x="820" y="371" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">The Boundary</text>
+  <text x="820" y="389" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">Auditor</text>
+  <text x="820" y="408" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Relational · Protective · Forensic</text>
+
+  <!-- The Somatic Guide -->
+  <rect x="920" y="330" width="160" height="120" rx="12" fill="#7c2d12"/>
+  <text x="1000" y="371" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">The Somatic</text>
+  <text x="1000" y="389" text-anchor="middle" font-size="14" fill="#ffedd5" font-weight="bold">Guide</text>
+  <text x="1000" y="408" text-anchor="middle" font-size="9" fill="#ffedd5" opacity="0.75" font-style="italic">Physical · Sensory · Regulating</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- ARROWS with arrowhead marker -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <defs>
+    <marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#4A7A62"/>
+    </marker>
+  </defs>
+
+  <!-- ① Observer → Challenger -->
+  <path d="M 110,172 C 110,260 460,260 460,330" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="218" y="242" width="156" height="30" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="296" y="257" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">① Validate first</text>
+  <text x="296" y="268" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">then Redirect</text>
+
+  <!-- ② Researcher → Strategist -->
+  <path d="M 180,390 L 200,390" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="130" y="302" width="120" height="30" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="190" y="317" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">② Diagnose</text>
+  <text x="190" y="328" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">then Act</text>
+
+  <!-- ③ Boundary Auditor → Grief Keeper -->
+  <path d="M 820,330 C 820,260 320,260 320,172" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="518" y="242" width="156" height="30" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="596" y="257" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">③ Map the harm</text>
+  <text x="596" y="268" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">then Mourn</text>
+
+  <!-- ④ Archivist → Devil's Advocate -->
+  <path d="M 740,172 C 740,260 640,260 640,330" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="660" y="242" width="156" height="30" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="738" y="257" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">④ Surface the past</text>
+  <text x="738" y="268" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">then Interrogate</text>
+
+  <!-- ⑤ Somatic Guide → Researcher -->
+  <path d="M 920,450 C 920,465 20,465 20,450" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="390" y="455" width="220" height="16" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="500" y="467" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">⑤ Regulate body → then Analyse</text>
+
+  <!-- ⑥ Historian → Challenger -->
+  <path d="M 530,172 C 530,260 460,260 460,330" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="452" y="222" width="148" height="30" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="526" y="237" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">⑥ Show trajectory</text>
+  <text x="526" y="248" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">then Challenge</text>
+
+  <!-- ⑦ Witness → Archivist -->
+  <path d="M 860,112 L 830,112" fill="none" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <rect x="808" y="82" width="162" height="30" rx="6" fill="#fafaf9" opacity="0.95"/>
+  <text x="889" y="97" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">⑦ Reflect words</text>
+  <text x="889" y="108" text-anchor="middle" font-size="10" fill="#4A7A62" font-weight="bold">then Contextualise</text>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- LEGEND -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <rect x="20" y="200" width="14" height="14" rx="3" fill="#ffedd5"/>
+  <text x="40" y="212" font-size="10" fill="#5a5a5a">Emotional / Memory</text>
+  <rect x="20" y="220" width="14" height="14" rx="3" fill="#7c2d12"/>
+  <text x="40" y="232" font-size="10" fill="#5a5a5a">Analytical / Action</text>
+  <line x1="20" y1="248" x2="50" y2="248" stroke="#4A7A62" stroke-width="2" marker-end="url(#arr)"/>
+  <text x="58" y="252" font-size="10" fill="#5a5a5a">Interaction flow</text>
+</svg>
+            </div>
+        </div>
+        <script>
+        (function(){
+            var scale=1,tx=0,ty=0,drag=false,sx=0,sy=0;
+            function apply(id){var el=document.getElementById(id);el.style.transform='scale('+scale+') translate('+tx+'px,'+ty+'px)';}
+            window.svgZoom=function(id,f){scale=Math.min(Math.max(scale*f,0.5),4);apply(id);};
+            window.svgReset=function(id){scale=1;tx=0;ty=0;apply(id);};
+            window.svgDragStart=function(e){drag=true;sx=e.clientX-tx*scale;sy=e.clientY-ty*scale;e.currentTarget.style.cursor='grabbing';};
+            window.svgDragMove=function(e){if(!drag)return;tx=(e.clientX-sx)/scale;ty=(e.clientY-sy)/scale;apply('diagram-svg');};
+            window.svgDragEnd=function(){drag=false;var el=document.getElementById('diagram-scroll');if(el)el.style.cursor='grab';};
+            window.svgTouchStart=function(e){if(e.touches.length===1){drag=true;sx=e.touches[0].clientX-tx*scale;sy=e.touches[0].clientY-ty*scale;e.preventDefault();}};
+            window.svgTouchMove=function(e){if(!drag||e.touches.length!==1)return;tx=(e.touches[0].clientX-sx)/scale;ty=(e.touches[0].clientY-sy)/scale;apply('diagram-svg');e.preventDefault();};
+        })();
+        </script>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Interaction 1 -->
+            <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#ffedd5] to-[#7c2d12]"></div>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Observer</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Challenger</span>
+                </div>
+                <h4 class="text-lg text-[#1c1917] mb-2">Validation then Redirection</h4>
+                <p class="text-sm text-[#57534e] leading-relaxed mb-4">
+                    <strong>The Dynamic:</strong> The Observer must speak first, validating the intense pain or exhaustion of the current state without judgment. Only after the somatic reality is acknowledged does The Challenger step in to gently dismantle the cognitive distortion driving the pain.
+                </p>
+                <div class="bg-[#fafaf9] border border-[#ffedd5]/30 p-4 rounded-lg text-xs italic text-[#44403c]">
+                    <strong>Example Prompt:</strong> "As the Observer, validate how exhausted I am by this conflict. Then, as the Challenger, tell me if I am catastrophizing the outcome."
+                </div>
+            </div>
+
+            <!-- Interaction 2 -->
+            <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#7c2d12] to-[#ffedd5]"></div>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Researcher</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Strategist</span>
+                </div>
+                <h4 class="text-lg text-[#1c1917] mb-2">Diagnosis to Action</h4>
+                <p class="text-sm text-[#57534e] leading-relaxed mb-4">
+                    <strong>The Dynamic:</strong> The Researcher first maps the psychological mechanism at play (e.g., "You are in a freeze state due to vagal tone drop"). The Strategist immediately translates that clinical data into a micro-action that bypasses executive dysfunction.
+                </p>
+                <div class="bg-[#fafaf9] border border-[#ffedd5]/30 p-4 rounded-lg text-xs italic text-[#44403c]">
+                    <strong>Example Prompt:</strong> "Researcher, explain why I can't answer this email. Strategist, give me the lowest-friction physical step to break the paralysis."
+                </div>
+            </div>
+
+            <!-- Interaction 3 -->
+            <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#ffedd5] to-[#7c2d12]"></div>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Boundary Auditor</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Grief Keeper</span>
+                </div>
+                <h4 class="text-lg text-[#1c1917] mb-2">Data-Backed Mourning</h4>
+                <p class="text-sm text-[#57534e] leading-relaxed mb-4">
+                    <strong>The Dynamic:</strong> The Auditor presents the hard forensic data of why a relationship is harmful or must end. The Grief Keeper steps in immediately after to hold space for the fact that knowing something is bad for you doesn't make losing it hurt any less.
+                </p>
+                <div class="bg-[#fafaf9] border border-[#ffedd5]/30 p-4 rounded-lg text-xs italic text-[#44403c]">
+                    <strong>Example Prompt:</strong> "Auditor, summarize the toxic cycle with [Person]. Grief Keeper, hold space for how much I still miss them anyway."
+                </div>
+            </div>
+
+            <!-- Interaction 4 -->
+            <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#7c2d12] to-[#ffedd5]"></div>
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Archivist</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Devil's Advocate</span>
+                </div>
+                <h4 class="text-lg text-[#1c1917] mb-2">Historical Interrogation</h4>
+                <p class="text-sm text-[#57534e] leading-relaxed mb-4">
+                    <strong>The Dynamic:</strong> The Archivist pulls up past entries that contradict your current narrative. The Devil's Advocate then uses that specific historical data to forcefully question your current blind spots or victim mentality.
+                </p>
+                <div class="bg-[#fafaf9] border border-[#ffedd5]/30 p-4 rounded-lg text-xs italic text-[#44403c]">
+                    <strong>Example Prompt:</strong> "Archivist, find times I said I was 'powerless'. Devil's Advocate, use those entries to prove I am actually making a choice."
+                </div>
+            </div>
+
+            <!-- Interaction 5 (3 Personas) -->
+            <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden md:col-span-2">
+                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#ffedd5] via-[#7c2d12] to-[#ffedd5]"></div>
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Somatic Guide</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Researcher</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Strategist</span>
+                </div>
+                <h4 class="text-lg text-[#1c1917] mb-2">The Panic Cascade</h4>
+                <p class="text-sm text-[#57534e] leading-relaxed mb-4">
+                    <strong>The Dynamic:</strong> During acute overwhelm, you need a full cascade of intervention. The Somatic Guide speaks first to force physical regulation. Once the nervous system is shocked out of panic, The Researcher logically explains what just happened in the brain. Finally, The Strategist gives one tiny, immediate physical task to create forward momentum.
+                </p>
+                <div class="bg-[#fafaf9] border border-[#ffedd5]/30 p-4 rounded-lg text-xs italic text-[#44403c]">
+                    <strong>Example Prompt:</strong> "I am having a panic attack about work. Somatic Guide, tell me how to regulate my breathing right now. Researcher, explain why my body is reacting this way. Strategist, give me one 30-second task to do next."
+                </div>
+            </div>
+
+            <!-- Interaction 6 (3 Personas) -->
+            <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden md:col-span-2">
+                <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#7c2d12] via-[#ffedd5] to-[#7c2d12]"></div>
+                <div class="flex items-center gap-2 mb-3 flex-wrap">
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Witness</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Boundary Auditor</span>
+                    <span class="text-[#a8a29e] text-xs">+</span>
+                    <span class="text-xs font-bold uppercase tracking-wider text-[#ffedd5] bg-[#7c2d12] px-2 py-1 rounded">The Challenger</span>
+                </div>
+                <h4 class="text-lg text-[#1c1917] mb-2">The Reality Check</h4>
+                <p class="text-sm text-[#57534e] leading-relaxed mb-4">
+                    <strong>The Dynamic:</strong> When you are gaslighting yourself about a toxic situation. The Witness reads your own raw, painful words back to you. The Boundary Auditor maps exactly how the other person violated your stated limits. The Challenger then forces you to confront why you are still accepting this behaviour.
+                </p>
+                <div class="bg-[#fafaf9] border border-[#ffedd5]/30 p-4 rounded-lg text-xs italic text-[#44403c]">
+                    <strong>Example Prompt:</strong> "I'm thinking of texting them. Witness, read me what I wrote the night we broke up. Auditor, list their boundary violations. Challenger, tell me why texting them is self-sabotage."
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+            <!-- ========================================== -->
+            <!-- TAB 3: THE PROMPTS (Linguistic Tools)      -->
+            <!-- ========================================== -->
+            <section id="tab-prompts" class="tab-content">
+                <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
+                    <h2 class="text-3xl mb-3 flex items-center gap-3"><svg class="sip-icon sip-icon-lg"
+                            aria-hidden="true">
+                            <use href="#sip-icon-prompt-library"></use>
+                        </svg> Prompt Library & Techniques</h2>
+                    <p class="text-[#57534e] leading-relaxed max-w-3xl">
+                        When you are in a trauma loop or experiencing emotional blunting, formulating a complex question
+                        for the AI is incredibly difficult. Use this C.P.T. structure and the stored templates below to
+                        reduce the cognitive load.
+                    </p>
+                </div>
+
+                <!-- The C.P.T Structure -->
+                <div class="bg-white p-6 rounded-2xl border border-[#ffedd5] mb-8 shadow-sm">
+                    <h3 class="text-xl text-[#7c2d12] mb-6">The C.P.T. Prompting Structure</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-0 rounded-xl overflow-hidden border border-[#ffedd5]/50">
+                        <!-- C -->
+                        <div class="relative p-6 bg-[#7c2d12] flex flex-col">
+                            <div class="flex items-baseline gap-2 mb-3">
+                                <span class="text-5xl font-bold text-[#ffedd5] leading-none">C</span>
+                                <span class="text-base font-semibold text-[#ffedd5]/80 uppercase tracking-widest">ontext</span>
+                            </div>
+                            <p class="text-sm text-[#ffedd5]/80 leading-relaxed flex-1">Tell the AI exactly where you are right now — emotionally, physically, or situationally. Be honest and specific.</p>
+                            <div class="mt-5 bg-black/20 rounded-lg p-3">
+                                <p class="text-xs text-[#fdba74] font-mono italic leading-relaxed">"I am in a freeze state. I can't move from the sofa and I feel completely numb."</p>
+                            </div>
+                        </div>
+                        <!-- P -->
+                        <div class="relative p-6 bg-[#fafaf9] flex flex-col border-l border-r border-[#ffedd5]/50">
+                            <div class="flex items-baseline gap-2 mb-3">
+                                <span class="text-5xl font-bold text-[#7c2d12] leading-none">P</span>
+                                <span class="text-base font-semibold text-[#7c2d12]/70 uppercase tracking-widest">ersona</span>
+                            </div>
+                            <p class="text-sm text-[#44403c] leading-relaxed flex-1">Name the specific lens you need. Each persona has a different purpose — choose the one that matches your current state.</p>
+                            <div class="mt-5 bg-[#7c2d12]/10 rounded-lg p-3">
+                                <p class="text-xs text-[#7c2d12] font-mono italic leading-relaxed">"As the Observer..."<br>"As the Researcher..."<br>"As the Challenger..."</p>
+                            </div>
+                        </div>
+                        <!-- T -->
+                        <div class="relative p-6 bg-[#7c2d12] flex flex-col">
+                            <div class="flex items-baseline gap-2 mb-3">
+                                <span class="text-5xl font-bold text-[#ffedd5] leading-none">T</span>
+                                <span class="text-base font-semibold text-[#ffedd5]/80 uppercase tracking-widest">ask</span>
+                            </div>
+                            <p class="text-sm text-[#ffedd5]/80 leading-relaxed flex-1">Direct the AI to a specific entry, timeframe, person, or psychological concept. The more specific, the better the output.</p>
+                            <div class="mt-5 bg-black/20 rounded-lg p-3">
+                                <p class="text-xs text-[#fdba74] font-mono italic leading-relaxed">"...read my last three entries and tell me if this is a limerence loop or genuine connection."</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stored Templates -->
+                <h3 class="text-xl text-[#7c2d12] mb-4">Template Library</h3>
+                <div class="space-y-4">
+
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#7c2d12]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            De-escalation</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I am experiencing intense emotional blunting and a freeze state right now. <strong
+                                class="text-white">As the Observer</strong>, read my entry from 10 minutes ago. Don't
+                            try to fix it, just help me ground myself and validate the physical exhaustion I'm feeling
+                            in my back/shoulders."
+                        </p>
+                    </div>
+
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#57534e]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Pattern Breaking</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I feel an overwhelming urge to completely isolate myself. <strong class="text-white">As the
+                                Challenger</strong>, review my entries from the past two weeks. Are there cognitive
+                            distortions driving this urge? Point out any evidence of my resilience that I am currently
+                            blind to."
+                        </p>
+                    </div>
+
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#ffedd5]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Mechanics Analysis</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I am confused about my ongoing reaction to [Situation/Person]. <strong
+                                class="text-white">As the Researcher</strong>, cross-reference my recent entries with
+                            the concepts of limerence and AvPD. Break down the psychological mechanics at play so I can
+                            logically understand my nervous system's response."
+                        </p>
+                    </div>
+
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#9a3412]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Relational Mapping</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I am doubting my memory of what happened with [Person] last night. <strong
+                                class="text-white">As the Boundary Auditor</strong>, pull every entry involving them from the last 6 months. Map out the exact sequence of their actions and my subsequent nervous system responses."
+                        </p>
+                    </div>
+
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#fb923c]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Perspective Shift</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I feel like I haven't made any progress at all this year. <strong
+                                class="text-white">As the Historian</strong>, compare my entries from this week to my entries from exactly one year ago. Highlight three specific metrics of growth that I am currently incapable of seeing."
+                        </p>
+                    </div>
+
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#fb923c]/60">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Cross-Dialogue</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I just read the weekly synthesis report. <strong class="text-white">As the
+                                Observer</strong>, I want you to read the Researcher's clinical analysis regarding my
+                            'fawn response'. Validate how exhausting it actually feels to live with that response
+                            day-to-day, given the context of my recent history."
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Report Definitions -->
+                <div class="mt-12 mb-8 border-b pb-6" style="border-color:#efece8;">
+                    <h2 class="text-3xl mb-3">Report Definitions</h2>
+                    <p class="text-[#57534e] leading-relaxed max-w-3xl">
+                        Define these structures in your <code>CLAUDE.md</code> file or as saved Prompts so Claude knows
+                        exactly what to output during the automated routines in Task 1 and Task 2.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <!-- Weekly Report -->
+                    <div class="bg-white p-6 rounded-xl border border-[#ffedd5] shadow-sm flex flex-col">
+                        <h3 class="text-xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
+                                class="sip-icon">
+                                <use href="#sip-icon-eye"></use>
+                            </svg> Weekly Report Structure</h3>
+                        <p class="text-sm text-[#44403c] mb-4">Generated every Sunday during Task 1. This report is designed to catch micro-adjustments, identify immediate triggers, and provide somatic validation before a new week begins.</p>
+                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#fdba74] font-mono space-y-4 flex-1 border-l-4 border-[#ffedd5] overflow-x-auto">
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 1. The Somatic Review</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Somatic Guide + The Researcher]</span>
+                                <span class="opacity-90 leading-relaxed">Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 2. The Relational Audit</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Boundary Auditor]</span>
+                                <span class="opacity-90 leading-relaxed">Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 3. The Distortion Check</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Challenger]</span>
+                                <span class="opacity-90 leading-relaxed">Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 4. The Grounding</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Observer]</span>
+                                <span class="opacity-90 leading-relaxed">Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 5. Core Memory Updates</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Default State]</span>
+                                <span class="opacity-90 leading-relaxed">A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to `Core_Memory.md` this week.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Monthly Report -->
+                    <div class="bg-white p-6 rounded-xl border border-[#ffedd5] shadow-sm flex flex-col">
+                        <h3 class="text-xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
+                                class="sip-icon">
+                                <use href="#sip-icon-magnifier"></use>
+                            </svg> Monthly Report Structure</h3>
+                        <p class="text-sm text-[#44403c] mb-4">Generated on the 1st of the month during Task 2. This report ignores daily fluctuations to focus entirely on macro-trends, overarching themes, and long-term trajectory tracking.</p>
+                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#fdba74] font-mono space-y-4 flex-1 border-l-4 border-[#7c2d12] overflow-x-auto">
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 1. The Macro Themes</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Archivist]</span>
+                                <span class="opacity-90 leading-relaxed">Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 2. The Interrogation</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Devil's Advocate]</span>
+                                <span class="opacity-90 leading-relaxed">Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 3. The Trajectory</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Historian]</span>
+                                <span class="opacity-90 leading-relaxed">Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 4. The Space</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Grief Keeper]</span>
+                                <span class="opacity-90 leading-relaxed">If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 5. The Next Step</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Strategist]</span>
+                                <span class="opacity-90 leading-relaxed">Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+        </main>
+    </div>
+
+    <script>
+        let chartInitialized = false;
+
+        const stepMeta = {
+            1: { title: 'Directory Setup',       desc: 'Create your Google Drive folder structure. This vault holds everything — scans, transcriptions, reports, and Claude\'s core instructions.' },
+            2: { title: 'Mobile Scanning',        desc: 'Configure your phone to drop scanned PDFs directly into the vault. One tap gets the pages in; the rest is automated.' },
+            3: { title: 'Connecting Claude',      desc: 'Use Claude CoWork to give the AI sandboxed, direct access to your local Paper &amp; Ponder folder. This is the bridge between brain and machine.' },
+            4: { title: 'Automating the Routine', desc: 'Set up Claude\'s weekly synthesis and monthly rollup schedules. These run automatically and keep the system compounding without effort.' },
+            5: { title: 'The Paper <span style="color:#fb923c;">&amp;</span> Ponder Ritual',   desc: 'The vault is built. The AI is trained. This is the three-part practice that makes it work.' }
+        };
+
+        function resetBuildTab() {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.step-btn').forEach((btn, i) => {
+                btn.querySelector('.indicator').className = 'w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
+                btn.querySelector('.indicator').innerHTML = i + 1;
+                btn.querySelector('.label').className = 'font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label';
+            });
+            const header = document.getElementById('build-tab-header');
+            if (header) header.innerHTML = '<h2 class="text-3xl mb-3">System Architecture</h2><p class="text-[#57534e] leading-relaxed max-w-3xl">The step-by-step roadmap to configuring your Claude CoWork local environment using your computer (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow the phases to build the digital vault.</p>';
+            switchMainTab('tab-build');
+        }
+
+        function enterSanctuary() {
+            resetBuildTab();
+            const landing = document.getElementById('landing-page');
+            const app = document.getElementById('main-app');
+            landing.classList.add('fade-out');
+            setTimeout(() => { landing.classList.add('hidden-view'); app.classList.remove('hidden-view'); app.classList.add('fade-in'); }, 500);
+        }
+
+        function showLandingPage() {
+            const landing = document.getElementById('landing-page');
+            const app = document.getElementById('main-app');
+            app.classList.add('hidden-view');
+            app.classList.remove('fade-in');
+            landing.classList.remove('hidden-view', 'fade-out');
+            landing.classList.add('fade-in');
+            setTimeout(() => landing.classList.remove('fade-in'), 800);
+        }
+
+        function toggleMobileNav() {
+            document.getElementById('mobile-nav-drawer').classList.contains('open')
+                ? closeMobileNav() : openMobileNav();
+        }
+        function openMobileNav() {
+            document.getElementById('mobile-nav-drawer').classList.add('open');
+            document.getElementById('mobile-nav-overlay').classList.add('open');
+            document.getElementById('mobile-nav-toggle').classList.add('open');
+        }
+        function closeMobileNav() {
+            document.getElementById('mobile-nav-drawer').classList.remove('open');
+            document.getElementById('mobile-nav-overlay').classList.remove('open');
+            document.getElementById('mobile-nav-toggle').classList.remove('open');
+        }
+
+        function switchMainTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.main-nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelector(`.main-nav-btn[data-target="${tabId}"]`).classList.add('active');
+            if (tabId === 'tab-build' && !chartInitialized) {
+                const step4 = document.getElementById('step-4');
+                if (step4 && step4.classList.contains('active')) initEfficiencyChart();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        const folderData = {
+            'raw': {
+                title: 'Raw_Scans\\',
+                desc: 'The drop-zone. This is the only folder your phone will actively interact with. When you run your mobile scanner, the newly scanned daily PDFs land here temporarily.',
+                actionTitle: 'Setup Action required',
+                actionDesc: 'Ensure this folder is empty to start. In the next step, you will point your mobile scanner directly to this specific folder path inside Google Drive so your phone knows exactly where to dump new images.'
+            },
+            'archive': {
+                title: 'Processed_Archive\\',
+                desc: 'The storage locker for transcribed text. After Claude transcribes a daily PDF, it saves the exact text here as a .md file and permanently deletes the original image to save space and keep token usage low.',
+                actionTitle: 'Historical Data Input',
+                actionDesc: 'If you have past journal scans, drop them directly into this folder. Name them with their historical date (e.g., "2008-Summer.pdf"). Claude\'s routine will transcribe them as historical context and delete the image, without corrupting your current weekly reports.'
+            },
+            'reports': {
+                title: 'Reports\\',
+                desc: 'The output bin. This is where Claude deposits your Weekly and Monthly Synthesis Reports (as defined in your Prompt Library tab).',
+                actionTitle: 'No Action Required',
+                actionDesc: 'Just create the empty folder. The AI handles the formatting, naming conventions, and saving files automatically.'
+            },
+            'claude': {
+                title: 'CLAUDE.md',
+                desc: 'The absolute rulebook. Contains Master Directives and your Persona Frameworks. It guarantees the AI never breaks character or offers unsolicited clinical advice.',
+                actionTitle: 'Notepad Setup',
+                actionDesc: 'Open <strong>Notepad</strong> (or TextEdit on Mac). Paste this baseline exactly:<br><br><code class="block mt-2 bg-[#1a1a1a] text-[#fdba74] p-3 rounded text-[11px] leading-relaxed font-mono"># Master Directive<br>You are operating within Paper &amp; Ponder. Maintain strict confidentiality. Never offer unsolicited clinical diagnoses. Follow the Persona Framework when invoked.</code><br><br>Save the file directly in your main vault folder. Name it exactly <code class="bg-[#f5f5f4] px-1 rounded text-[#7c2d12]">CLAUDE.md</code> (In Notepad, select "Save as type: All Files" so it doesn\'t add .txt to the end).'
+            },
+            'memory': {
+                title: 'Core_Memory.md',
+                desc: 'The living brain. Divided into Baselines, Dynamics, and Anchors. Claude reads this first to contextualize your current reactions before referencing past PDFs.',
+                actionTitle: 'Notepad Bootstrapping',
+                actionDesc: 'Open <strong>Notepad</strong>. Paste this base structure:<br><br><code class="block mt-2 bg-[#1a1a1a] text-[#fdba74] p-3 rounded text-[11px] leading-relaxed font-mono"># Core Memory Context<br><br>## Baselines<br>[To be populated by AI]<br><br>## Dynamics & Triggers<br>[To be populated by AI]</code><br><br>Save it in your main vault folder as <code class="bg-[#f5f5f4] px-1 rounded text-[#7c2d12]">Core_Memory.md</code> (Again, use "All Files" when saving). The AI will populate and update it automatically.'
+            }
+        };
+
+        function goToStep(step) {
+            document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            const meta = stepMeta[step];
+            if (meta) {
+                const header = document.getElementById('build-tab-header');
+                if (header) header.innerHTML = `<h2 class="text-3xl mb-3">${meta.title}</h2><p class="text-[#57534e] leading-relaxed max-w-3xl">${meta.desc}</p>`;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelectorAll('.step-btn').forEach((btn, index) => {
+                const stepNum = index + 1;
+                const indicator = btn.querySelector('.indicator');
+                const label = btn.querySelector('.label');
+                if (stepNum === step && stepNum === 5) {
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-medium transition-colors text-sm indicator';
+                    indicator.innerHTML = '&#10003;';
+                    label.className = 'font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label';
+                } else if (stepNum === step) {
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#7c2d12] text-[#fafaf9] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
+                    indicator.innerHTML = stepNum;
+                    label.className = 'font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label';
+                } else if (stepNum < step) {
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#7c2d12] bg-[#fafaf9] text-[#7c2d12] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
+                    indicator.innerHTML = '&#10003;';
+                    label.className = 'font-mono text-[9px] font-bold text-[#7c2d12] uppercase tracking-wider text-center label';
+                } else {
+                    indicator.className = 'w-8 h-8 rounded-full border-2 border-[#e7e5e4] bg-[#fafaf9] text-[#a8a29e] flex items-center justify-center font-mono font-bold transition-colors text-sm indicator';
+                    indicator.innerHTML = stepNum;
+                    label.className = 'font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label';
+                }
+            });
+            if (step === 4 && !chartInitialized) initEfficiencyChart();
+        }
+
+        function showFolderDetails(key) {
+            document.querySelectorAll('.folder-item').forEach(el => {
+                el.classList.remove('active', 'bg-[#f5f5f4]');
+                el.classList.add('hover:bg-[#f5f5f4]');
+            });
+            event.currentTarget.classList.add('active', 'bg-[#f5f5f4]');
+            event.currentTarget.classList.remove('hover:bg-[#f5f5f4]');
+
+            const data = folderData[key];
+            const detailsDiv = document.getElementById('folder-details');
+
+            detailsDiv.style.animation = 'none';
+            detailsDiv.offsetHeight; /* trigger reflow */
+            detailsDiv.style.animation = null;
+
+            const headerIcon = key === 'claude'
+                ? '<svg class="sip-icon sip-icon-xl"><use href="#sip-icon-claude"></use></svg>'
+                : key === 'memory'
+                    ? '<svg class="sip-icon sip-icon-xl"><use href="#sip-icon-core"></use></svg>'
+                    : key === 'archive'
+                        ? '<svg class="sip-icon sip-icon-xl"><use href="#sip-icon-archive"></use></svg>'
+                        : '<svg class="sip-icon sip-icon-xl"><use href="#sip-icon-folder"></use></svg>';
+            const actionIcons = {
+                raw: '<svg class="sip-icon sip-icon-action"><use href="#sip-icon-check"></use></svg>',
+                archive: '<svg class="sip-icon sip-icon-action"><use href="#sip-icon-archive"></use></svg>',
+                reports: '<svg class="sip-icon sip-icon-action"><use href="#sip-icon-check"></use></svg>',
+                claude: '<svg class="sip-icon sip-icon-action"><use href="#sip-icon-claude"></use></svg>',
+                memory: '<svg class="sip-icon sip-icon-action"><use href="#sip-icon-core"></use></svg>'
+            };
+            const actionIcon = actionIcons[key] || actionIcons.raw;
+            detailsDiv.innerHTML = `
+                <div class="flex items-center gap-3 mb-4 border-b border-[#ffedd5]/30 pb-3">
+                    ${headerIcon}
+                    <h4 class="text-xl font-medium text-[#7c2d12]">${data.title}</h4>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <h5 class="text-xs font-bold uppercase tracking-widest text-[#a8a29e] mb-1">Purpose</h5>
+                        <p class="text-[#44403c] leading-relaxed text-sm">${data.desc}</p>
+                    </div>
+                    <div class="bg-[#ffedd5] p-4 rounded-lg border border-[#ffedd5]/50">
+                        <h5 class="text-xs font-bold text-[#7c2d12] uppercase tracking-wider mb-2 flex items-center gap-2">
+                            ${actionIcon} ${data.actionTitle}
+                        </h5>
+                        <p class="text-xs text-[#57534e] leading-relaxed">${data.actionDesc}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function initEfficiencyChart() {
+            buildYearHeatmap();
+            chartInitialized = true;
+        }
+
+        function buildYearHeatmap() {
+            const container = document.getElementById('yearHeatmap');
+            if (!container) return;
+
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+            const daysInMonth = [31,28,31,30,31,30,31,31,30,31,30,31];
+
+            // For each month, figure out which days are Sundays or the 1st
+            // Use a fixed reference: Jan 1 2025 = Wednesday (day 3, 0=Sun)
+            let dayOfWeek = 3; // Jan 1 2025 = Wednesday
+            const CELL = 9, GAP = 2;
+
+            let html = `<div style="overflow-x:auto;padding-bottom:4px">
+                <div style="display:flex;gap:${GAP}px;align-items:flex-start;min-width:max-content">`;
+
+            for (let m = 0; m < 12; m++) {
+                const days = daysInMonth[m];
+                html += `<div>
+                    <div style="font-size:9px;color:#a8a29e;text-align:center;margin-bottom:3px;font-family:'Montserrat',sans-serif;letter-spacing:0.05em">${months[m]}</div>
+                    <div style="display:grid;grid-template-columns:repeat(7,${CELL}px);gap:${GAP}px">`;
+
+                // pad start
+                const startPad = dayOfWeek;
+                for (let p = 0; p < startPad; p++) {
+                    html += `<div style="width:${CELL}px;height:${CELL}px"></div>`;
+                }
+
+                for (let d = 1; d <= days; d++) {
+                    const dow = (dayOfWeek) % 7;
+                    const isFirst = d === 1;
+                    const isSunday = dow === 0;
+                    let bg, title;
+                    if (isFirst && isSunday) {
+                        bg = '#7c2d12'; title = '1st + Weekly Synthesis';
+                    } else if (isFirst) {
+                        bg = '#fb923c'; title = 'Monthly Rollup';
+                    } else if (isSunday) {
+                        bg = '#7c2d12'; title = 'Weekly Synthesis';
+                    } else {
+                        bg = '#f5f5f4'; title = '';
+                    }
+                    const border = (isFirst || isSunday) ? 'none' : '1px solid #efece8';
+                    html += `<div style="width:${CELL}px;height:${CELL}px;border-radius:2px;background:${bg};border:${border};cursor:${title?'pointer':'default'}" title="${title}"></div>`;
+                    dayOfWeek = (dayOfWeek + 1) % 7;
+                }
+
+                // remaining cells to fill the grid row
+                const totalCells = startPad + days;
+                const remainder = (7 - (totalCells % 7)) % 7;
+                for (let r = 0; r < remainder; r++) {
+                    html += `<div style="width:${CELL}px;height:${CELL}px"></div>`;
+                }
+
+                html += `</div></div>`;
+            }
+
+            html += `</div></div>`;
+            container.innerHTML = html;
+        }
+    </script>
 </body>
+
 </html>
