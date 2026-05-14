@@ -2198,7 +2198,7 @@
 
                 <!-- Report Definitions -->
                 <div class="mt-12 mb-8 border-b pb-6" style="border-color:#efece8;">
-                    <h2 class="text-3xl mb-3">Report Definitions</h2>
+                    <h2 class="text-xl mb-3">Report Definitions</h2>
                     <p class="text-[#57534e] leading-relaxed max-w-3xl">
                         Define these structures in your <code>CLAUDE.md</code> file or as saved Prompts so Claude knows
                         exactly what to output during the automated routines in Task 1 and Task 2.
@@ -2208,7 +2208,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <!-- Weekly Report -->
                     <div class="bg-white p-6 rounded-xl border border-[#ffedd5] shadow-sm flex flex-col">
-                        <h3 class="text-xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
+                        <h3 class="text-2xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
                                 class="sip-icon">
                                 <use href="#sip-icon-eye"></use>
                             </svg> Weekly Report Structure</h3>
@@ -2240,11 +2240,44 @@
                                 <span class="opacity-90 leading-relaxed">A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to `Core_Memory.md` this week.</span>
                             </div>
                         </div>
+                        <!-- CLAUDE.md copy block -->
+                        <div class="mt-4 border border-[#e7e5e4] rounded-lg overflow-hidden">
+                            <div class="flex items-center justify-between px-4 py-2 bg-[#f5f5f4] border-b border-[#e7e5e4]">
+                                <span class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#78716c]">Paste into CLAUDE.md</span>
+                                <button onclick="copyBlock('weekly-claude-md')" class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#7c2d12] hover:text-[#9a3412] transition-colors">Copy</button>
+                            </div>
+                            <pre id="weekly-claude-md" class="text-[11px] text-[#44403c] font-mono leading-relaxed p-4 overflow-x-auto whitespace-pre bg-white m-0">## Weekly Report Structure
+Trigger: Every Sunday during Task 1.
+Output: Reports/Weekly_Report-[YYYY-MM-DD].md
+
+### 1. The Somatic Review [The Somatic Guide + The Researcher]
+Map all physical symptoms, sleep disruptions, and nervous
+system states noted this week. Link these directly to
+environmental or situational triggers from the entries.
+
+### 2. The Relational Audit [The Boundary Auditor]
+Isolate any interpersonal friction. Note who drained energy,
+where boundaries were tested or crossed, and how the nervous
+system responded to specific individuals.
+
+### 3. The Distortion Check [The Challenger]
+Identify recurring negative thought loops or false narratives.
+Use the user's own past entries to gently dismantle them.
+
+### 4. The Grounding [The Observer]
+Provide absolute, non-judgmental acknowledgment of the effort
+required to survive the week. Validate exhaustion without
+trying to fix it.
+
+### 5. Core Memory Updates [Default State]
+Log what new data (baselines, triggers, dynamics) was
+appended to Core_Memory.md this week.</pre>
+                        </div>
                     </div>
 
                     <!-- Monthly Report -->
                     <div class="bg-white p-6 rounded-xl border border-[#ffedd5] shadow-sm flex flex-col">
-                        <h3 class="text-xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
+                        <h3 class="text-2xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
                                 class="sip-icon">
                                 <use href="#sip-icon-magnifier"></use>
                             </svg> Monthly Report Structure</h3>
@@ -2275,6 +2308,40 @@
                                 <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Strategist]</span>
                                 <span class="opacity-90 leading-relaxed">Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</span>
                             </div>
+                        </div>
+                        <!-- CLAUDE.md copy block -->
+                        <div class="mt-4 border border-[#e7e5e4] rounded-lg overflow-hidden">
+                            <div class="flex items-center justify-between px-4 py-2 bg-[#f5f5f4] border-b border-[#e7e5e4]">
+                                <span class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#78716c]">Paste into CLAUDE.md</span>
+                                <button onclick="copyBlock('monthly-claude-md')" class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#7c2d12] hover:text-[#9a3412] transition-colors">Copy</button>
+                            </div>
+                            <pre id="monthly-claude-md" class="text-[11px] text-[#44403c] font-mono leading-relaxed p-4 overflow-x-auto whitespace-pre bg-white m-0">## Monthly Report Structure
+Trigger: 1st of each month during Task 2.
+Output: Reports/Monthly_Report-[Month Name]-[YYYY].md
+
+### 1. The Macro Themes [The Archivist]
+Identify dominant psychological states and overarching
+narratives over the past 30 days. Group similar entries
+to show the scale of recurring themes.
+
+### 2. The Interrogation [The Devil's Advocate]
+Where is the user avoiding responsibility? Where are they
+enabling their own toxic loops? Surface the uncomfortable
+blind spots from the month's data.
+
+### 3. The Trajectory [The Historian]
+Compare this month's data to the previous month, and to
+the same month last year (if available). Highlight tangible,
+undeniable proof of coping mechanisms working.
+
+### 4. The Space [The Grief Keeper]
+If there is unresolved loss identified in the month's data,
+hold space for that grief. Validate that healing requires
+mourning what was lost.
+
+### 5. The Next Step [The Strategist]
+Define exactly ONE gentle, actionable, low-friction goal
+for the upcoming month. Make it impossible to fail.</pre>
                         </div>
                     </div>
                 </div>
@@ -2322,6 +2389,17 @@
             landing.classList.remove('hidden-view', 'fade-out');
             landing.classList.add('fade-in');
             setTimeout(() => landing.classList.remove('fade-in'), 800);
+        }
+
+        function copyBlock(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            navigator.clipboard.writeText(el.textContent).then(() => {
+                const btn = el.previousElementSibling.querySelector('button');
+                const orig = btn.textContent;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = orig, 1800);
+            });
         }
 
         function toggleMobileNav() {
