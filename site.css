@@ -1,5 +1,5 @@
 /* Storefront marketing — shared styles. Builds on colors_and_type.css. */
-@import url('../../colors_and_type.css');
+@import url('Paper & Ponder Design System/colors_and_type.css');
 
 html, body { margin: 0; padding: 0; background: var(--bg); }
 body { font-family: var(--font-sans); color: var(--fg); }
