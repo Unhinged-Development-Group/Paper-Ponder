@@ -395,6 +395,19 @@
         }
         .mobile-drawer-btn:last-child { border-bottom: none; }
 
+        /* Combo card collapse on mobile */
+        .combo-chevron { display: none; }
+        @media (max-width: 639px) {
+            .combo-card { cursor: pointer; user-select: none; }
+            .combo-body { display: none !important; }
+            .combo-card.combo-open .combo-body { display: block !important; }
+            .combo-chevron {
+                display: flex; justify-content: center; padding: 8px 0 2px;
+                transition: transform 250ms ease;
+            }
+            .combo-card.combo-open .combo-chevron { transform: rotate(180deg); }
+        }
+
         /* Persona card collapse on mobile */
         .persona-chevron { display: none; }
         @media (max-width: 639px) {
@@ -1955,7 +1968,7 @@
         })();
         </script>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div id="combo-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- Interaction 1 -->
             <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
@@ -2545,6 +2558,27 @@
             });
         }
         initPersonaCards();
+
+        function initComboCards() {
+            if (window.innerWidth >= 640) return;
+            const grid = document.getElementById('combo-cards-grid');
+            if (!grid) return;
+            grid.querySelectorAll(':scope > div').forEach(card => {
+                if (card.dataset.comboInit) return;
+                card.dataset.comboInit = '1';
+                card.classList.add('combo-card');
+                const h4 = card.querySelector('h4');
+                if (!h4) return;
+                let el = h4.nextElementSibling;
+                while (el) { el.classList.add('combo-body'); el = el.nextElementSibling; }
+                const chevron = document.createElement('div');
+                chevron.className = 'combo-chevron';
+                chevron.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c2d12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
+                h4.after(chevron);
+                card.addEventListener('click', () => card.classList.toggle('combo-open'));
+            });
+        }
+        initComboCards();
     </script>
 </body>
 
