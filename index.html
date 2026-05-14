@@ -2213,65 +2213,56 @@
                                 <use href="#sip-icon-eye"></use>
                             </svg> Weekly Report Structure</h3>
                         <p class="text-sm text-[#44403c] mb-4">Generated every Sunday during Task 1. This report is designed to catch micro-adjustments, identify immediate triggers, and provide somatic validation before a new week begins.</p>
-                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#fdba74] font-mono space-y-4 flex-1 border-l-4 border-[#ffedd5] overflow-x-auto">
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 1. The Somatic Review</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Somatic Guide + The Researcher]</span>
-                                <span class="opacity-90 leading-relaxed">Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.</span>
+                        <div class="bg-[#1a1a1a] rounded-lg font-mono flex-1 border-l-4 border-[#ffedd5] overflow-hidden flex flex-col">
+                            <div class="flex items-center justify-between px-5 py-2.5 bg-[#111] border-b border-[#2a2a2a]">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#a8a29e]">CLAUDE.md</span>
+                                <button onclick="copyBlock('weekly-claude-md')" class="text-[10px] font-bold uppercase tracking-widest text-[#fdba74] hover:text-[#ffedd5] transition-colors">Copy</button>
                             </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 2. The Relational Audit</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Boundary Auditor]</span>
-                                <span class="opacity-90 leading-relaxed">Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.</span>
+                            <div class="p-5 text-xs text-[#fdba74] space-y-4 overflow-x-auto flex-1">
+                                <div class="text-[#a8a29e] pb-3 border-b border-[#2a2a2a] space-y-0.5 leading-relaxed">
+                                    <div><span class="text-[#555]">##</span> Weekly Report Structure</div>
+                                    <div><span class="text-[#555]">Trigger:</span> Every Sunday during Task 1.</div>
+                                    <div><span class="text-[#555]">Output:</span> Reports/Weekly_Report-[YYYY-MM-DD].md</div>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 1. The Somatic Review <span class="text-[#a8a29e] font-normal">[The Somatic Guide + The Researcher]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 2. The Relational Audit <span class="text-[#a8a29e] font-normal">[The Boundary Auditor]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 3. The Distortion Check <span class="text-[#a8a29e] font-normal">[The Challenger]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 4. The Grounding <span class="text-[#a8a29e] font-normal">[The Observer]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 5. Core Memory Updates <span class="text-[#a8a29e] font-normal">[Default State]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to Core_Memory.md this week.</span>
+                                </div>
                             </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 3. The Distortion Check</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Challenger]</span>
-                                <span class="opacity-90 leading-relaxed">Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.</span>
-                            </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 4. The Grounding</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Observer]</span>
-                                <span class="opacity-90 leading-relaxed">Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.</span>
-                            </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 5. Core Memory Updates</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Default State]</span>
-                                <span class="opacity-90 leading-relaxed">A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to `Core_Memory.md` this week.</span>
-                            </div>
-                        </div>
-                        <!-- CLAUDE.md copy block -->
-                        <div class="mt-4 border border-[#e7e5e4] rounded-lg overflow-hidden">
-                            <div class="flex items-center justify-between px-4 py-2 bg-[#f5f5f4] border-b border-[#e7e5e4]">
-                                <span class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#78716c]">Paste into CLAUDE.md</span>
-                                <button onclick="copyBlock('weekly-claude-md')" class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#7c2d12] hover:text-[#9a3412] transition-colors">Copy</button>
-                            </div>
-                            <pre id="weekly-claude-md" class="text-[11px] text-[#44403c] font-mono leading-relaxed p-4 overflow-x-auto whitespace-pre bg-white m-0">## Weekly Report Structure
+                            <pre id="weekly-claude-md" style="display:none">## Weekly Report Structure
 Trigger: Every Sunday during Task 1.
 Output: Reports/Weekly_Report-[YYYY-MM-DD].md
 
 ### 1. The Somatic Review [The Somatic Guide + The Researcher]
-Map all physical symptoms, sleep disruptions, and nervous
-system states noted this week. Link these directly to
-environmental or situational triggers from the entries.
+Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.
 
 ### 2. The Relational Audit [The Boundary Auditor]
-Isolate any interpersonal friction. Note who drained energy,
-where boundaries were tested or crossed, and how the nervous
-system responded to specific individuals.
+Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.
 
 ### 3. The Distortion Check [The Challenger]
-Identify recurring negative thought loops or false narratives.
-Use the user's own past entries to gently dismantle them.
+Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.
 
 ### 4. The Grounding [The Observer]
-Provide absolute, non-judgmental acknowledgment of the effort
-required to survive the week. Validate exhaustion without
-trying to fix it.
+Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.
 
 ### 5. Core Memory Updates [Default State]
-Log what new data (baselines, triggers, dynamics) was
-appended to Core_Memory.md this week.</pre>
+A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to Core_Memory.md this week.</pre>
                         </div>
                     </div>
 
@@ -2282,66 +2273,56 @@ appended to Core_Memory.md this week.</pre>
                                 <use href="#sip-icon-magnifier"></use>
                             </svg> Monthly Report Structure</h3>
                         <p class="text-sm text-[#44403c] mb-4">Generated on the 1st of the month during Task 2. This report ignores daily fluctuations to focus entirely on macro-trends, overarching themes, and long-term trajectory tracking.</p>
-                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#fdba74] font-mono space-y-4 flex-1 border-l-4 border-[#7c2d12] overflow-x-auto">
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 1. The Macro Themes</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Archivist]</span>
-                                <span class="opacity-90 leading-relaxed">Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.</span>
+                        <div class="bg-[#1a1a1a] rounded-lg font-mono flex-1 border-l-4 border-[#7c2d12] overflow-hidden flex flex-col">
+                            <div class="flex items-center justify-between px-5 py-2.5 bg-[#111] border-b border-[#2a2a2a]">
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#a8a29e]">CLAUDE.md</span>
+                                <button onclick="copyBlock('monthly-claude-md')" class="text-[10px] font-bold uppercase tracking-widest text-[#fdba74] hover:text-[#ffedd5] transition-colors">Copy</button>
                             </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 2. The Interrogation</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Devil's Advocate]</span>
-                                <span class="opacity-90 leading-relaxed">Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.</span>
+                            <div class="p-5 text-xs text-[#fdba74] space-y-4 overflow-x-auto flex-1">
+                                <div class="text-[#a8a29e] pb-3 border-b border-[#2a2a2a] space-y-0.5 leading-relaxed">
+                                    <div><span class="text-[#555]">##</span> Monthly Report Structure</div>
+                                    <div><span class="text-[#555]">Trigger:</span> 1st of each month during Task 2.</div>
+                                    <div><span class="text-[#555]">Output:</span> Reports/Monthly_Report-[Month Name]-[YYYY].md</div>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 1. The Macro Themes <span class="text-[#a8a29e] font-normal">[The Archivist]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 2. The Interrogation <span class="text-[#a8a29e] font-normal">[The Devil's Advocate]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 3. The Trajectory <span class="text-[#a8a29e] font-normal">[The Historian]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 4. The Space <span class="text-[#a8a29e] font-normal">[The Grief Keeper]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.</span>
+                                </div>
+                                <div>
+                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 5. The Next Step <span class="text-[#a8a29e] font-normal">[The Strategist]</span></span><br>
+                                    <span class="opacity-90 leading-relaxed">Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</span>
+                                </div>
                             </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 3. The Trajectory</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Historian]</span>
-                                <span class="opacity-90 leading-relaxed">Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.</span>
-                            </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 4. The Space</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Grief Keeper]</span>
-                                <span class="opacity-90 leading-relaxed">If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.</span>
-                            </div>
-                            <div>
-                                <span class="text-[#ffedd5] font-bold text-[13px]"># 5. The Next Step</span><br>
-                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Strategist]</span>
-                                <span class="opacity-90 leading-relaxed">Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</span>
-                            </div>
-                        </div>
-                        <!-- CLAUDE.md copy block -->
-                        <div class="mt-4 border border-[#e7e5e4] rounded-lg overflow-hidden">
-                            <div class="flex items-center justify-between px-4 py-2 bg-[#f5f5f4] border-b border-[#e7e5e4]">
-                                <span class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#78716c]">Paste into CLAUDE.md</span>
-                                <button onclick="copyBlock('monthly-claude-md')" class="font-mono text-[10px] font-bold uppercase tracking-widest text-[#7c2d12] hover:text-[#9a3412] transition-colors">Copy</button>
-                            </div>
-                            <pre id="monthly-claude-md" class="text-[11px] text-[#44403c] font-mono leading-relaxed p-4 overflow-x-auto whitespace-pre bg-white m-0">## Monthly Report Structure
+                            <pre id="monthly-claude-md" style="display:none">## Monthly Report Structure
 Trigger: 1st of each month during Task 2.
 Output: Reports/Monthly_Report-[Month Name]-[YYYY].md
 
 ### 1. The Macro Themes [The Archivist]
-Identify dominant psychological states and overarching
-narratives over the past 30 days. Group similar entries
-to show the scale of recurring themes.
+Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.
 
 ### 2. The Interrogation [The Devil's Advocate]
-Where is the user avoiding responsibility? Where are they
-enabling their own toxic loops? Surface the uncomfortable
-blind spots from the month's data.
+Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.
 
 ### 3. The Trajectory [The Historian]
-Compare this month's data to the previous month, and to
-the same month last year (if available). Highlight tangible,
-undeniable proof of coping mechanisms working.
+Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.
 
 ### 4. The Space [The Grief Keeper]
-If there is unresolved loss identified in the month's data,
-hold space for that grief. Validate that healing requires
-mourning what was lost.
+If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.
 
 ### 5. The Next Step [The Strategist]
-Define exactly ONE gentle, actionable, low-friction goal
-for the upcoming month. Make it impossible to fail.</pre>
+Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</pre>
                         </div>
                     </div>
                 </div>
