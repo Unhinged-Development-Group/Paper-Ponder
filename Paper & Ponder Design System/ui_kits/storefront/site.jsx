@@ -19,20 +19,38 @@ const SiteIcon = ({ name, size = 16, stroke = 2, ...rest }) => {
   );
 };
 
-const Nav = () => (
-  <nav className="nav container">
-    <div className="nav__brand">
-      <span className="word">Paper <span className="amp">&amp;</span> Ponder</span>
-    </div>
-    <div className="nav__links">
-      <a className="nav__link" href="#how">The Practice</a>
-      <a className="nav__link" href="#journal">The Journal</a>
-      <a className="nav__link" href="#sit">Sit With It</a>
-      <a className="nav__link" href="#editions">Editions</a>
-      <a className="nav__cta" href="#order">Order · $32</a>
-    </div>
-  </nav>
-);
+const Nav = () => {
+  const [open, setOpen] = React.useState(false);
+  const close = () => setOpen(false);
+  return (
+    <>
+      <nav className="nav container">
+        <div className="nav__brand">
+          <span className="word">Paper <span className="amp">&amp;</span> Ponder</span>
+        </div>
+        <div className="nav__links">
+          <a className="nav__link" href="#how">The Practice</a>
+          <a className="nav__link" href="#journal">The Journal</a>
+          <a className="nav__link" href="#sit">Sit With It</a>
+          <a className="nav__link" href="#editions">Editions</a>
+          <a className="nav__cta" href="#order">Order · $32</a>
+        </div>
+        <button className={`nav__burger${open ? ' nav__burger--open' : ''}`}
+                onClick={() => setOpen(o => !o)} aria-label="Toggle menu">
+          <span/><span/><span/>
+        </button>
+      </nav>
+      {open && <div className="nav__overlay" onClick={close}/>}
+      <div className={`nav__drawer${open ? ' nav__drawer--open' : ''}`}>
+        <a className="nav__link" href="#how"      onClick={close}>The Practice</a>
+        <a className="nav__link" href="#journal"  onClick={close}>The Journal</a>
+        <a className="nav__link" href="#sit"      onClick={close}>Sit With It</a>
+        <a className="nav__link" href="#editions" onClick={close}>Editions</a>
+        <a className="nav__cta"  href="#order"    onClick={close}>Order · $32</a>
+      </div>
+    </>
+  );
+};
 
 const Hero = () => (
   <section className="hero">
