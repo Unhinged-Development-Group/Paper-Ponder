@@ -352,6 +352,17 @@
             }
         }
 
+        /* Fixed header on mobile so hamburger is always reachable */
+        @media (max-width: 639px) {
+            #main-app > header {
+                position: fixed !important;
+                top: 0; left: 0; right: 0;
+            }
+            #main-app > main {
+                padding-top: 84px;
+            }
+        }
+
         /* Mobile hamburger */
         .mobile-hamburger {
             display: none;
