@@ -357,6 +357,7 @@
             #main-app > header {
                 position: fixed !important;
                 top: 0; left: 0; right: 0;
+                z-index: 60 !important;
             }
             #main-app > main {
                 padding-top: 84px;
@@ -2351,11 +2352,13 @@
             document.getElementById('mobile-nav-drawer').classList.add('open');
             document.getElementById('mobile-nav-overlay').classList.add('open');
             document.getElementById('mobile-nav-toggle').classList.add('open');
+            document.body.style.overflow = 'hidden';
         }
         function closeMobileNav() {
             document.getElementById('mobile-nav-drawer').classList.remove('open');
             document.getElementById('mobile-nav-overlay').classList.remove('open');
             document.getElementById('mobile-nav-toggle').classList.remove('open');
+            document.body.style.overflow = '';
         }
 
         function switchMainTab(tabId) {
