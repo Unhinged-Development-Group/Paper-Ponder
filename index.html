@@ -341,10 +341,11 @@
                 padding: 0.25rem 0.5rem;
             }
             .step-btn .label {
-                display: none;
+                font-size: 7.5px;
+                letter-spacing: 0.05em;
             }
             .step-btn {
-                gap: 0.25rem;
+                gap: 0.35rem;
             }
             .folder-item span {
                 font-size: 0.75rem;
@@ -712,18 +713,23 @@
             <section id="tab-build" class="tab-content active">
                 <div id="build-tab-header" class="mb-8 border-b pb-6" style="border-color:#efece8;">
                     <h2 class="text-3xl mb-3">System Architecture</h2>
-                    <p class="text-[#57534e] leading-relaxed max-w-3xl">
+                    <p class="text-[#57534e] leading-relaxed max-w-3xl mb-5">
                         The step-by-step roadmap to configuring your Claude CoWork local environment using your computer
                         (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow the phases to build
                         the digital vault.
                     </p>
+                    <button onclick="goToStep(1)"
+                        class="inline-flex items-center gap-2 bg-[#7c2d12] hover:bg-[#9a3412] text-[#ffedd5] font-mono font-bold text-[0.65rem] tracking-widest uppercase px-5 py-3 rounded-lg transition-colors">
+                        Start with Phase 1
+                        <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-forward"></use></svg>
+                    </button>
                 </div>
 
                 <!-- Stepper Nav -->
                 <div class="mb-4 sm:mb-8">
                     <div class="flex items-center justify-between relative max-w-4xl mx-auto">
                         <div
-                            class="absolute left-0 top-1/2 w-full h-0.5 bg-[#ffedd5]/30 -z-10 transform -translate-y-1/2">
+                            class="absolute left-0 top-1/2 w-full h-0.5 bg-[#e7e5e4] -z-10 transform -translate-y-1/2">
                         </div>
                         <button onclick="goToStep(1)"
                             class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
