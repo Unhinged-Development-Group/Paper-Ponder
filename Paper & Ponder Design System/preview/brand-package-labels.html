@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Package Labels</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  body { padding: 24px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .lbl { padding: 28px 18px; border-radius: 16px; text-align: center; position: relative; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .light { background: #ffedd5; border: 1px solid #fed7aa; box-shadow: var(--shadow-inner); }
+  .light .top { position: absolute; top:0; left:0; right:0; height: 4px; background: #fb923c; }
+  .dark { background: #1c1917; border: 1px solid #2c2620; box-shadow: var(--shadow-lg); }
+  .dark .top { position: absolute; top:0; left:0; right:0; height: 4px; background: #7c2d12; }
+  .eb { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; font-weight: 700; }
+  .light .eb { color: rgba(124,45,18,0.6); }
+  .dark .eb { color: #a8a29e; }
+  .word { font-family: var(--font-script); font-size: 38px; line-height: 1; margin: 14px 0; }
+  .light .word { color: #7c2d12; }
+  .dark .word { color: #fff7ed; }
+  .light .amp { color: #fb923c; }
+  .dark .amp { color: #c2410c; }
+  .rule { width: 32px; height: 1px; margin: 0 auto 12px; }
+  .light .rule { background: #fdba74; }
+  .dark .rule { background: #57534e; }
+  .meta { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 700; }
+  .light .meta { color: #7c2d12; }
+  .dark .meta { color: #a8a29e; }
+  .dark .meta .sep { color: #7c2d12; padding: 0 6px; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="lbl light">
+      <div class="top"></div>
+      <div class="eb">Handbound in the UK</div>
+      <div class="word">Paper <span class="amp">&amp;</span> Ponder</div>
+      <div class="rule"></div>
+      <div class="meta">Archival Quality</div>
+    </div>
+    <div class="lbl dark">
+      <div class="top"></div>
+      <div class="word">Paper <span class="amp">&amp;</span> Ponder</div>
+      <div class="meta">No. 04 <span class="sep">|</span> A5 Size</div>
+    </div>
+  </div>
+</body></html>

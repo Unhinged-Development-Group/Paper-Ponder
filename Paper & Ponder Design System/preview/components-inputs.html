@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Inputs</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  body { padding: 24px; }
+  .field { margin-bottom: 16px; }
+  .lbl { display: block; font-family: var(--font-mono); font-size: 9px; color: var(--fg-2); letter-spacing: 0.25em; text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+  .input { width: 100%; padding: 12px 14px; border: 1px solid var(--border); border-radius: 10px; background: #fff; font-family: var(--font-sans); font-size: 14px; color: var(--ink); outline: none; }
+  .input::placeholder { color: var(--fg-3); }
+  .input.focus { border-color: #fb923c; box-shadow: 0 0 0 3px rgba(251,146,60,0.18); }
+  .input.warm { background: #fff7ed; border-color: #fed7aa; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+</style></head>
+<body>
+  <div class="field">
+    <span class="lbl">Email address</span>
+    <input class="input" placeholder="you@example.com" value="">
+  </div>
+  <div class="row">
+    <div class="field">
+      <span class="lbl">First name · Focus</span>
+      <input class="input focus" value="Eli">
+    </div>
+    <div class="field">
+      <span class="lbl">Surname · Filled</span>
+      <input class="input" value="Marsh">
+    </div>
+  </div>
+  <div class="field">
+    <span class="lbl">Dedication · Optional</span>
+    <input class="input warm" placeholder="For uninterrupted thought.">
+  </div>
+</body></html>

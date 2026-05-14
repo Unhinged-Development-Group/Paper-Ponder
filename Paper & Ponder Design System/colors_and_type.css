@@ -1,0 +1,330 @@
+/* ============================================================
+   Paper & Ponder — Colors, Type & Foundations
+   The "Warm Clay" palette + Dancing Script / Montserrat / Space Mono
+   ============================================================ */
+
+/* --- Webfonts ---------------------------------------------------------- */
+/* Dancing Script — local brand files, all weights. */
+@font-face {
+  font-family: "Dancing Script";
+  src: url("fonts/DancingScript-Regular.ttf") format("truetype");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Dancing Script";
+  src: url("fonts/DancingScript-Medium.ttf") format("truetype");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Dancing Script";
+  src: url("fonts/DancingScript-SemiBold.ttf") format("truetype");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "Dancing Script";
+  src: url("fonts/DancingScript-Bold.ttf") format("truetype");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+/* Montserrat + Space Mono — Google Fonts CDN (no brand files uploaded for these yet). */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  /* ---------- Core Clay Palette ---------- */
+  --pp-deep-clay:   #7c2d12;   /* primary brand, headlines on light, CTAs */
+  --pp-clay:        #9a3412;   /* hover/pressed of deep clay */
+  --pp-terracotta:  #fb923c;   /* signature accent — ampersand, highlights */
+  --pp-terracotta-dim: #f97316;
+  --pp-sand:        #ffedd5;   /* warm surface, kraft-paper feeling */
+  --pp-sand-soft:   #fff7ed;   /* lightest sand / page tint */
+  --pp-charcoal:    #1c1917;   /* dark surface, grounding text */
+  --pp-alabaster:   #fafaf9;   /* primary background */
+  --pp-white:       #ffffff;
+
+  /* ---------- Stones (warm neutrals, follow Tailwind "stone") ---------- */
+  --pp-stone-50:  #fafaf9;
+  --pp-stone-100: #f5f5f4;
+  --pp-stone-200: #e7e5e4;
+  --pp-stone-300: #d6d3d1;
+  --pp-stone-400: #a8a29e;
+  --pp-stone-500: #78716c;
+  --pp-stone-600: #57534e;
+  --pp-stone-700: #44403c;
+  --pp-stone-800: #292524;
+  --pp-stone-900: #1c1917;
+
+  /* ---------- Orange / Clay ramp ---------- */
+  --pp-orange-50:  #fff7ed;
+  --pp-orange-100: #ffedd5;
+  --pp-orange-200: #fed7aa;
+  --pp-orange-300: #fdba74;
+  --pp-orange-400: #fb923c;
+  --pp-orange-500: #f97316;
+  --pp-orange-600: #ea580c;
+  --pp-orange-700: #c2410c;
+  --pp-orange-800: #9a3412;
+  --pp-orange-900: #7c2d12;
+  --pp-orange-950: #431407;
+
+  /* ---------- Semantic surface + text (light mode) ---------- */
+  --bg:        var(--pp-alabaster);    /* page */
+  --bg-tint:   var(--pp-sand-soft);    /* subtle panel */
+  --bg-warm:   var(--pp-sand);         /* kraft-paper panel */
+  --surface:   var(--pp-white);        /* cards */
+  --surface-2: #fbfaf8;                /* off-white card */
+  --ink:       var(--pp-charcoal);     /* headings on light */
+  --fg:        var(--pp-stone-800);    /* body text */
+  --fg-1:      var(--pp-stone-800);    /* alias */
+  --fg-2:      var(--pp-stone-500);    /* secondary text */
+  --fg-3:      var(--pp-stone-400);    /* tertiary / meta */
+  --fg-mute:   var(--pp-stone-300);
+  --brand:     var(--pp-deep-clay);    /* primary brand color */
+  --brand-accent: var(--pp-terracotta);
+
+  /* Borders & dividers — always warm-neutral, never pure gray */
+  --border:        var(--pp-stone-200);
+  --border-soft:   #efece8;            /* warmer hairline on cards */
+  --border-warm:   #fde4c4;            /* subtle orange-tinted */
+  --divider:       var(--pp-stone-100);
+
+  /* Selection + focus */
+  --selection-bg: var(--pp-orange-200);
+  --selection-fg: var(--pp-orange-900);
+  --focus-ring:   rgba(251, 146, 60, 0.45);
+
+  /* ---------- Shadows (soft, paper-like) ---------- */
+  --shadow-xs: 0 1px 1px rgba(28, 25, 23, 0.04);
+  --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06), 0 1px 1px rgba(28, 25, 23, 0.04);
+  --shadow-md: 0 4px 12px -2px rgba(28, 25, 23, 0.08), 0 2px 4px -2px rgba(28, 25, 23, 0.05);
+  --shadow-lg: 0 16px 40px -12px rgba(28, 25, 23, 0.18), 0 4px 8px -4px rgba(28, 25, 23, 0.06);
+  --shadow-inner: inset 0 1px 2px rgba(28, 25, 23, 0.06);
+  --shadow-warm: 0 8px 24px -10px rgba(124, 45, 18, 0.20);
+
+  /* ---------- Radii ---------- */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-2xl: 32px;
+  --r-pill: 9999px;
+
+  /* ---------- Spacing scale (4px base) ---------- */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* ---------- Type stacks ---------- */
+  --font-script: "Dancing Script", "Brush Script MT", "Apple Chancery", cursive;     /* wordmark / hero only */
+  --font-sans:   "Montserrat", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono:   "Space Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-serif:  Georgia, "Iowan Old Style", "Times New Roman", serif;               /* monogram only */
+
+  /* ---------- Type roles (semantic) ---------- */
+  --display-size: clamp(56px, 9vw, 144px);
+  --display-line: 0.95;
+  --display-weight: 500;
+
+  --h1-size: clamp(36px, 4.2vw, 56px);
+  --h1-weight: 300;
+  --h1-line: 1.1;
+  --h1-tracking: -0.01em;
+
+  --h2-size: clamp(28px, 3vw, 40px);
+  --h2-weight: 300;
+  --h2-line: 1.15;
+
+  --h3-size: 24px;
+  --h3-weight: 500;
+  --h3-line: 1.25;
+
+  --h4-size: 16px;
+  --h4-weight: 500;
+  --h4-line: 1.35;
+
+  --body-size: 15px;
+  --body-line: 1.65;
+  --body-weight: 400;
+
+  --small-size: 13px;
+  --small-line: 1.55;
+
+  --eyebrow-size: 10px;
+  --eyebrow-tracking: 0.3em;
+  --eyebrow-weight: 500;
+
+  --label-size: 11px;
+  --label-tracking: 0.2em;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 150ms;
+  --dur-base: 300ms;
+  --dur-slow: 500ms;
+  --dur-stately: 700ms;
+}
+
+/* ============================================================
+   Dark context — used for "Midnight" panels and dark mode
+   Swap Alabaster → Charcoal; Sand body type to reduce eye strain;
+   accents come from Terracotta.
+   ============================================================ */
+:root[data-theme="dark"],
+.pp-dark {
+  --bg:        var(--pp-charcoal);
+  --bg-tint:   #24201d;
+  --bg-warm:   #2a221d;
+  --surface:   #24201d;
+  --surface-2: #2c2622;
+  --ink:       var(--pp-sand);
+  --fg:        #e7d6c2;
+  --fg-1:      #e7d6c2;
+  --fg-2:      #a8978a;
+  --fg-3:      #756a60;
+  --fg-mute:   #524940;
+  --brand:     var(--pp-terracotta);
+  --brand-accent: var(--pp-orange-300);
+  --border:        #3a322c;
+  --border-soft:   #2f2924;
+  --border-warm:   #4a3a2c;
+  --divider:       #2f2924;
+  --selection-bg: var(--pp-orange-900);
+  --selection-fg: var(--pp-orange-100);
+  --shadow-md: 0 4px 12px -2px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 24px 48px -16px rgba(0, 0, 0, 0.55);
+}
+
+/* ============================================================
+   Element baseline
+   ============================================================ */
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  font-weight: var(--body-weight);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+/* ---------- Semantic typography classes ---------- */
+.pp-display {
+  font-family: var(--font-script);
+  font-weight: var(--display-weight);
+  font-size: var(--display-size);
+  line-height: var(--display-line);
+  color: var(--pp-deep-clay);
+  letter-spacing: 0;
+}
+.pp-display .amp { color: var(--pp-terracotta); }
+
+h1, .pp-h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--h1-weight);
+  font-size: var(--h1-size);
+  line-height: var(--h1-line);
+  letter-spacing: var(--h1-tracking);
+  color: var(--ink);
+  margin: 0;
+}
+h2, .pp-h2 {
+  font-family: var(--font-sans);
+  font-weight: var(--h2-weight);
+  font-size: var(--h2-size);
+  line-height: var(--h2-line);
+  color: var(--ink);
+  margin: 0;
+}
+h3, .pp-h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--h3-weight);
+  font-size: var(--h3-size);
+  line-height: var(--h3-line);
+  color: var(--ink);
+  margin: 0;
+}
+h4, .pp-h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--h4-weight);
+  font-size: var(--h4-size);
+  line-height: var(--h4-line);
+  color: var(--ink);
+  margin: 0;
+}
+
+p, .pp-body {
+  font-family: var(--font-sans);
+  font-size: var(--body-size);
+  line-height: var(--body-line);
+  font-weight: var(--body-weight);
+  color: var(--fg);
+}
+
+.pp-small {
+  font-size: var(--small-size);
+  line-height: var(--small-line);
+  color: var(--fg-2);
+}
+
+/* Eyebrow / overline — Space Mono, uppercase, wide tracking. THE signature label style. */
+.pp-eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--eyebrow-size);
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+  font-weight: var(--eyebrow-weight);
+  color: var(--fg-3);
+}
+
+.pp-label {
+  font-family: var(--font-mono);
+  font-size: var(--label-size);
+  letter-spacing: var(--label-tracking);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+
+code, kbd, samp, .pp-mono {
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* ---------- Utility blocks ---------- */
+.pp-card {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.pp-card--warm {
+  background: var(--bg-tint);
+  border-color: var(--border-warm);
+}
+
+.pp-divider {
+  height: 1px;
+  background: var(--divider);
+  border: 0;
+  width: 100%;
+}
+
+.pp-rule-thin {
+  height: 1px;
+  background: var(--border);
+  flex: 1;
+}

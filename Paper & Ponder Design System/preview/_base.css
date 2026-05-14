@@ -1,0 +1,25 @@
+/* Shared preview-card base. Cards are ~700px wide, height varies.
+   Each card body has zero outer chrome — the gallery frames it. */
+@import url('../colors_and_type.css');
+
+html, body { margin: 0; padding: 0; background: var(--bg); }
+body {
+  font-family: var(--font-sans);
+  color: var(--fg);
+  padding: 24px 28px;
+  box-sizing: border-box;
+  width: 700px;
+}
+* { box-sizing: border-box; }
+.row { display: flex; gap: 16px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 16px; }
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  font-weight: 700;
+}
+.mono { font-family: var(--font-mono); }
+.script { font-family: var(--font-script); }

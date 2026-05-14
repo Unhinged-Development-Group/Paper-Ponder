@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Clay Palette</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .sw {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid var(--border-soft); background: var(--surface);
+    box-shadow: var(--shadow-sm);
+  }
+  .chip { height: 110px; }
+  .meta { padding: 10px 12px 12px; }
+  .meta .name { font-size: 11px; font-weight: 600; color: var(--ink); }
+  .meta .hex { font-family: var(--font-mono); font-size: 10px; color: var(--fg-3); margin-top: 4px; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="sw"><div class="chip" style="background:#7c2d12"></div><div class="meta"><div class="name">Deep Clay</div><div class="hex">#7c2d12</div></div></div>
+    <div class="sw"><div class="chip" style="background:#fb923c"></div><div class="meta"><div class="name">Terracotta</div><div class="hex">#fb923c</div></div></div>
+    <div class="sw"><div class="chip" style="background:#ffedd5"></div><div class="meta"><div class="name">Sand</div><div class="hex">#ffedd5</div></div></div>
+    <div class="sw"><div class="chip" style="background:#1c1917"></div><div class="meta"><div class="name">Charcoal</div><div class="hex">#1c1917</div></div></div>
+    <div class="sw"><div class="chip" style="background:#fafaf9;border-bottom:1px solid var(--border-soft)"></div><div class="meta"><div class="name">Alabaster</div><div class="hex">#fafaf9</div></div></div>
+  </div>
+</body></html>

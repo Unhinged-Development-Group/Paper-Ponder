@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Toggles & Checks</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  body { padding: 24px; }
+  .row { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; background: #fff; }
+  .row .t { font-size: 13px; color: var(--ink); font-weight: 500; }
+  .row .s { font-size: 11px; color: var(--fg-2); margin-top: 2px; }
+  .toggle { width: 44px; height: 26px; border-radius: 999px; position: relative; box-shadow: var(--shadow-inner); }
+  .toggle.on { background: #fb923c; }
+  .toggle.off { background: var(--pp-stone-200); }
+  .knob { position: absolute; top: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: var(--shadow-sm); transition: left 200ms ease; }
+  .on .knob { left: 21px; }
+  .off .knob { left: 3px; }
+  .check-row { display: flex; align-items: center; gap: 12px; padding: 10px 4px; }
+  .cb { width: 20px; height: 20px; border-radius: 4px; border: 2px solid var(--pp-stone-300); background: #fff; display: flex; align-items: center; justify-content: center; }
+  .cb.checked { background: #7c2d12; border-color: #7c2d12; }
+  .cb svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .ct { font-size: 13px; color: var(--ink); }
+</style></head>
+<body>
+  <div class="row">
+    <div><div class="t">Gift wrapping</div><div class="s">Artisan paper &amp; wax seal (+$5)</div></div>
+    <div class="toggle on"><div class="knob"></div></div>
+  </div>
+  <div class="row">
+    <div><div class="t">Personalised dedication</div><div class="s">Pressed in gold foil, first page</div></div>
+    <div class="toggle off"><div class="knob"></div></div>
+  </div>
+  <div class="check-row">
+    <div class="cb checked"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div>
+    <span class="ct">Include receipt in package</span>
+  </div>
+  <div class="check-row">
+    <div class="cb"></div>
+    <span class="ct">Subscribe to seasonal restocks</span>
+  </div>
+</body></html>

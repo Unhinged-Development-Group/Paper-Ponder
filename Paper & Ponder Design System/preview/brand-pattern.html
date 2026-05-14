@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Pattern</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  body { padding: 0; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .swatch { padding: 20px; min-height: 200px; position: relative; overflow: hidden; }
+  .a { background: #fff7ed; }
+  .a::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(#fb923c 0.5px, transparent 0.5px), radial-gradient(#fb923c 0.5px, #fff7ed 0.5px); background-size: 20px 20px; background-position: 0 0, 10px 10px; opacity: 0.4; pointer-events: none; }
+  .b { background: #1c1917; }
+  .b::after { content: ""; position: absolute; inset: 0; background-image: radial-gradient(#fb923c 0.5px, transparent 0.5px), radial-gradient(#fb923c 0.5px, #1c1917 0.5px); background-size: 20px 20px; background-position: 0 0, 10px 10px; opacity: 0.25; pointer-events: none; }
+  .lbl { position: relative; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 700; }
+  .a .lbl { color: #7c2d12; }
+  .b .lbl { color: #fb923c; }
+  .desc { position: relative; font-size: 11px; line-height: 1.5; margin-top: 8px; max-width: 240px; }
+  .a .desc { color: #9a3412; }
+  .b .desc { color: #d6d3d1; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="swatch a">
+      <div class="lbl">Terracotta Dots · Light</div>
+      <div class="desc">A 20px radial dot pattern at 40% opacity over Sand-soft. Used sparingly behind hero areas only.</div>
+    </div>
+    <div class="swatch b">
+      <div class="lbl">Terracotta Dots · Dark</div>
+      <div class="desc">Same pattern, dimmed to 25% on Charcoal. Adds quiet texture, never decoration.</div>
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Type Scale</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  .row { display: grid; grid-template-columns: 80px 1fr 110px; gap: 18px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--divider); }
+  .row:last-child { border-bottom: 0; }
+  .name { font-family: var(--font-mono); font-size: 9px; color: var(--fg-3); letter-spacing: 0.2em; text-transform: uppercase; font-weight: 700; }
+  .spec { color: var(--ink); }
+  .meta { font-family: var(--font-mono); font-size: 9px; color: var(--fg-3); text-align: right; }
+</style></head>
+<body>
+  <div class="row">
+    <div class="name">Display</div>
+    <div class="spec" style="font-family:var(--font-script);font-size:48px;color:#7c2d12;line-height:1">Paper &amp; Ponder</div>
+    <div class="meta">96 / 1.0</div>
+  </div>
+  <div class="row">
+    <div class="name">H1</div>
+    <div class="spec" style="font-weight:300;font-size:36px;letter-spacing:-0.01em">Considered thought</div>
+    <div class="meta">48 / 1.1 / 300</div>
+  </div>
+  <div class="row">
+    <div class="name">H2</div>
+    <div class="spec" style="font-weight:300;font-size:28px">Section heading</div>
+    <div class="meta">32 / 1.15 / 300</div>
+  </div>
+  <div class="row">
+    <div class="name">H3</div>
+    <div class="spec" style="font-weight:500;font-size:20px">Product detail</div>
+    <div class="meta">24 / 1.25 / 500</div>
+  </div>
+  <div class="row">
+    <div class="name">Body</div>
+    <div class="spec" style="font-weight:400;font-size:15px;color:var(--fg)">Body copy, descriptions, paragraphs.</div>
+    <div class="meta">15 / 1.65 / 400</div>
+  </div>
+  <div class="row">
+    <div class="name">Small</div>
+    <div class="spec" style="font-weight:400;font-size:13px;color:var(--fg-2)">Meta, captions, helper text.</div>
+    <div class="meta">13 / 1.55</div>
+  </div>
+</body></html>

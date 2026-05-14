@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html><head><meta charset="UTF-8"><title>Product Card</title>
+<link rel="stylesheet" href="_base.css">
+<style>
+  body { padding: 24px; background: #fafaf9; }
+  .card { background: #fafaf9; padding: 22px; border-radius: 24px; border: 1px solid var(--border); width: 320px; box-shadow: var(--shadow-sm); }
+  .photo { aspect-ratio: 1; background: #1c1917; border-radius: 16px; margin-bottom: 18px; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .book { width: 70%; height: 80%; background: #1c1917; border: 1px solid #2a2625; border-radius: 4px; display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6); position: relative; }
+  .book .mono { font-family: serif; font-size: 30px; color: #57534e; font-weight: 500; }
+  .book .amp { font-family: var(--font-script); font-size: 38px; color: #78716c; transform: rotate(-12deg); margin-top: -6px; }
+  .head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .title { font-size: 17px; font-weight: 500; color: var(--ink); letter-spacing: 0.005em; }
+  .price { font-family: var(--font-mono); font-size: 13px; color: #7c2d12; font-weight: 700; }
+  .desc { font-size: 12px; color: var(--fg-2); line-height: 1.6; margin-bottom: 16px; font-weight: 300; }
+  .btn { width: 100%; padding: 13px; background: #7c2d12; color: #fff7ed; border: 0; border-radius: 10px; font-family: var(--font-mono); font-size: 10px; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase; box-shadow: var(--shadow-sm); cursor: pointer; }
+</style></head>
+<body>
+  <div class="card">
+    <div class="photo">
+      <div class="book">
+        <div style="display:flex;align-items:center;gap:8px;position:relative">
+          <span class="mono">P</span><span class="mono">P</span>
+          <span class="amp" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-12deg)">&amp;</span>
+        </div>
+      </div>
+    </div>
+    <div class="head">
+      <div class="title">The Obsidian Journal</div>
+      <div class="price">$32.00</div>
+    </div>
+    <div class="desc">160 pages of 120gsm dot-grid paper. Bound in charcoal linen. Lay-flat design for uninterrupted thought.</div>
+    <button class="btn">Add to Cart</button>
+  </div>
+</body></html>
