@@ -382,6 +382,26 @@
         .space-y-4 > .bg-\[#1a1a1a\]:hover {
             box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.20);
         }
+
+        /* Landing monogram — hover lifts and glows */
+        .monogram-seal {
+            transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 350ms ease;
+            cursor: default;
+        }
+        .monogram-seal:hover {
+            transform: scale(1.07);
+            filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.55));
+        }
+
+        /* Header badge — extend transition to include filter */
+        header button svg {
+            transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 300ms ease;
+        }
+        header button:hover svg {
+            filter: drop-shadow(0 0 8px rgba(251, 146, 60, 0.4));
+        }
     </style>
 </head>
 
@@ -548,10 +568,10 @@
         class="fixed inset-0 z-50 bg-leather flex flex-col items-center justify-center px-4 sm:px-6 transition-opacity duration-700">
         <div class="max-w-2xl text-center fade-in relative z-10" style="margin-top:-5vh">
             <!-- P&P Monogram — clay circle, mixed-font seal -->
-            <svg class="w-28 h-28 mb-8 mx-auto flex-shrink-0 drop-shadow-xl" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+            <svg class="monogram-seal w-28 h-28 mb-8 mx-auto flex-shrink-0 drop-shadow-xl" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="128" cy="128" r="120" fill="rgba(124,45,18,0.55)" stroke="#ffedd5" stroke-width="1.5"/>
                 <circle cx="128" cy="128" r="108" fill="none" stroke="#ffedd5" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
-                <text x="128" y="170" text-anchor="middle"><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5">P</tspan><tspan font-family="Dancing Script,cursive" font-size="92" font-weight="700" fill="#fb923c" dx="-4">&amp;</tspan><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5" dx="-6">P</tspan></text>
+                <text x="128" y="128" dominant-baseline="central" text-anchor="middle"><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5">P</tspan><tspan font-family="Dancing Script,cursive" font-size="92" font-weight="700" fill="#fb923c" dx="-4">&amp;</tspan><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5" dx="-6">P</tspan></text>
             </svg>
 
             <h1 class="text-6xl sm:text-8xl tracking-wide mb-3 handwritten sanctuary-heading leading-tight" style="color:#ffedd5;">
@@ -589,7 +609,7 @@
                             viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
                             <circle cx="128" cy="128" r="120" fill="#7c2d12"/>
                             <circle cx="128" cy="128" r="108" fill="none" stroke="#ffedd5" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6"/>
-                            <text x="128" y="170" text-anchor="middle"><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5">P</tspan><tspan font-family="Dancing Script,cursive" font-size="92" font-weight="700" fill="#fb923c" dx="-4">&amp;</tspan><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5" dx="-6">P</tspan></text>
+                            <text x="128" y="128" dominant-baseline="central" text-anchor="middle"><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5">P</tspan><tspan font-family="Dancing Script,cursive" font-size="92" font-weight="700" fill="#fb923c" dx="-4">&amp;</tspan><tspan font-family="Georgia,serif" font-size="84" font-weight="500" fill="#ffedd5" dx="-6">P</tspan></text>
                         </svg>
                         <h1 class="text-3xl font-medium tracking-tight sanctuary-heading leading-none transition-colors group-hover:text-[#9a3412]">
                             Paper <span style="color:#fb923c;">&amp;</span> Ponder
