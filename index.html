@@ -400,10 +400,13 @@
         @media (max-width: 639px) {
             .persona-header { position: relative; cursor: pointer; user-select: none; }
             .persona-chevron {
-                display: block; position: absolute; bottom: 10px; right: 12px;
+                display: block; position: absolute; bottom: 10px;
+                left: 50%; transform: translateX(-50%);
                 transition: transform 250ms ease;
             }
-            .persona-card.persona-open .persona-chevron { transform: rotate(180deg); }
+            .persona-card.persona-open .persona-chevron {
+                transform: translateX(-50%) rotate(180deg);
+            }
             .persona-body { display: none !important; }
             .persona-card.persona-open .persona-body { display: flex !important; flex-direction: column; }
         }
