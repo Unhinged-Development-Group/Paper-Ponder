@@ -109,16 +109,23 @@
 
         /* Paper & Ponder — Warm charcoal cover: clay glow on dark ground */
         .bg-leather {
-            background-color: #2c2016;
+            background-color: #1a1210;
             background-image:
-                radial-gradient(ellipse 80% 60% at 35% 20%, rgba(251, 146, 60, 0.28) 0%, transparent 65%),
-                radial-gradient(ellipse 65% 55% at 70% 85%, rgba(180, 83, 9, 0.32) 0%, transparent 65%),
-                radial-gradient(ellipse 50% 45% at 50% 50%, rgba(255, 200, 120, 0.07) 0%, transparent 70%),
-                radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.38) 130%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.14 0 0 0 0 0.09 0 0 0 0 0.05 0 0 0 0.28 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)'/%3E%3C/svg%3E");
-            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 400px 400px;
-            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat;
-            background-blend-mode: screen, multiply, screen, multiply, soft-light;
+                /* Specular sheen — upper left rake */
+                radial-gradient(ellipse 45% 35% at 22% 12%, rgba(255, 210, 160, 0.10) 0%, transparent 65%),
+                /* Clay warm glow */
+                radial-gradient(ellipse 70% 55% at 30% 20%, rgba(251, 146, 60, 0.20) 0%, transparent 60%),
+                /* Deep shadow — lower right */
+                radial-gradient(ellipse 60% 50% at 78% 82%, rgba(80, 20, 5, 0.45) 0%, transparent 60%),
+                /* Edge vignette */
+                radial-gradient(ellipse at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.70) 130%),
+                /* Coarse leather pebble grain */
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.28' numOctaves='4' seed='12' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.07 0 0 0 0 0.04 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+                /* Fine surface grain */
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' seed='8' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.09 0 0 0 0 0.05 0 0 0 0 0.03 0 0 0 0.40 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E");
+            background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 700px 700px, 350px 350px;
+            background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, repeat, repeat;
+            background-blend-mode: screen, screen, multiply, multiply, soft-light, overlay;
         }
 
         .folder-item {
@@ -342,99 +349,14 @@
                 padding: 0.25rem 0.5rem;
             }
             .step-btn .label {
-                font-size: 7.5px;
-                letter-spacing: 0.05em;
+                display: none;
             }
             .step-btn {
-                gap: 0.35rem;
+                gap: 0.25rem;
             }
             .folder-item span {
                 font-size: 0.75rem;
             }
-        }
-
-        /* Fixed header on mobile so hamburger is always reachable */
-        @media (max-width: 639px) {
-            #main-app > header {
-                position: fixed !important;
-                top: 0; left: 0; right: 0;
-                z-index: 60 !important;
-            }
-            #main-app > main {
-                padding-top: 116px;
-            }
-        }
-
-        /* Mobile hamburger */
-        .mobile-hamburger {
-            display: none;
-            flex-direction: column; justify-content: center; gap: 5px;
-            background: none; border: none; cursor: pointer;
-            padding: 6px; margin: -6px;
-        }
-        .mobile-hamburger span {
-            display: block; width: 22px; height: 2px;
-            background: #7c2d12; border-radius: 2px;
-            transition: transform 250ms ease, opacity 250ms ease;
-            transform-origin: center;
-        }
-        .mobile-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .mobile-hamburger.open span:nth-child(2) { opacity: 0; }
-        .mobile-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-        @media (max-width: 639px) {
-            .mobile-hamburger { display: flex; }
-        }
-
-        /* Mobile nav overlay + drawer */
-        .mobile-nav-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(28, 25, 23, 0.4); z-index: 45;
-        }
-        .mobile-nav-overlay.open { display: block; }
-        .mobile-nav-drawer {
-            position: fixed; top: 0; right: 0; bottom: 0; width: 260px;
-            background: #fafaf9; padding: 88px 28px 40px;
-            display: flex; flex-direction: column; gap: 0;
-            border-left: 1px solid #efece8;
-            transform: translateX(100%);
-            transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 50;
-        }
-        .mobile-nav-drawer.open { transform: translateX(0); }
-        .mobile-drawer-btn {
-            font-size: 0.8rem; padding: 16px 0;
-            border-bottom: 1px solid #efece8;
-            width: 100%; justify-content: flex-start; gap: 10px; text-align: left;
-        }
-        .mobile-drawer-btn:last-child { border-bottom: none; }
-
-        /* Combo card collapse on mobile */
-        .combo-chevron { display: none; }
-        @media (max-width: 639px) {
-            .combo-card { cursor: pointer; user-select: none; }
-            .combo-body { display: none !important; }
-            .combo-card.combo-open .combo-body { display: block !important; }
-            .combo-chevron {
-                display: flex; justify-content: center; padding: 8px 0 2px;
-                transition: transform 250ms ease;
-            }
-            .combo-card.combo-open .combo-chevron { transform: rotate(180deg); }
-        }
-
-        /* Persona card collapse on mobile */
-        .persona-chevron { display: none; }
-        @media (max-width: 639px) {
-            .persona-header { position: relative; cursor: pointer; user-select: none; }
-            .persona-chevron {
-                display: block; position: absolute; bottom: 10px;
-                left: 50%; transform: translateX(-50%);
-                transition: transform 250ms ease;
-            }
-            .persona-card.persona-open .persona-chevron {
-                transform: translateX(-50%) rotate(180deg);
-            }
-            .persona-body { display: none !important; }
-            .persona-card.persona-open .persona-body { display: flex !important; flex-direction: column; }
         }
 
         /* P&P card hover — shadow deepens sm → md (300ms ease-out) */
@@ -469,15 +391,9 @@
             box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 2px 4px -2px rgba(0, 0, 0, 0.20);
         }
 
-        /* Landing monogram — hover lifts and glows */
+        /* Landing monogram */
         .monogram-seal {
-            transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 350ms ease;
             cursor: default;
-        }
-        .monogram-seal:hover {
-            transform: scale(1.07);
-            filter: drop-shadow(0 0 18px rgba(251, 146, 60, 0.55));
         }
         .pp-amp {
             transform-box: fill-box;
@@ -664,11 +580,11 @@
         <div class="max-w-2xl text-center fade-in relative z-10" style="margin-top:-5vh">
             <!-- P&P Monogram -->
             <svg class="monogram-seal w-28 h-28 mb-8 mx-auto flex-shrink-0 drop-shadow-xl" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="128" cy="128" r="120" fill="rgba(255,237,213,0.58)"/>
-                <circle cx="128" cy="128" r="108" fill="none" stroke="rgba(251,146,60,0.75)" stroke-width="1.5" stroke-dasharray="5 5"/>
+                <circle cx="128" cy="128" r="120" fill="rgba(255,237,213,0.9)"/>
+                <circle cx="128" cy="128" r="108" fill="none" stroke="rgba(251,146,60,0.5)" stroke-width="1.5" stroke-dasharray="5 5"/>
                 <text x="94"  y="164" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#7c2d12" text-anchor="middle">P</text>
                 <text x="162" y="164" font-family="Georgia,serif" font-size="90" font-weight="500" fill="#7c2d12" text-anchor="middle">P</text>
-                <text class="pp-amp" x="128" y="162" font-family="Dancing Script,cursive" font-size="108" font-weight="700" fill="#c2410c" text-anchor="middle">&amp;</text>
+                <text class="pp-amp" x="128" y="162" font-family="Dancing Script,cursive" font-size="108" font-weight="700" fill="#fb923c" text-anchor="middle">&amp;</text>
             </svg>
 
             <h1 class="text-6xl sm:text-8xl tracking-wide mb-3 handwritten sanctuary-heading leading-tight" style="color:#ffedd5;">
@@ -698,7 +614,7 @@
 
         <header class="border-b bg-[#fafaf9] sticky top-0 z-40 shadow-sm" style="border-color:#efece8;">
             <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
-                <div class="flex items-center justify-between gap-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <button type="button" onclick="showLandingPage()" class="flex items-center gap-3 text-left group"
                         aria-label="Return to landing page">
                         <!-- P&P Monogram -->
@@ -715,7 +631,7 @@
                         </h1>
                     </button>
 
-                    <nav class="hidden sm:flex items-center gap-7 text-base font-sans">
+                    <nav class="flex items-center gap-3 sm:gap-7 text-base font-sans">
                         <button onclick="switchMainTab('tab-build')" class="main-nav-btn active"
                             data-target="tab-build"><svg class="sip-icon sip-icon-lg" aria-hidden="true">
                                 <use href="#sip-icon-build"></use>
@@ -729,25 +645,9 @@
                                 <use href="#sip-icon-prompt-library"></use>
                             </svg><span class="nav-label"> Prompt Library</span></button>
                     </nav>
-                    <button id="mobile-nav-toggle" class="mobile-hamburger sm:hidden"
-                            onclick="toggleMobileNav()" aria-label="Toggle menu">
-                        <span></span><span></span><span></span>
-                    </button>
                 </div>
             </div>
         </header>
-        <div id="mobile-nav-overlay" class="mobile-nav-overlay" onclick="closeMobileNav()"></div>
-        <div id="mobile-nav-drawer" class="mobile-nav-drawer">
-            <button onclick="switchMainTab('tab-build'); closeMobileNav()" class="main-nav-btn mobile-drawer-btn" data-target="tab-build">
-                <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-build"></use></svg> The Build
-            </button>
-            <button onclick="switchMainTab('tab-personas'); closeMobileNav()" class="main-nav-btn mobile-drawer-btn" data-target="tab-personas">
-                <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-personas"></use></svg> The Personas
-            </button>
-            <button onclick="switchMainTab('tab-prompts'); closeMobileNav()" class="main-nav-btn mobile-drawer-btn" data-target="tab-prompts">
-                <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-prompt-library"></use></svg> Prompt Library
-            </button>
-        </div>
 
         <main class="flex-grow max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
 
@@ -755,22 +655,18 @@
             <section id="tab-build" class="tab-content active">
                 <div id="build-tab-header" class="mb-8 border-b pb-6" style="border-color:#efece8;">
                     <h2 class="text-3xl mb-3">System Architecture</h2>
-                    <p class="text-[#57534e] leading-relaxed max-w-3xl mb-5">
+                    <p class="text-[#57534e] leading-relaxed max-w-3xl">
                         The step-by-step roadmap to configuring your Claude CoWork local environment using your computer
-                        (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow each phase to build and automate your personal, digital journal using your own handwritten entries.
+                        (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow the phases to build
+                        the digital vault.
                     </p>
-                    <button onclick="goToStep(1)"
-                        class="inline-flex items-center gap-2 bg-[#7c2d12] hover:bg-[#9a3412] text-[#ffedd5] font-mono font-bold text-[0.65rem] tracking-widest uppercase px-5 py-3 rounded-lg transition-colors">
-                        Start with Phase 1
-                        <svg class="sip-icon sip-icon-lg" aria-hidden="true"><use href="#sip-icon-arrow-forward"></use></svg>
-                    </button>
                 </div>
 
                 <!-- Stepper Nav -->
                 <div class="mb-4 sm:mb-8">
                     <div class="flex items-center justify-between relative max-w-4xl mx-auto">
                         <div
-                            class="absolute left-0 top-1/2 w-full h-0.5 bg-[#e7e5e4] -z-10 transform -translate-y-1/2">
+                            class="absolute left-0 top-1/2 w-full h-0.5 bg-[#ffedd5]/30 -z-10 transform -translate-y-1/2">
                         </div>
                         <button onclick="goToStep(1)"
                             class="step-btn flex flex-col items-center gap-2 cursor-pointer w-1/5 group focus:outline-none">
@@ -955,6 +851,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="bg-[#ffedd5] p-6 rounded-xl border border-[#ffedd5]/50 shadow-sm h-full">
+                            <h4 class="text-[#7c2d12] text-xl mb-3">Zero Clutter Philosophy</h4>
+                            <p class="text-sm text-[#44403c] leading-relaxed mb-4">By routing the PDF scan directly to
+                                the connected cloud folder, the image of your journal <strong>never touches your phone's
+                                    camera roll</strong>. It skips your personal photo cloud entirely. It exists only in
+                                the physical book, and safely in the Paper &amp; Ponder vault.</p>
+                        </div>
                         <div class="bg-[#fafaf9] rounded-lg p-5 border border-[#efece8] shadow-sm h-full pp-card-hover">
                             <h4
                                 class="font-semibold text-[#7c2d12] mb-3 grid grid-cols-[1.5rem_1fr] items-center gap-6">
@@ -986,13 +889,6 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                        <div class="bg-[#ffedd5] p-6 rounded-xl border border-[#ffedd5]/50 shadow-sm h-full">
-                            <h4 class="text-[#7c2d12] text-xl mb-3">Zero Clutter Philosophy</h4>
-                            <p class="text-sm text-[#44403c] leading-relaxed mb-4">By routing the PDF scan directly to
-                                the connected cloud folder, the image of your journal <strong>never touches your phone's
-                                    camera roll</strong>. It skips your personal photo cloud entirely. It exists only in
-                                the physical book, and safely in the Paper &amp; Ponder vault.</p>
                         </div>
                         <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm h-full pp-card-hover">
                             <h4 class="text-[#7c2d12] text-xl mb-3 flex items-center gap-3"><svg
@@ -1493,10 +1389,10 @@
 <!-- ========================================== -->
 <section id="tab-personas" class="tab-content">
     <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
-        <h2 class="text-xl mb-3 flex items-center gap-3">
-            <svg class="sip-icon sip-icon-xl" aria-hidden="true">
+        <h2 class="text-3xl mb-3 flex items-center gap-3">
+            <svg class="sip-icon sip-icon-lg" aria-hidden="true">
                 <use href="#sip-icon-personas"></use>
-            </svg>
+            </svg> 
             The Persona Framework
         </h2>
         <p class="text-[#57534e] leading-relaxed max-w-3xl">
@@ -1509,9 +1405,9 @@
     <!-- Default State -->
     <div class="p-6 rounded-xl border-l-4 mb-10 shadow-sm" style="background:#fff7ed;border-left-color:#7c2d12;">
         <h3 class="text-lg text-[#1c1917] mb-2 flex items-center gap-2" style="font-weight:500;">
-            <svg class="sip-icon sip-icon-lg" aria-hidden="true">
+            <svg class="sip-icon" aria-hidden="true">
                 <use href="#sip-icon-core"></use>
-            </svg>
+            </svg> 
             The Default State (Base System)
         </h3>
         <p class="text-sm text-[#44403c] leading-relaxed mb-4">
@@ -1980,7 +1876,7 @@
         })();
         </script>
 
-        <div id="combo-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             
             <!-- Interaction 1 -->
             <div class="bg-white p-6 rounded-xl border border-[#efece8] shadow-sm relative overflow-hidden">
@@ -2097,7 +1993,7 @@
             <!-- ========================================== -->
             <section id="tab-prompts" class="tab-content">
                 <div class="mb-8 border-b pb-6" style="border-color:#efece8;">
-                    <h2 class="text-xl mb-3 flex items-center gap-3"><svg class="sip-icon sip-icon-xl"
+                    <h2 class="text-3xl mb-3 flex items-center gap-3"><svg class="sip-icon sip-icon-lg"
                             aria-hidden="true">
                             <use href="#sip-icon-prompt-library"></use>
                         </svg> Prompt Library & Techniques</h2>
@@ -2152,45 +2048,65 @@
                 <h3 class="text-xl text-[#7c2d12] mb-4">Template Library</h3>
                 <div class="space-y-4">
 
-                    <div class="bg-[#1a1a1a] rounded-lg p-5 group border-l-4 border-[#7c2d12]">
-                        <div class="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-3">De-escalation</div>
-                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed">
-                            "I'm in a freeze state right now and emotionally blunted. Read my entry from 10 minutes ago. Don't try to fix anything — just help me ground myself and acknowledge the physical exhaustion I'm carrying in my back and shoulders."
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#7c2d12]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            De-escalation</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I am experiencing intense emotional blunting and a freeze state right now. <strong
+                                class="text-white">As the Observer</strong>, read my entry from 10 minutes ago. Don't
+                            try to fix it, just help me ground myself and validate the physical exhaustion I'm feeling
+                            in my back/shoulders."
                         </p>
                     </div>
 
-                    <div class="bg-[#1a1a1a] rounded-lg p-5 group border-l-4 border-[#57534e]">
-                        <div class="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-3">Pattern Breaking</div>
-                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed">
-                            "I'm getting the urge to completely shut down and isolate. Look at the past two weeks of entries — are there cognitive distortions driving this? Show me any evidence of resilience I can't see right now."
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#57534e]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Pattern Breaking</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I feel an overwhelming urge to completely isolate myself. <strong class="text-white">As the
+                                Challenger</strong>, review my entries from the past two weeks. Are there cognitive
+                            distortions driving this urge? Point out any evidence of my resilience that I am currently
+                            blind to."
                         </p>
                     </div>
 
-                    <div class="bg-[#1a1a1a] rounded-lg p-5 group border-l-4 border-[#ffedd5]">
-                        <div class="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-3">Mechanics Analysis</div>
-                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed">
-                            "I can't make sense of my reaction to [Situation/Person]. Cross-reference my recent entries with limerence and AvPD patterns. Break down what's actually happening in my nervous system so I can understand it logically."
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#ffedd5]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Mechanics Analysis</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I am confused about my ongoing reaction to [Situation/Person]. <strong
+                                class="text-white">As the Researcher</strong>, cross-reference my recent entries with
+                            the concepts of limerence and AvPD. Break down the psychological mechanics at play so I can
+                            logically understand my nervous system's response."
                         </p>
                     </div>
 
-                    <div class="bg-[#1a1a1a] rounded-lg p-5 group border-l-4 border-[#9a3412]">
-                        <div class="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-3">Relational Mapping</div>
-                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed">
-                            "I'm second-guessing my memory of what happened with [Person] last night. Pull every entry involving them from the last 6 months and map the sequence of their actions and how my nervous system responded each time."
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#9a3412]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Relational Mapping</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I am doubting my memory of what happened with [Person] last night. <strong
+                                class="text-white">As the Boundary Auditor</strong>, pull every entry involving them from the last 6 months. Map out the exact sequence of their actions and my subsequent nervous system responses."
                         </p>
                     </div>
 
-                    <div class="bg-[#1a1a1a] rounded-lg p-5 group border-l-4 border-[#fb923c]">
-                        <div class="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-3">Perspective Shift</div>
-                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed">
-                            "It feels like I've made zero progress this year. Compare this week's entries to a year ago today. Show me three specific things I've actually changed that I can't see from where I'm standing right now."
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#fb923c]">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Perspective Shift</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I feel like I haven't made any progress at all this year. <strong
+                                class="text-white">As the Historian</strong>, compare my entries from this week to my entries from exactly one year ago. Highlight three specific metrics of growth that I am currently incapable of seeing."
                         </p>
                     </div>
 
-                    <div class="bg-[#1a1a1a] rounded-lg p-5 group border-l-4 border-[#fb923c]/60">
-                        <div class="text-xs font-bold uppercase tracking-widest text-[#78716c] mb-3">Cross-Dialogue</div>
-                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed">
-                            "I just read the weekly synthesis report. Look at the clinical analysis of my fawn response — I need you to acknowledge how exhausting it actually is to live with that day-to-day, based on my recent history."
+                    <div class="bg-[#1a1a1a] rounded-lg p-5 relative group border-l-4 border-[#fb923c]/60">
+                        <div class="absolute top-3 right-4 text-xs font-bold uppercase tracking-widest text-[#78716c]">
+                            Cross-Dialogue</div>
+                        <p class="text-[#fdba74] font-mono text-sm leading-relaxed pr-24">
+                            "I just read the weekly synthesis report. <strong class="text-white">As the
+                                Observer</strong>, I want you to read the Researcher's clinical analysis regarding my
+                            'fawn response'. Validate how exhausting it actually feels to live with that response
+                            day-to-day, given the context of my recent history."
                         </p>
                     </div>
 
@@ -2198,7 +2114,7 @@
 
                 <!-- Report Definitions -->
                 <div class="mt-12 mb-8 border-b pb-6" style="border-color:#efece8;">
-                    <h2 class="text-xl mb-3">Report Definitions</h2>
+                    <h2 class="text-3xl mb-3">Report Definitions</h2>
                     <p class="text-[#57534e] leading-relaxed max-w-3xl">
                         Define these structures in your <code>CLAUDE.md</code> file or as saved Prompts so Claude knows
                         exactly what to output during the automated routines in Task 1 and Task 2.
@@ -2208,121 +2124,73 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     <!-- Weekly Report -->
                     <div class="bg-white p-6 rounded-xl border border-[#ffedd5] shadow-sm flex flex-col">
-                        <h3 class="text-2xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
+                        <h3 class="text-xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
                                 class="sip-icon">
                                 <use href="#sip-icon-eye"></use>
                             </svg> Weekly Report Structure</h3>
                         <p class="text-sm text-[#44403c] mb-4">Generated every Sunday during Task 1. This report is designed to catch micro-adjustments, identify immediate triggers, and provide somatic validation before a new week begins.</p>
-                        <div class="bg-[#1a1a1a] rounded-lg font-mono flex-1 border-l-4 border-[#ffedd5] overflow-hidden flex flex-col">
-                            <div class="flex items-center justify-between px-5 py-2.5 bg-[#111] border-b border-[#2a2a2a]">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#a8a29e]">CLAUDE.md</span>
-                                <button onclick="copyBlock('weekly-claude-md')" class="text-[10px] font-bold uppercase tracking-widest text-[#fdba74] hover:text-[#ffedd5] transition-colors">Copy</button>
+                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#fdba74] font-mono space-y-4 flex-1 border-l-4 border-[#ffedd5] overflow-x-auto">
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 1. The Somatic Review</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Somatic Guide + The Researcher]</span>
+                                <span class="opacity-90 leading-relaxed">Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.</span>
                             </div>
-                            <div class="p-5 text-xs text-[#fdba74] space-y-4 overflow-x-auto flex-1">
-                                <div class="text-[#a8a29e] pb-3 border-b border-[#2a2a2a] space-y-0.5 leading-relaxed">
-                                    <div><span class="text-[#555]">##</span> Weekly Report Structure</div>
-                                    <div><span class="text-[#555]">Trigger:</span> Every Sunday during Task 1.</div>
-                                    <div><span class="text-[#555]">Output:</span> Reports/Weekly_Report-[YYYY-MM-DD].md</div>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 1. The Somatic Review <span class="text-[#a8a29e] font-normal">[The Somatic Guide + The Researcher]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 2. The Relational Audit <span class="text-[#a8a29e] font-normal">[The Boundary Auditor]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 3. The Distortion Check <span class="text-[#a8a29e] font-normal">[The Challenger]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 4. The Grounding <span class="text-[#a8a29e] font-normal">[The Observer]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 5. Core Memory Updates <span class="text-[#a8a29e] font-normal">[Default State]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to Core_Memory.md this week.</span>
-                                </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 2. The Relational Audit</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Boundary Auditor]</span>
+                                <span class="opacity-90 leading-relaxed">Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.</span>
                             </div>
-                            <pre id="weekly-claude-md" style="display:none">## Weekly Report Structure
-Trigger: Every Sunday during Task 1.
-Output: Reports/Weekly_Report-[YYYY-MM-DD].md
-
-### 1. The Somatic Review [The Somatic Guide + The Researcher]
-Map all physical symptoms, sleep disruptions, and nervous system states noted this week. Link these physical states directly to specific environmental or situational triggers from the entries.
-
-### 2. The Relational Audit [The Boundary Auditor]
-Isolate any interpersonal friction. Note who drained energy, where boundaries were tested or crossed, and how the nervous system responded to specific individuals.
-
-### 3. The Distortion Check [The Challenger]
-Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.
-
-### 4. The Grounding [The Observer]
-Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.
-
-### 5. Core Memory Updates [Default State]
-A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to Core_Memory.md this week.</pre>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 3. The Distortion Check</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Challenger]</span>
+                                <span class="opacity-90 leading-relaxed">Identify any recurring negative thought loops or false narratives that appeared multiple times this week. Use the user's own past entries to gently dismantle them.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 4. The Grounding</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Observer]</span>
+                                <span class="opacity-90 leading-relaxed">Provide absolute, non-judgmental acknowledgment of the sheer effort required to survive the week. Validate the exhaustion without trying to fix it.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 5. Core Memory Updates</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Default State]</span>
+                                <span class="opacity-90 leading-relaxed">A brief, clinical log of what new data (baselines, triggers, or dynamics) was appended to `Core_Memory.md` this week.</span>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Monthly Report -->
                     <div class="bg-white p-6 rounded-xl border border-[#ffedd5] shadow-sm flex flex-col">
-                        <h3 class="text-2xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
+                        <h3 class="text-xl text-[#7c2d12] mb-4 flex items-center gap-2"><svg
                                 class="sip-icon">
                                 <use href="#sip-icon-magnifier"></use>
                             </svg> Monthly Report Structure</h3>
                         <p class="text-sm text-[#44403c] mb-4">Generated on the 1st of the month during Task 2. This report ignores daily fluctuations to focus entirely on macro-trends, overarching themes, and long-term trajectory tracking.</p>
-                        <div class="bg-[#1a1a1a] rounded-lg font-mono flex-1 border-l-4 border-[#7c2d12] overflow-hidden flex flex-col">
-                            <div class="flex items-center justify-between px-5 py-2.5 bg-[#111] border-b border-[#2a2a2a]">
-                                <span class="text-[10px] font-bold uppercase tracking-widest text-[#a8a29e]">CLAUDE.md</span>
-                                <button onclick="copyBlock('monthly-claude-md')" class="text-[10px] font-bold uppercase tracking-widest text-[#fdba74] hover:text-[#ffedd5] transition-colors">Copy</button>
+                        <div class="bg-[#1a1a1a] p-5 rounded-lg text-xs text-[#fdba74] font-mono space-y-4 flex-1 border-l-4 border-[#7c2d12] overflow-x-auto">
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 1. The Macro Themes</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Archivist]</span>
+                                <span class="opacity-90 leading-relaxed">Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.</span>
                             </div>
-                            <div class="p-5 text-xs text-[#fdba74] space-y-4 overflow-x-auto flex-1">
-                                <div class="text-[#a8a29e] pb-3 border-b border-[#2a2a2a] space-y-0.5 leading-relaxed">
-                                    <div><span class="text-[#555]">##</span> Monthly Report Structure</div>
-                                    <div><span class="text-[#555]">Trigger:</span> 1st of each month during Task 2.</div>
-                                    <div><span class="text-[#555]">Output:</span> Reports/Monthly_Report-[Month Name]-[YYYY].md</div>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 1. The Macro Themes <span class="text-[#a8a29e] font-normal">[The Archivist]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 2. The Interrogation <span class="text-[#a8a29e] font-normal">[The Devil's Advocate]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 3. The Trajectory <span class="text-[#a8a29e] font-normal">[The Historian]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 4. The Space <span class="text-[#a8a29e] font-normal">[The Grief Keeper]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.</span>
-                                </div>
-                                <div>
-                                    <span class="text-[#ffedd5] font-bold text-[13px]"><span class="text-[#555]">###</span> 5. The Next Step <span class="text-[#a8a29e] font-normal">[The Strategist]</span></span><br>
-                                    <span class="opacity-90 leading-relaxed">Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</span>
-                                </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 2. The Interrogation</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Devil's Advocate]</span>
+                                <span class="opacity-90 leading-relaxed">Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.</span>
                             </div>
-                            <pre id="monthly-claude-md" style="display:none">## Monthly Report Structure
-Trigger: 1st of each month during Task 2.
-Output: Reports/Monthly_Report-[Month Name]-[YYYY].md
-
-### 1. The Macro Themes [The Archivist]
-Identify the dominant psychological states and overarching narratives over the past 30 days. Group similar entries to show the scale of recurring themes.
-
-### 2. The Interrogation [The Devil's Advocate]
-Where is the user avoiding responsibility? Where are they enabling their own toxic loops? Surface the uncomfortable blind spots from the month's data.
-
-### 3. The Trajectory [The Historian]
-Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.
-
-### 4. The Space [The Grief Keeper]
-If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.
-
-### 5. The Next Step [The Strategist]
-Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</pre>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 3. The Trajectory</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Historian]</span>
+                                <span class="opacity-90 leading-relaxed">Compare this month's data directly to the previous month, and to the same month last year (if available). Highlight tangible, undeniable proof of coping mechanisms working.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 4. The Space</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Grief Keeper]</span>
+                                <span class="opacity-90 leading-relaxed">If there is unresolved loss or a necessary ending identified in the month's data, hold space for that grief. Validate that healing requires mourning what was lost.</span>
+                            </div>
+                            <div>
+                                <span class="text-[#ffedd5] font-bold text-[13px]"># 5. The Next Step</span><br>
+                                <span class="text-[#a8a29e] italic mb-1 block">[Invoke The Strategist]</span>
+                                <span class="opacity-90 leading-relaxed">Define exactly ONE gentle, actionable, low-friction psychological goal for the upcoming month. Make it impossible to fail.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -2350,7 +2218,7 @@ Define exactly ONE gentle, actionable, low-friction psychological goal for the u
                 btn.querySelector('.label').className = 'font-mono text-[9px] font-bold text-[#a8a29e] uppercase tracking-wider text-center label';
             });
             const header = document.getElementById('build-tab-header');
-            if (header) header.innerHTML = '<h2 class="text-3xl mb-3">System Architecture</h2><p class="text-[#57534e] leading-relaxed max-w-3xl mb-5">The step-by-step roadmap to configuring your Claude CoWork local environment using your computer (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow each phase to build and automate your personal, digital journal using your own handwritten entries.</p><button onclick="goToStep(1)" class="inline-flex items-center gap-2 bg-[#7c2d12] hover:bg-[#9a3412] text-[#ffedd5] font-mono font-bold text-[0.65rem] tracking-widest uppercase px-5 py-3 rounded-lg transition-colors">Start with Phase 1 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M13 5l7 7-7 7"/></svg></button>';
+            if (header) header.innerHTML = '<h2 class="text-3xl mb-3">System Architecture</h2><p class="text-[#57534e] leading-relaxed max-w-3xl">The step-by-step roadmap to configuring your Claude CoWork local environment using your computer (Windows/Mac), Google Drive, and your mobile device (iOS/Android). Follow the phases to build the digital vault.</p>';
             switchMainTab('tab-build');
         }
 
@@ -2370,35 +2238,6 @@ Define exactly ONE gentle, actionable, low-friction psychological goal for the u
             landing.classList.remove('hidden-view', 'fade-out');
             landing.classList.add('fade-in');
             setTimeout(() => landing.classList.remove('fade-in'), 800);
-        }
-
-        function copyBlock(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            navigator.clipboard.writeText(el.textContent).then(() => {
-                const btn = el.parentElement.querySelector('button');
-                if (!btn) return;
-                const orig = btn.textContent;
-                btn.textContent = 'Copied!';
-                setTimeout(() => btn.textContent = orig, 1800);
-            });
-        }
-
-        function toggleMobileNav() {
-            document.getElementById('mobile-nav-drawer').classList.contains('open')
-                ? closeMobileNav() : openMobileNav();
-        }
-        function openMobileNav() {
-            document.getElementById('mobile-nav-drawer').classList.add('open');
-            document.getElementById('mobile-nav-overlay').classList.add('open');
-            document.getElementById('mobile-nav-toggle').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
-        function closeMobileNav() {
-            document.getElementById('mobile-nav-drawer').classList.remove('open');
-            document.getElementById('mobile-nav-overlay').classList.remove('open');
-            document.getElementById('mobile-nav-toggle').classList.remove('open');
-            document.body.style.overflow = '';
         }
 
         function switchMainTab(tabId) {
@@ -2594,45 +2433,6 @@ Define exactly ONE gentle, actionable, low-friction psychological goal for the u
             html += `</div></div>`;
             container.innerHTML = html;
         }
-        function initPersonaCards() {
-            if (window.innerWidth >= 640) return;
-            document.querySelectorAll('.persona-header').forEach(header => {
-                if (header.dataset.collapseInit) return;
-                header.dataset.collapseInit = '1';
-                const r = parseInt(getComputedStyle(header).backgroundColor.match(/\d+/)[0]);
-                const stroke = r < 128 ? '#ffedd5' : '#7c2d12';
-                const chevron = document.createElement('div');
-                chevron.className = 'persona-chevron';
-                chevron.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${stroke}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
-                header.appendChild(chevron);
-                header.parentElement.classList.add('persona-card');
-                const body = header.nextElementSibling;
-                if (body) body.classList.add('persona-body');
-                header.addEventListener('click', () => header.parentElement.classList.toggle('persona-open'));
-            });
-        }
-        initPersonaCards();
-
-        function initComboCards() {
-            if (window.innerWidth >= 640) return;
-            const grid = document.getElementById('combo-cards-grid');
-            if (!grid) return;
-            grid.querySelectorAll(':scope > div').forEach(card => {
-                if (card.dataset.comboInit) return;
-                card.dataset.comboInit = '1';
-                card.classList.add('combo-card');
-                const h4 = card.querySelector('h4');
-                if (!h4) return;
-                let el = h4.nextElementSibling;
-                while (el) { el.classList.add('combo-body'); el = el.nextElementSibling; }
-                const chevron = document.createElement('div');
-                chevron.className = 'combo-chevron';
-                chevron.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c2d12" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>`;
-                h4.after(chevron);
-                card.addEventListener('click', () => card.classList.toggle('combo-open'));
-            });
-        }
-        initComboCards();
     </script>
 </body>
 

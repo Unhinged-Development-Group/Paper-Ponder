@@ -1,0 +1,1491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper & Ponder • Brand Guidelines</title>
+<link rel="icon" href="assets/monogram.svg" type="image/svg+xml">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- Chosen Palette: Warm Clay (Alabaster, Sand, Charcoal, Deep Clay, Terracotta) -->
+<!-- Application Structure Plan: A dashboard-style SPA dedicated entirely to the Paper & Ponder brand identity. The architecture uses a persistent LEFT side navigation menu to break down the comprehensive brand guidelines into 7 numbered, thematic sections: Who we are, Philosophy & Voice, Logos & Marks, Typography, Colour Palette, Iconography, and UI Components. The Typography section now incorporates interactive specimen exploration, a live dynamic type scale tester, and a mathematical scale progression chart, merging qualitative feel with quantitative design rules. -->
+<!-- Visualization & Content Choices: 
+     - Typography (Voices) -> Goal: Compare -> Interactive Tabbed Specimen Viewer -> Toggles between Script, Sans, and Mono to isolate their distinct rules.
+     - Typography (Dynamic Scale) -> Goal: Inform/Change -> Live Text Input -> Instantly tests copy under strict sizing/line-height constraints.
+     - Typography (Progression) -> Goal: Compare -> Chart.js Line Chart -> Visualizes the exponential curve of the type scale.
+     - Colour Palette -> Goal: Inform -> Interactive Color Swatches & Chart.js Doughnut Chart -> Visualizes strict proportional usage.
+     - UI Components -> Goal: Organize/Inform -> Live Interactive Elements -> Demonstrates hover/focus/toggle states. -->
+
+
+<style>
+:root {
+    --pp-alabaster: #fafaf9;
+    --pp-sand: #ffedd5;
+    --pp-sand-soft: #fff7ed;
+    --pp-charcoal: #1c1917;
+    --pp-deep-clay: #7c2d12;
+    --pp-clay: #9a3412;
+    --pp-terracotta: #fb923c;
+    --pp-stone-50: #fafaf9;
+    --pp-stone-100: #f5f5f4;
+    --pp-stone-200: #e7e5e4;
+    --pp-stone-300: #d6d3d1;
+    --pp-stone-400: #a8a29e;
+    --pp-stone-500: #78716c;
+    --pp-border-soft: #efece8;
+    --pp-border-warm: #fde4c4;
+    
+    --shadow-xs: 0 1px 1px rgba(28, 25, 23, 0.04);
+    --shadow-sm: 0 1px 2px rgba(28, 25, 23, 0.06), 0 1px 1px rgba(28, 25, 23, 0.04);
+    --shadow-md: 0 4px 12px -2px rgba(28, 25, 23, 0.08), 0 2px 4px -2px rgba(28, 25, 23, 0.05);
+    --shadow-lg: 0 16px 40px -12px rgba(28, 25, 23, 0.18), 0 4px 8px -4px rgba(28, 25, 23, 0.06);
+    --shadow-inner: inset 0 1px 2px rgba(28, 25, 23, 0.06);
+    
+    --r-xs: 4px;
+    --r-sm: 8px;
+    --r-md: 12px;
+    --r-lg: 16px;
+    --r-xl: 24px;
+
+    /* Typography Variables */
+    --font-script: 'Dancing Script', cursive;
+    --font-sans: 'Montserrat', sans-serif;
+    --font-mono: 'Space Mono', monospace;
+}
+
+body {
+    background-color: var(--pp-alabaster);
+    color: var(--pp-charcoal);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+.font-script { font-family: var(--font-script); }
+.font-mono { font-family: var(--font-mono); }
+.tracking-wide-mono { letter-spacing: 0.15em; }
+.tracking-widest-mono { letter-spacing: 0.25em; }
+
+.pp-card {
+    background: #ffffff;
+    border: 1px solid var(--pp-border-soft);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.pp-card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.nav-btn {
+    transition: color 300ms ease, background-color 300ms ease, border-color 300ms ease;
+    border-left: 2px solid transparent;
+}
+.nav-btn.active {
+    color: var(--pp-deep-clay);
+    background-color: var(--pp-sand);
+    border-left-color: var(--pp-deep-clay);
+    font-weight: 700;
+}
+
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 40vh;
+    max-height: 400px;
+}
+@media (min-width: 768px) {
+    .chart-container {
+        height: 350px;
+    }
+}
+
+.hidden-view { display: none !important; }
+.fade-in { animation: fadeIn 0.4s ease-out forwards; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom UI Components for Preview */
+.pp-btn-primary {
+    background-color: var(--pp-deep-clay);
+    color: var(--pp-sand-soft);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-radius: var(--r-md);
+    transition: background-color 300ms ease, box-shadow 300ms ease;
+}
+.pp-btn-primary:hover {
+    background-color: var(--pp-clay);
+}
+.pp-btn-primary:active {
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.pp-btn-outline {
+    background-color: transparent;
+    color: var(--pp-deep-clay);
+    border: 1px solid var(--pp-border-warm);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 12px 24px;
+    border-radius: var(--r-md);
+    transition: background-color 300ms ease, color 300ms ease;
+}
+.pp-btn-outline:hover {
+    background-color: var(--pp-sand);
+}
+
+/* Pseudo-Logo CSS Drawing */
+.monogram-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: var(--pp-sand);
+    border: 2px dashed var(--pp-terracotta);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Custom Checkbox CSS */
+.pp-checkbox {
+    width: 20px; height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--pp-stone-300);
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: all 200ms ease;
+}
+.pp-checkbox.checked {
+    background: var(--pp-deep-clay);
+    border-color: var(--pp-deep-clay);
+}
+.pp-checkbox.checked::after {
+    content: '\2713'; /* Unicode checkmark */
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* Toggle Knob Transition */
+.toggle-knob {
+    transition: left 200ms cubic-bezier(0.16,1,0.3,1), background-color 200ms ease;
+}
+
+/* Typography Explorer Classes */
+.type-display { font-family: var(--font-script); font-size: clamp(48px, 8vw, 96px); line-height: 1.0; color: var(--pp-deep-clay); }
+.type-h1 { font-weight: 300; font-size: clamp(28px, 4vw, 48px); line-height: 1.1; letter-spacing: -0.01em; }
+.type-h2 { font-weight: 300; font-size: clamp(24px, 3vw, 32px); line-height: 1.15; }
+.type-h3 { font-weight: 500; font-size: 24px; line-height: 1.25; }
+.type-body { font-weight: 400; font-size: 15px; line-height: 1.65; color: var(--pp-charcoal); }
+.type-small { font-weight: 400; font-size: 13px; line-height: 1.55; color: var(--pp-stone-500); }
+
+.tab-btn {
+    transition: all 200ms ease;
+    border-bottom: 2px solid transparent;
+}
+.tab-btn.active {
+    color: var(--pp-deep-clay);
+    border-bottom-color: var(--pp-deep-clay);
+    font-weight: 600;
+}
+.font-content { display: block; }
+.font-content.hidden { display: none; }
+
+.pp-input:focus {
+    outline: none;
+    border-color: var(--pp-terracotta);
+    box-shadow: 0 0 0 3px rgba(251, 146, 60, 0.15);
+}
+
+/* SVG Reset defaults */
+svg.pp-icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+</style>
+</head>
+<body class="flex flex-col md:flex-row min-h-screen">
+
+<nav class="w-full md:w-64 lg:w-72 bg-white border-b md:border-b-0 md:border-r border-[#efece8] flex flex-col pt-8 pb-6 px-6 shrink-0 z-10 md:sticky md:top-0 md:h-screen overflow-y-auto shadow-sm md:shadow-none">
+    <div class="mb-10 text-center md:text-left cursor-pointer" onclick="switchTab('view-who-we-are')">
+        <h1 class="font-script text-4xl text-[#7c2d12] leading-none mb-2">Paper <span class="text-[#fb923c]">&amp;</span> Ponder</h1>
+        <p class="font-mono text-[10px] tracking-widest-mono text-[#78716c] uppercase">Brand Guidelines 2026</p>
+    </div>
+    
+    <!-- STRICT LEFT VERTICAL NAVIGATION MENU -->
+    <div class="flex flex-col gap-1.5 font-mono text-xs uppercase tracking-wide-mono w-full">
+        <button class="nav-btn active w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-who-we-are">01. Who we are</button>
+        <button class="nav-btn w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-philosophy">02. Philosophy &amp; Voice</button>
+        <button class="nav-btn w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-logos">03. Logos &amp; Marks</button>
+        <button class="nav-btn w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-typography">04. Typography</button>
+        <button class="nav-btn w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-colors">05. Colour Palette</button>
+        <button class="nav-btn w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-icons">06. Iconography</button>
+        <button class="nav-btn w-full text-left px-4 py-3 rounded-r-lg text-[#78716c] hover:bg-[#fff7ed]" data-target="view-components">07. UI Components</button>
+    </div>
+    
+    <div class="mt-auto pt-10 pb-4 text-[10px] font-mono text-[#a8a29e] uppercase tracking-widest-mono text-center md:text-left">
+        Don't mess this up.
+    </div>
+</nav>
+
+<main class="flex-1 w-full max-w-5xl mx-auto p-6 md:p-12 lg:p-16 overflow-x-hidden">
+
+    <!-- 01. WHO WE ARE -->
+    <section id="view-who-we-are" class="view-section fade-in">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">Who we are</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                The core ethos, mission, and foundational identity of Paper &amp; Ponder.
+            </p>
+        </div>
+
+        <div class="pp-card p-8 md:p-12 border-t-4 border-t-[#7c2d12]">
+            <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6">The Core Ethos</h3>
+            <p class="font-sans text-xl md:text-2xl text-[#1c1917] leading-relaxed mb-6 font-medium">
+                Paper &amp; Ponder is analogue journaling, brought into modern times.
+            </p>
+            <div class="space-y-6 text-sm text-[#57534e] leading-relaxed">
+                <p>
+                    The product pairs the somatic act of writing by hand — slowing down, feeling pen on paper — with the analysis and conversation of modern AI. The point is <em>not</em> to digitise journaling. The point is to keep the hand-and-paper part sacred and let the AI sit alongside it, like a careful reader.
+                </p>
+                <p>
+                    This pairing — <strong>tactile + thoughtful, paper + machine, slow + responsive</strong> — is the entire brand. It is what makes the visual world's contrast between flowing handwritten script and machine-precise mono labels not a decorative choice, but a literal product statement.
+                </p>
+                <p>
+                    It walks the line between "wedding boutique" and "premium artisan goods," landing firmly in the latter by leaning earthy, dry, and warm, and explicitly avoiding pink-romantic aesthetics.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 02. PHILOSOPHY & VOICE -->
+    <section id="view-philosophy" class="view-section hidden-view">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">Philosophy &amp; Voice</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                This section establishes the written voice, tone, and lexicon that informs all copywriting decisions across the brand.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="space-y-8">
+                <div class="pp-card p-8">
+                    <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4">The Persona</h3>
+                    <p class="text-sm text-[#57534e] leading-relaxed mb-6">
+                        The voice is the <strong>curator at an independent bookshop</strong> — warm, observant, never breathless. Sentences are short and a little wistful. There is no "AI tone," no exclamation points, no startup-bro hype.
+                    </p>
+                    <ul class="space-y-4 text-sm text-[#57534e]">
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#7c2d12] font-bold mt-1">&#8226;</span>
+                            <span><strong>Point of View:</strong> Mostly second-person about the <em>object</em> ("Bound in charcoal linen"). Describe the artifact, don't sell at the user.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#7c2d12] font-bold mt-1">&#8226;</span>
+                            <span><strong>Pronouns:</strong> When addressing the reader, use "you," never the corporate "we" hand-wringing.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#7c2d12] font-bold mt-1">&#8226;</span>
+                            <span><strong>Emoji:</strong> Never. Not in marketing, not in product copy, not in error states. We use typographic ornaments instead ( | — &amp; · ).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <div class="pp-card p-8">
+                    <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4">The Lexicon</h3>
+                    <div class="space-y-4">
+                        <div class="bg-[#fff7ed] p-5 rounded-xl border border-[#fde4c4]">
+                            <p class="font-mono text-[10px] tracking-widest-mono text-[#7c2d12] mb-3 uppercase font-bold">Use</p>
+                            <p class="text-sm text-[#7c2d12] italic leading-relaxed">Hand-stitched. Archival. Lay-flat. Tactile. Considered. Bound. Stitched. Lined. Heritage. Stocked. Dot-grid.</p>
+                        </div>
+                        <div class="bg-[#fafaf9] p-5 rounded-xl border border-[#e7e5e4]">
+                            <p class="font-mono text-[10px] tracking-widest-mono text-[#78716c] mb-3 uppercase font-bold">Avoid</p>
+                            <p class="text-sm text-[#57534e] line-through decoration-[#78716c]/50 leading-relaxed">Curated. Bespoke. Artisanal. Delight. Unleash. Power up. Minimalist. Aesthetic. Journey.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 03. LOGOS & MARKS -->
+    <section id="view-logos" class="view-section hidden-view">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">Logos &amp; Marks</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                This section showcases the structural lockups of our brand identity. The visual contrast between flowing handwritten script and machine-precise elements is our literal product statement.
+            </p>
+        </div>
+
+        <div class="space-y-10">
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">Primary Wordmark</h3>
+                <div class="pp-card p-16 flex items-center justify-center bg-white">
+                    <img src="assets/logo.svg" alt="Paper &amp; Ponder Wordmark" class="w-full max-w-md h-auto" onerror="this.outerHTML='<span class=\'font-script text-6xl md:text-8xl text-[#7c2d12] tracking-tight\'>Paper <span class=\'text-[#fb923c]\'>&amp;</span> Ponder</span>'">
+                </div>
+                <p class="text-xs text-[#78716c] mt-3 pl-2">Used for headers, hero sections, and primary brand presence. Taglines are strictly omitted; the wordmark stands alone.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div>
+                    <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">The Monogram Seal</h3>
+                    <div class="pp-card p-12 flex items-center justify-center bg-[#fff7ed] h-64">
+                        <img src="assets/monogram.svg" alt="Paper &amp; Ponder Monogram" class="w-44 h-44 drop-shadow-sm" onerror="this.outerHTML='<div class=\'monogram-circle bg-white shadow-sm\'><span class=\'font-serif text-[48px] text-[#7c2d12] leading-none\' style=\'font-family: Georgia, serif;\'>P<span class=\'font-script text-[56px] text-[#fb923c] leading-none relative -left-1\' style=\'transform: rotate(-10deg); display: inline-block;\'>&amp;</span>P</span></div>'">
+                    </div>
+                    <p class="text-xs text-[#78716c] mt-3 pl-2">Used for avatars, packaging spots, and favicons. Represents the stitching of the physical journal.</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">Color Inversion (Dark)</h3>
+                    <div class="pp-card p-12 flex items-center justify-center bg-[#1c1917] h-64">
+                        <img src="assets/Logo - White Text.png" alt="Paper &amp; Ponder Wordmark Dark" class="w-full max-w-md h-auto opacity-90 hover:opacity-100 transition-opacity" onerror="this.outerHTML='<span class=\'font-script text-5xl md:text-6xl text-[#ffedd5] tracking-tight\'>Paper <span class=\'text-[#fb923c]\'>&amp;</span> Ponder</span>'">
+                    </div>
+                    <p class="text-xs text-[#78716c] mt-3 pl-2">Used when placed on Charcoal or dark photographic backgrounds. Dedicated white-text asset with the live accent preserved.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 04. TYPOGRAPHY -->
+    <section id="view-typography" class="view-section hidden-view">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">Typography</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                Three families, three different jobs — they do not overlap. This section outlines the strict typographic hierarchy and its mathematical progression.
+            </p>
+        </div>
+
+        <div class="space-y-16">
+            
+            <!-- 1. The Voices (Interactive Specimen) -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">1. The Three Voices</h3>
+                <p class="text-sm text-[#57534e] leading-relaxed max-w-3xl mb-6 pl-2">
+                    The visual signature is the strict contrast between flowing handwritten script and machine-precise mono labels. Select a family below to explore its specific rules, roles, and allowed weights.
+                </p>
+
+                <div class="pp-card overflow-hidden">
+                    <!-- Tab Controls -->
+                    <div class="flex border-b border-[#efece8] bg-[#fafaf9] px-2 md:px-6 overflow-x-auto">
+                        <button class="tab-btn active font-mono text-[11px] uppercase tracking-wide-mono px-6 py-4 text-[#78716c] whitespace-nowrap" onclick="switchFontTab('script', this)">
+                            <span class="text-[#fb923c] mr-2">&#x270E;</span> The Human Hand
+                        </button>
+                        <button class="tab-btn font-mono text-[11px] uppercase tracking-wide-mono px-6 py-4 text-[#78716c] whitespace-nowrap" onclick="switchFontTab('sans', this)">
+                            <span class="text-[#a8a29e] mr-2">&#x25A2;</span> The Structure
+                        </button>
+                        <button class="tab-btn font-mono text-[11px] uppercase tracking-wide-mono px-6 py-4 text-[#78716c] whitespace-nowrap" onclick="switchFontTab('mono', this)">
+                            <span class="text-[#a8a29e] mr-2">&#x2261;</span> The Machine AI
+                        </button>
+                    </div>
+
+                    <!-- Tab Content: Script -->
+                    <div id="tab-script" class="p-8 md:p-12 font-content fade-in">
+                        <div class="flex flex-col lg:flex-row gap-12">
+                            <div class="lg:w-1/2">
+                                <h3 class="font-script text-6xl text-[#7c2d12] leading-none mb-6">Paper <span class="text-[#fb923c]">&amp;</span> Ponder</h3>
+                                <p class="font-script text-2xl text-[#d6d3d1] leading-relaxed break-all">
+                                    Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz · 1 2 3 4 5 6 7 8 9 0 &amp;
+                                </p>
+                            </div>
+                            <div class="lg:w-1/2 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-[#efece8] pt-8 lg:pt-0 lg:pl-12">
+                                <div class="mb-6">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase">Font Family</p>
+                                    <p class="text-xl font-medium text-[#1c1917]">Dancing Script</p>
+                                </div>
+                                <div class="mb-6">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase">Primary Role</p>
+                                    <p class="text-sm text-[#57534e] leading-relaxed">Used for the wordmark and massive hero moments only. It represents the unfiltered, raw human input of the physical journal.</p>
+                                </div>
+                                <div class="bg-[#fff7ed] border border-[#fde4c4] p-4 rounded-xl">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#7c2d12] mb-1 uppercase font-bold">Strict Rule</p>
+                                    <p class="text-xs text-[#7c2d12]">Wordmark only. Never use for body copy, paragraphs, or UI chrome. One generous use per screen maximum.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Sans -->
+                    <div id="tab-sans" class="p-8 md:p-12 font-content hidden">
+                        <div class="flex flex-col lg:flex-row gap-12">
+                            <div class="lg:w-1/2">
+                                <h3 class="font-sans text-4xl font-light text-[#1c1917] tracking-[-0.01em] leading-tight mb-4">Bound for considered thought.</h3>
+                                <p class="font-sans text-sm text-[#78716c] leading-[1.65] mb-8">
+                                    Montserrat is the structural workhorse. Highly legible, geometric, and modern. It balances the flourishes of the wordmark with grounding stability.
+                                </p>
+                                <div class="grid grid-cols-2 gap-6">
+                                    <div><p class="text-lg font-light text-[#1c1917]">Light 300</p><span class="font-mono text-[9px] uppercase tracking-wide-mono text-[#a8a29e] mt-1 block">Headings</span></div>
+                                    <div><p class="text-lg font-normal text-[#1c1917]">Regular 400</p><span class="font-mono text-[9px] uppercase tracking-wide-mono text-[#a8a29e] mt-1 block">Body Text</span></div>
+                                    <div><p class="text-lg font-medium text-[#1c1917]">Medium 500</p><span class="font-mono text-[9px] uppercase tracking-wide-mono text-[#a8a29e] mt-1 block">Emphasis / UI</span></div>
+                                    <div><p class="text-lg font-semibold text-[#1c1917]">Semi 600</p><span class="font-mono text-[9px] uppercase tracking-wide-mono text-[#a8a29e] mt-1 block">Rare Cases</span></div>
+                                </div>
+                            </div>
+                            <div class="lg:w-1/2 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-[#efece8] pt-8 lg:pt-0 lg:pl-12">
+                                <div class="mb-6">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase">Font Family</p>
+                                    <p class="text-xl font-medium text-[#1c1917]">Montserrat</p>
+                                </div>
+                                <div class="mb-6">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase">Primary Role</p>
+                                    <p class="text-sm text-[#57534e] leading-relaxed">The architecture of the page. Holds the user's attention without distracting them.</p>
+                                </div>
+                                <div class="bg-[#fafaf9] border border-[#e7e5e4] p-4 rounded-xl">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase font-bold">Strict Rule</p>
+                                    <p class="text-xs text-[#57534e]">Avoid weights &ge; 700. Thick, aggressive sans-serif typography destroys the delicate balance of the brand aesthetic.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Mono -->
+                    <div id="tab-mono" class="p-8 md:p-12 font-content hidden">
+                        <div class="flex flex-col lg:flex-row gap-12">
+                            <div class="lg:w-1/2">
+                                <div class="flex flex-wrap gap-3 mb-8">
+                                    <span class="bg-[#ffedd5] text-[#7c2d12] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-4 py-2 rounded-full">New Arrival</span>
+                                    <span class="bg-[#f5f5f4] text-[#78716c] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-4 py-2 rounded-full">Sold Out</span>
+                                    <span class="bg-white border border-[#e7e5e4] text-[#44403c] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-4 py-2 rounded-full">No. 04 | A5</span>
+                                </div>
+                                <h3 class="font-mono text-2xl md:text-3xl font-bold text-[#1c1917] tracking-[0.12em] uppercase mb-4 leading-tight">NO. 04 | A5 SIZE</h3>
+                                <p class="font-mono text-[11px] text-[#78716c] tracking-[0.2em] uppercase">Handbound in the UK &middot; Archival Quality</p>
+                            </div>
+                            <div class="lg:w-1/2 flex flex-col justify-center border-t lg:border-t-0 lg:border-l border-[#efece8] pt-8 lg:pt-0 lg:pl-12">
+                                <div class="mb-6">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase">Font Family</p>
+                                    <p class="text-xl font-medium text-[#1c1917]">Space Mono</p>
+                                </div>
+                                <div class="mb-6">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#78716c] mb-1 uppercase">Primary Role</p>
+                                    <p class="text-sm text-[#57534e] leading-relaxed">The voice of the AI and the system. Used for taxonomy, categorization, metadata, buttons, and precise metrics.</p>
+                                </div>
+                                <div class="bg-[#fafaf9] border border-[#1c1917] p-4 rounded-xl">
+                                    <p class="font-mono text-[10px] tracking-wide-mono text-[#1c1917] mb-1 uppercase font-bold">Strict Rule</p>
+                                    <p class="text-xs text-[#1c1917]">Must always be UPPERCASE. Must always have generous tracking applied (0.15em to 0.3em). Never use sentence case.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Dynamic Type Scale -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">2. Dynamic Type Scale</h3>
+                <p class="text-sm text-[#57534e] leading-relaxed max-w-3xl mb-6 pl-2">
+                    Experience the precise typographic hierarchy. Type into the input field below to see your text instantly applied across the canonical sizing rules. Observe how line-heights compress as font sizes increase to maintain optical balance.
+                </p>
+
+                <div class="pp-card p-6 md:p-10 mb-8">
+                    <div class="mb-8">
+                        <label class="font-mono text-[10px] tracking-wide-mono text-[#78716c] uppercase font-bold block mb-3">Live Test String</label>
+                        <input type="text" id="typeTester" value="Considered thought." class="pp-input w-full bg-[#fafaf9] border border-[#e7e5e4] rounded-xl px-4 py-4 font-sans text-base text-[#1c1917]" placeholder="Type something here...">
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Display -->
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_120px] gap-4 md:gap-8 items-baseline py-4 border-b border-[#efece8]">
+                            <div class="font-mono text-[9px] uppercase tracking-wide-mono text-[#78716c] font-bold">Display</div>
+                            <div class="type-display truncate-text" data-bound="true">Considered thought.</div>
+                            <div class="font-mono text-[9px] text-[#a8a29e] md:text-right">96px / 1.0</div>
+                        </div>
+                        <!-- H1 -->
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_120px] gap-4 md:gap-8 items-baseline py-4 border-b border-[#efece8]">
+                            <div class="font-mono text-[9px] uppercase tracking-wide-mono text-[#78716c] font-bold">H1</div>
+                            <div class="type-h1 truncate-text" data-bound="true">Considered thought.</div>
+                            <div class="font-mono text-[9px] text-[#a8a29e] md:text-right">48px / 1.1 / W300</div>
+                        </div>
+                        <!-- H2 -->
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_120px] gap-4 md:gap-8 items-baseline py-4 border-b border-[#efece8]">
+                            <div class="font-mono text-[9px] uppercase tracking-wide-mono text-[#78716c] font-bold">H2</div>
+                            <div class="type-h2 truncate-text" data-bound="true">Considered thought.</div>
+                            <div class="font-mono text-[9px] text-[#a8a29e] md:text-right">32px / 1.15 / W300</div>
+                        </div>
+                        <!-- H3 -->
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_120px] gap-4 md:gap-8 items-baseline py-4 border-b border-[#efece8]">
+                            <div class="font-mono text-[9px] uppercase tracking-wide-mono text-[#78716c] font-bold">H3</div>
+                            <div class="type-h3 truncate-text" data-bound="true">Considered thought.</div>
+                            <div class="font-mono text-[9px] text-[#a8a29e] md:text-right">24px / 1.25 / W500</div>
+                        </div>
+                        <!-- Body -->
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_120px] gap-4 md:gap-8 items-baseline py-4 border-b border-[#efece8]">
+                            <div class="font-mono text-[9px] uppercase tracking-wide-mono text-[#78716c] font-bold">Body</div>
+                            <div class="type-body truncate-text" data-bound="true">Considered thought.</div>
+                            <div class="font-mono text-[9px] text-[#a8a29e] md:text-right">15px / 1.65 / W400</div>
+                        </div>
+                        <!-- Small -->
+                        <div class="grid grid-cols-1 md:grid-cols-[100px_1fr_120px] gap-4 md:gap-8 items-baseline py-4">
+                            <div class="font-mono text-[9px] uppercase tracking-wide-mono text-[#78716c] font-bold">Small</div>
+                            <div class="type-small truncate-text" data-bound="true">Considered thought.</div>
+                            <div class="font-mono text-[9px] text-[#a8a29e] md:text-right">13px / 1.55 / W400</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Scale Progression -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">3. Scale Progression</h3>
+                <p class="text-sm text-[#57534e] leading-relaxed max-w-3xl mb-6 pl-2">
+                    Visualizing the mathematical progression of the typography system. The scale relies on a shallow curve for reading text (Small through H2) and a steep exponential jump for the Display script, enforcing the brand's emphasis on singular, dramatic focal points.
+                </p>
+
+                <div class="pp-card p-6 md:p-10 flex flex-col items-center">
+                    <div class="w-full mb-6 flex justify-between items-end">
+                        <div>
+                            <h3 class="font-mono text-[10px] uppercase tracking-wide-mono text-[#1c1917] font-bold">Font Size Curve</h3>
+                            <p class="text-xs text-[#78716c] mt-1">Measured in pixels (Desktop Viewport)</p>
+                        </div>
+                        <div class="font-mono text-[9px] text-[#fb923c] uppercase tracking-wide-mono px-3 py-1 bg-[#fff7ed] rounded border border-[#fde4c4]">
+                            Exponential Jump
+                        </div>
+                    </div>
+
+                    <!-- Strict Chart Container implementation -->
+                    <div class="chart-container" style="max-width: 800px;">
+                        <canvas id="typeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 05. COLOUR PALETTE -->
+    <section id="view-colors" class="view-section hidden-view">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">The "Warm Clay" Palette</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                Our palette is warm, dry, and considered. It should feel like it was photographed on a cloudy afternoon in a stone-walled studio. <b>No cool gray, ever.</b> This section details the tokens and their strict proportional usage.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- Swatches -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6 pl-2">Hero Tokens (Click to Copy)</h3>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="pp-card overflow-hidden cursor-pointer color-swatch" data-hex="#fafaf9">
+                        <div class="h-16 w-full" style="background-color: #fafaf9; border-bottom: 1px solid #efece8;"></div>
+                        <div class="p-3">
+                            <p class="font-sans text-sm font-medium text-[#1c1917]">Alabaster</p>
+                            <p class="font-mono text-[10px] text-[#78716c] mt-1">#FAFAF9</p>
+                        </div>
+                    </div>
+                    <div class="pp-card overflow-hidden cursor-pointer color-swatch" data-hex="#ffedd5">
+                        <div class="h-16 w-full" style="background-color: #ffedd5;"></div>
+                        <div class="p-3">
+                            <p class="font-sans text-sm font-medium text-[#1c1917]">Sand</p>
+                            <p class="font-mono text-[10px] text-[#78716c] mt-1">#FFEDD5</p>
+                        </div>
+                    </div>
+                    <div class="pp-card overflow-hidden cursor-pointer color-swatch" data-hex="#1c1917">
+                        <div class="h-16 w-full" style="background-color: #1c1917;"></div>
+                        <div class="p-3">
+                            <p class="font-sans text-sm font-medium text-[#1c1917]">Charcoal</p>
+                            <p class="font-mono text-[10px] text-[#78716c] mt-1">#1C1917</p>
+                        </div>
+                    </div>
+                    <div class="pp-card overflow-hidden cursor-pointer color-swatch" data-hex="#7c2d12">
+                        <div class="h-16 w-full" style="background-color: #7c2d12;"></div>
+                        <div class="p-3">
+                            <p class="font-sans text-sm font-medium text-[#1c1917]">Deep Clay</p>
+                            <p class="font-mono text-[10px] text-[#78716c] mt-1">#7C2D12</p>
+                        </div>
+                    </div>
+                    <div class="pp-card overflow-hidden cursor-pointer color-swatch col-span-2 border-[#fde4c4]" data-hex="#fb923c">
+                        <div class="h-12 w-full" style="background-color: #fb923c;"></div>
+                        <div class="p-3 flex justify-between items-center bg-[#fff7ed]">
+                            <div>
+                                <p class="font-sans text-sm font-medium text-[#7c2d12]">Terracotta</p>
+                                <p class="font-sans text-[10px] text-[#9a3412] mt-1">The Live Accent</p>
+                            </div>
+                            <p class="font-mono text-[10px] text-[#7c2d12]">#FB923C</p>
+                        </div>
+                    </div>
+                </div>
+                <p id="copy-toast-colors" class="text-[10px] font-mono text-[#7c2d12] mt-4 opacity-0 transition-opacity uppercase tracking-widest-mono h-4 text-center">Hex Copied</p>
+            </div>
+
+            <!-- Proportions Chart -->
+            <div class="pp-card p-6 flex flex-col h-full">
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-2 text-center">Strict Proportional Usage</h3>
+                <p class="text-[11px] text-[#a8a29e] text-center mb-6">Backgrounds dominate. Type grounds. Clay punches.</p>
+                <div class="chart-container flex-1">
+                    <canvas id="colorProportionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Expanded Ramps and Dark Context -->
+        <div class="space-y-10 mt-10">
+            
+            <!-- Stone Neutrals -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">Stone &middot; Warm Neutrals</h3>
+                <div class="pp-card p-6 md:p-8">
+                    <div class="grid grid-cols-5 md:grid-cols-10 gap-3 md:gap-4">
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#fafaf9" data-hex="#fafaf9"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">50</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#f5f5f4" data-hex="#f5f5f4"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">100</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#e7e5e4" data-hex="#e7e5e4"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">200</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#d6d3d1" data-hex="#d6d3d1"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">300</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#a8a29e" data-hex="#a8a29e"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">400</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#78716c" data-hex="#78716c"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">500</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#57534e" data-hex="#57534e"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">600</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#44403c" data-hex="#44403c"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">700</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#292524" data-hex="#292524"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">800</span></div>
+                        <div class="flex flex-col"><div class="h-16 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#1c1917" data-hex="#1c1917"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">900</span></div>
+                    </div>
+                    <p class="text-xs text-[#57534e] mt-6 leading-relaxed">Warm-neutral only — never cool gray. Used for borders, dividers, body type. <strong class="text-[#1c1917] font-medium">Stone-200 (#e7e5e4)</strong> is the canonical 1px card border.</p>
+                </div>
+            </div>
+
+            <!-- Orange / Clay Ramp -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">Clay Ramp &middot; Orange</h3>
+                <div class="pp-card p-6 md:p-8">
+                    <div class="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-3 md:gap-2">
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#fff7ed" data-hex="#fff7ed"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">50</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#ffedd5" data-hex="#ffedd5"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">100</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#fed7aa" data-hex="#fed7aa"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">200</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#fdba74" data-hex="#fdba74"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">300</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#fb923c" data-hex="#fb923c"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">400</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#f97316" data-hex="#f97316"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">500</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#ea580c" data-hex="#ea580c"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">600</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#c2410c" data-hex="#c2410c"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">700</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#9a3412" data-hex="#9a3412"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">800</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#7c2d12" data-hex="#7c2d12"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">900</span></div>
+                        <div class="flex flex-col"><div class="h-20 rounded-lg border border-[#efece8] cursor-pointer color-swatch" style="background:#431407" data-hex="#431407"></div><span class="font-mono text-[9px] text-[#a8a29e] mt-2 text-center">950</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Midnight Context -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">Midnight Context (Dark Mode)</h3>
+                <div class="pp-card relative overflow-hidden bg-[#1c1917] p-8 md:p-12 min-h-[260px] border-none shadow-md">
+                    <!-- The single allowed gradient -->
+                    <div class="absolute -top-10 -right-10 w-52 h-52 bg-[#7c2d12] rounded-full opacity-35 blur-[40px]"></div>
+                    
+                    <div class="relative z-10">
+                        <p class="font-mono text-[10px] uppercase tracking-widest-mono text-[#fb923c] font-bold mb-4">Midnight Context</p>
+                        <h4 class="font-sans text-2xl md:text-3xl text-[#ffedd5] font-light mb-4">Swap Alabaster &rarr; Charcoal.</h4>
+                        <p class="text-[13px] md:text-sm text-[#ffedd5]/70 leading-relaxed max-w-lg mb-6">
+                            Use Sand for body type to ease eye strain. Emphasis comes from Terracotta. A single soft radial glow of Deep Clay is the only "gradient" allowed in the system.
+                        </p>
+                        <button class="border border-[#fb923c] text-[#fb923c] font-mono text-[10px] uppercase tracking-widest-mono font-bold px-5 py-2.5 rounded-lg hover:bg-[#fb923c] hover:text-[#1c1917] transition-colors">
+                            Night Mode
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 06. ICONOGRAPHY -->
+    <section id="view-icons" class="view-section hidden-view">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">Iconography</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                This section explains the strict rules for UI icons within the brand. Icons must feel editorial, restrained, and precise. 
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="space-y-6">
+                <div class="pp-card p-8">
+                    <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4">The Rules</h3>
+                    <ul class="space-y-4 text-sm text-[#57534e]">
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#fb923c] font-bold">&#x2713;</span>
+                            <span><b>Style:</b> Stroke-based only. 2px stroke weight. Rounded line caps and joins.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#fb923c] font-bold">&#x2713;</span>
+                            <span><b>Color:</b> <code class="bg-[#f5f5f4] px-1 rounded text-[#7c2d12] font-mono text-xs">currentColor</code>. Icons must inherit the text color surrounding them.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#fb923c] font-bold">&#x2713;</span>
+                            <span><b>Sizing:</b> 14px or 16px when inline with text. 20px or 24px when standalone.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-[#7c2d12] font-bold">&#x2715;</span>
+                            <span><b>Never use:</b> Filled variants, Font Awesome, Material Icons, Emoji, or Web 2.0 retro icons (floppy disks, hamburger lines).</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-4 pl-2">Brand Icons</h3>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="pp-card p-6 flex flex-col items-center justify-center text-[#57534e] hover:text-[#7c2d12] transition-colors cursor-default">
+                        <div class="mb-4">
+                            <svg class="pp-icon" viewBox="0 0 24 24">
+                                <path d="M12 20h9"/>
+                                <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono text-[9px] tracking-wide-mono uppercase">Write</span>
+                    </div>
+                    <div class="pp-card p-6 flex flex-col items-center justify-center text-[#57534e] hover:text-[#7c2d12] transition-colors cursor-default">
+                        <div class="mb-4">
+                            <svg class="pp-icon" viewBox="0 0 24 24">
+                                <path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono text-[9px] tracking-wide-mono uppercase">Folder</span>
+                    </div>
+                    <div class="pp-card p-6 flex flex-col items-center justify-center text-[#57534e] hover:text-[#7c2d12] transition-colors cursor-default">
+                        <div class="mb-4">
+                            <svg class="pp-icon" viewBox="0 0 24 24">
+                                <path d="M17 8h1a4 4 0 1 1 0 8h-1"/>
+                                <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/>
+                                <line x1="6" y1="2" x2="6" y2="4"/>
+                                <line x1="10" y1="2" x2="10" y2="4"/>
+                                <line x1="14" y1="2" x2="14" y2="4"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono text-[9px] tracking-wide-mono uppercase">Ritual</span>
+                    </div>
+                    <div class="pp-card p-6 flex flex-col items-center justify-center text-[#57534e] hover:text-[#7c2d12] transition-colors cursor-default">
+                        <div class="mb-4">
+                            <svg class="pp-icon" viewBox="0 0 24 24">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono text-[9px] tracking-wide-mono uppercase">Observe</span>
+                    </div>
+                    <div class="pp-card p-6 flex flex-col items-center justify-center text-[#57534e] hover:text-[#7c2d12] transition-colors cursor-default">
+                        <div class="mb-4">
+                            <svg class="pp-icon" viewBox="0 0 24 24">
+                                <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono text-[9px] tracking-wide-mono uppercase">Build</span>
+                    </div>
+                    <div class="pp-card p-6 flex flex-col items-center justify-center text-[#57534e] hover:text-[#7c2d12] transition-colors cursor-default">
+                        <div class="mb-4">
+                            <svg class="pp-icon" viewBox="0 0 24 24">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <span class="font-mono text-[9px] tracking-wide-mono uppercase">Personas</span>
+                    </div>
+                </div>
+                <a href="file:///G:/My%20Drive/Paper%20&%20Ponder/Icon%20Library.html" target="_blank" class="font-mono text-[11px] uppercase tracking-wide-mono text-[#78716c] hover:text-[#7c2d12] transition-colors flex items-center gap-2 mt-6 pl-2">
+                    View Full Library <span class="text-lg leading-none">&#x2192;</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 07. UI COMPONENTS -->
+    <section id="view-components" class="view-section hidden-view">
+        <div class="mb-10 border-b border-[#efece8] pb-6">
+            <h2 class="font-script text-5xl text-[#7c2d12] mb-3">UI Components &amp; Foundations</h2>
+            <p class="text-[#57534e] text-sm leading-relaxed max-w-2xl">
+                This section demonstrates the structural building blocks. Notice the soft shadows, warm borders, specific corner radii, and interactive states. Interact with the components below.
+            </p>
+        </div>
+
+        <div class="space-y-12">
+            
+            <!-- Category 1: Foundations (Spacing, Radii, Shadows) -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6 pl-2">1. Foundations</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Radii -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Corner Radii Scale</p>
+                        <div class="grid grid-cols-6 gap-3">
+                            <div class="flex flex-col items-center"><div class="w-full aspect-square bg-[#fff7ed] border border-[#fed7aa] rounded-[4px]"></div><span class="font-mono text-[9px] text-[#a8a29e] font-bold mt-2 uppercase">xs</span><span class="font-mono text-[10px] text-[#1c1917]">4</span></div>
+                            <div class="flex flex-col items-center"><div class="w-full aspect-square bg-[#fff7ed] border border-[#fed7aa] rounded-[8px]"></div><span class="font-mono text-[9px] text-[#a8a29e] font-bold mt-2 uppercase">sm</span><span class="font-mono text-[10px] text-[#1c1917]">8</span></div>
+                            <div class="flex flex-col items-center"><div class="w-full aspect-square bg-[#fff7ed] border border-[#fed7aa] rounded-[12px]"></div><span class="font-mono text-[9px] text-[#a8a29e] font-bold mt-2 uppercase">md</span><span class="font-mono text-[10px] text-[#1c1917]">12</span></div>
+                            <div class="flex flex-col items-center"><div class="w-full aspect-square bg-[#fff7ed] border border-[#fed7aa] rounded-[16px]"></div><span class="font-mono text-[9px] text-[#a8a29e] font-bold mt-2 uppercase">lg</span><span class="font-mono text-[10px] text-[#1c1917]">16</span></div>
+                            <div class="flex flex-col items-center"><div class="w-full aspect-square bg-[#fff7ed] border border-[#fed7aa] rounded-[24px]"></div><span class="font-mono text-[9px] text-[#a8a29e] font-bold mt-2 uppercase">xl</span><span class="font-mono text-[10px] text-[#1c1917]">24</span></div>
+                            <div class="flex flex-col items-center"><div class="w-full aspect-square bg-[#fff7ed] border border-[#fed7aa] rounded-full"></div><span class="font-mono text-[9px] text-[#a8a29e] font-bold mt-2 uppercase">pill</span><span class="font-mono text-[10px] text-[#1c1917]">&infin;</span></div>
+                        </div>
+                        <p class="text-xs text-[#57534e] mt-6">Cards use 16px/24px. Buttons use 12px. Pills are fully rounded.</p>
+                    </div>
+
+                    <!-- Spacing Scale -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Spacing (4px Base)</p>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-[60px_1fr_40px] items-center gap-4"><span class="font-mono text-[9px] font-bold text-[#78716c] uppercase tracking-wider">space-1</span><div class="bg-[#fb923c] h-3 rounded-sm" style="width: 4px;"></div><span class="font-mono text-[9px] text-[#78716c] text-right">4px</span></div>
+                            <div class="grid grid-cols-[60px_1fr_40px] items-center gap-4"><span class="font-mono text-[9px] font-bold text-[#78716c] uppercase tracking-wider">space-2</span><div class="bg-[#fb923c] h-3 rounded-sm" style="width: 8px;"></div><span class="font-mono text-[9px] text-[#78716c] text-right">8px</span></div>
+                            <div class="grid grid-cols-[60px_1fr_40px] items-center gap-4"><span class="font-mono text-[9px] font-bold text-[#78716c] uppercase tracking-wider">space-3</span><div class="bg-[#fb923c] h-3 rounded-sm" style="width: 12px;"></div><span class="font-mono text-[9px] text-[#78716c] text-right">12px</span></div>
+                            <div class="grid grid-cols-[60px_1fr_40px] items-center gap-4"><span class="font-mono text-[9px] font-bold text-[#78716c] uppercase tracking-wider">space-4</span><div class="bg-[#fb923c] h-3 rounded-sm" style="width: 16px;"></div><span class="font-mono text-[9px] text-[#78716c] text-right">16px</span></div>
+                            <div class="grid grid-cols-[60px_1fr_40px] items-center gap-4"><span class="font-mono text-[9px] font-bold text-[#78716c] uppercase tracking-wider">space-6</span><div class="bg-[#fb923c] h-3 rounded-sm" style="width: 24px;"></div><span class="font-mono text-[9px] text-[#78716c] text-right">24px</span></div>
+                            <div class="grid grid-cols-[60px_1fr_40px] items-center gap-4"><span class="font-mono text-[9px] font-bold text-[#78716c] uppercase tracking-wider">space-8</span><div class="bg-[#fb923c] h-3 rounded-sm" style="width: 32px;"></div><span class="font-mono text-[9px] text-[#78716c] text-right">32px</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shadows -->
+                <div class="mt-8 pp-card p-6 md:p-8 bg-[#f5f5f4] border-none">
+                    <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Elevation &amp; Shadows (Soft, Warm-Tinted)</p>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div class="bg-white rounded-[14px] border border-[#efece8] aspect-square flex flex-col justify-end p-4" style="box-shadow: var(--shadow-xs);">
+                            <span class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold">xs</span>
+                            <span class="text-[11px] text-[#1c1917] font-medium mt-1">Subtle lift</span>
+                        </div>
+                        <div class="bg-white rounded-[14px] border border-[#efece8] aspect-square flex flex-col justify-end p-4" style="box-shadow: var(--shadow-sm);">
+                            <span class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold">sm</span>
+                            <span class="text-[11px] text-[#1c1917] font-medium mt-1">Card rest</span>
+                        </div>
+                        <div class="bg-white rounded-[14px] border border-[#efece8] aspect-square flex flex-col justify-end p-4" style="box-shadow: var(--shadow-md);">
+                            <span class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold">md</span>
+                            <span class="text-[11px] text-[#1c1917] font-medium mt-1">Card hover</span>
+                        </div>
+                        <div class="bg-white rounded-[14px] border border-[#efece8] aspect-square flex flex-col justify-end p-4" style="box-shadow: var(--shadow-lg);">
+                            <span class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold">lg</span>
+                            <span class="text-[11px] text-[#1c1917] font-medium mt-1">Floating</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 2: Actions & Indicators -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6 pl-2">2. Actions &amp; Indicators</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Buttons -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Button Hierarchy</p>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <p class="font-mono text-[9px] text-[#78716c] uppercase tracking-widest-mono mb-3">Primary &middot; Rest / Hover</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <button class="bg-[#7c2d12] text-[#fff7ed] font-mono font-bold uppercase tracking-[0.2em] text-[11px] px-[22px] py-[12px] rounded-[10px] shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)]">Add to Cart</button>
+                                    <button class="bg-[#9a3412] text-[#fff7ed] font-mono font-bold uppercase tracking-[0.2em] text-[11px] px-[22px] py-[12px] rounded-[10px] shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)] cursor-default">Add to Cart</button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <p class="font-mono text-[9px] text-[#78716c] uppercase tracking-widest-mono mb-3">Outline &middot; Rest / Hover</p>
+                                <div class="flex flex-wrap gap-4">
+                                    <button class="bg-transparent border border-[#7c2d12] text-[#7c2d12] font-mono font-bold uppercase tracking-[0.2em] text-[11px] px-[22px] py-[12px] rounded-[10px]">Read the Story</button>
+                                    <button class="bg-[#7c2d12] border border-[#7c2d12] text-[#fff7ed] font-mono font-bold uppercase tracking-[0.2em] text-[11px] px-[22px] py-[12px] rounded-[10px] cursor-default">Read the Story</button>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <p class="font-mono text-[9px] text-[#78716c] uppercase tracking-widest-mono mb-3">Tertiary Link &middot; Rest / Hover</p>
+                                <div class="flex flex-wrap gap-6 items-center">
+                                    <button class="bg-transparent text-[#78716c] font-mono font-bold uppercase tracking-[0.2em] text-[11px] py-[10px] flex items-center gap-2">Tertiary Link <span class="text-base font-light leading-none">&#x2192;</span></button>
+                                    <button class="bg-transparent text-[#7c2d12] font-mono font-bold uppercase tracking-[0.2em] text-[11px] py-[10px] flex items-center gap-2 cursor-default">Tertiary Link <span class="text-base font-light leading-none translate-x-1 transition-transform">&#x2192;</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Status Badges &amp; Labels</p>
+                        
+                        <div class="space-y-8">
+                            <div>
+                                <p class="font-mono text-[9px] text-[#78716c] uppercase tracking-widest-mono mb-3">Status Badges</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="bg-[#ffedd5] text-[#7c2d12] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">New Arrival</span>
+                                    <span class="bg-[#f5f5f4] text-[#78716c] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">Sold Out</span>
+                                    <span class="bg-[#ffffff] text-[#44403c] border border-[#e7e5e4] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">Limited Ed.</span>
+                                    <span class="bg-[#fb923c] text-[#1c1917] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">Restocked</span>
+                                    <span class="bg-[#1c1917] text-[#fb923c] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">No. 04</span>
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <p class="font-mono text-[9px] text-[#78716c] uppercase tracking-widest-mono mb-3">Edition / Spec Labels</p>
+                                <div class="flex flex-wrap gap-3">
+                                    <span class="bg-[#ffffff] text-[#44403c] border border-[#e7e5e4] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">A5 Size</span>
+                                    <span class="bg-[#ffffff] text-[#44403c] border border-[#e7e5e4] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">120 gsm</span>
+                                    <span class="bg-[#ffffff] text-[#44403c] border border-[#e7e5e4] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">Lay-Flat</span>
+                                    <span class="bg-[#ffffff] text-[#44403c] border border-[#e7e5e4] font-mono font-bold text-[10px] tracking-[0.25em] uppercase px-[14px] py-[7px] rounded-full shadow-[0_1px_1px_rgba(28,25,23,0.04)]">Dot Grid</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 3: Forms & Controls -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6 pl-2">3. Forms &amp; Controls</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Text Inputs -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Text Inputs</p>
+                        
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#78716c] font-bold mb-2">Email Address</label>
+                                <input type="text" placeholder="you@example.com" class="w-full bg-[#ffffff] border border-[#e7e5e4] rounded-[10px] px-[14px] py-[12px] font-sans text-sm text-[#1c1917] focus:outline-none placeholder-[#a8a29e]">
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3.5">
+                                <div>
+                                    <label class="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#78716c] font-bold mb-2">First Name &middot; Focus</label>
+                                    <input type="text" value="Eli" class="w-full bg-[#ffffff] border border-[#fb923c] rounded-[10px] px-[14px] py-[12px] font-sans text-sm text-[#1c1917] focus:outline-none shadow-[0_0_0_3px_rgba(251,146,60,0.18)]">
+                                </div>
+                                <div>
+                                    <label class="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#78716c] font-bold mb-2">Surname &middot; Filled</label>
+                                    <input type="text" value="Marsh" class="w-full bg-[#ffffff] border border-[#e7e5e4] rounded-[10px] px-[14px] py-[12px] font-sans text-sm text-[#1c1917] focus:outline-none">
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <label class="block font-mono text-[9px] uppercase tracking-[0.25em] text-[#78716c] font-bold mb-2">Dedication &middot; Optional</label>
+                                <input type="text" placeholder="For uninterrupted thought." class="w-full bg-[#fff7ed] border border-[#fed7aa] rounded-[10px] px-[14px] py-[12px] font-sans text-sm text-[#1c1917] focus:outline-none placeholder-[#a8a29e]">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toggles & Checkboxes -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Toggles &amp; Checks (Interactive)</p>
+                        
+                        <div class="space-y-3">
+                            <!-- Toggle 1 -->
+                            <div class="flex items-center justify-between p-[14px_16px] border border-[#e7e5e4] rounded-[12px] bg-white">
+                                <div>
+                                    <p class="text-[13px] text-[#1c1917] font-medium">Gift wrapping</p>
+                                    <p class="text-[11px] text-[#78716c] mt-0.5">Artisan paper &amp; wax seal (+$5)</p>
+                                </div>
+                                <button class="w-[44px] h-[26px] rounded-full relative shadow-[inset_0_1px_2px_rgba(28,25,23,0.06)] bg-[#fb923c] cursor-pointer outline-none" onclick="toggleSwitch(this)">
+                                    <div class="toggle-knob absolute top-[3px] left-[21px] w-[20px] h-[20px] rounded-full bg-white shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)]"></div>
+                                </button>
+                            </div>
+                            
+                            <!-- Toggle 2 -->
+                            <div class="flex items-center justify-between p-[14px_16px] border border-[#e7e5e4] rounded-[12px] bg-white">
+                                <div>
+                                    <p class="text-[13px] text-[#1c1917] font-medium">Personalised dedication</p>
+                                    <p class="text-[11px] text-[#78716c] mt-0.5">Pressed in gold foil, first page</p>
+                                </div>
+                                <button class="w-[44px] h-[26px] rounded-full relative shadow-[inset_0_1px_2px_rgba(28,25,23,0.06)] bg-[#e7e5e4] cursor-pointer outline-none" onclick="toggleSwitch(this)">
+                                    <div class="toggle-knob absolute top-[3px] left-[3px] w-[20px] h-[20px] rounded-full bg-white shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)]"></div>
+                                </button>
+                            </div>
+                            
+                            <div class="pt-2 space-y-1">
+                                <!-- Check 1 -->
+                                <div class="flex items-center gap-3 p-[10px_4px] cursor-pointer" onclick="toggleCheck(this)">
+                                    <div class="pp-checkbox checked"></div>
+                                    <span class="text-[13px] text-[#1c1917] select-none">Include receipt in package</span>
+                                </div>
+                                <!-- Check 2 -->
+                                <div class="flex items-center gap-3 p-[10px_4px] cursor-pointer" onclick="toggleCheck(this)">
+                                    <div class="pp-checkbox"></div>
+                                    <span class="text-[13px] text-[#1c1917] select-none">Subscribe to seasonal restocks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Category 4: Complex Components -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6 pl-2">4. Complex Components</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- Curator's Note -->
+                    <div class="pp-card p-6 md:p-8">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Curator's Note &middot; Inline Alerts</p>
+                        
+                        <div class="space-y-4">
+                            <!-- Standard Note -->
+                            <div class="bg-[#fafaf9] border-l-2 border-[#7c2d12] p-[14px_16px] rounded-r-[10px] shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)]">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-[#7c2d12] text-sm leading-none">&#x24D8;</span>
+                                    <p class="text-[12px] font-semibold text-[#1c1917]">Curator's Note</p>
+                                </div>
+                                <p class="text-[12px] text-[#78716c] leading-[1.6] pl-[22px]">The Obsidian Journal features hand-stitched binding that requires gentle break-in over the first week of use.</p>
+                            </div>
+                            
+                            <!-- Alt Note -->
+                            <div class="bg-[#fff7ed] border-l-2 border-[#fb923c] p-[14px_16px] rounded-r-[10px] shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)]">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <span class="text-[#c2410c] text-sm leading-none">&#x24D8;</span>
+                                    <p class="text-[12px] font-semibold text-[#7c2d12]">In stock — limited run</p>
+                                </div>
+                                <p class="text-[12px] text-[#78716c] leading-[1.6] pl-[22px]">Edition 04 ships within five working days from our bindery in Bristol.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product Card -->
+                    <div class="pp-card p-6 md:p-8 bg-[#f5f5f4] border-none flex justify-center">
+                        <div>
+                            <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6 text-center">E-Commerce Product Card</p>
+                            
+                            <!-- The Card -->
+                            <div class="bg-[#fafaf9] p-[22px] rounded-[24px] border border-[#e7e5e4] w-[320px] shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)] hover:shadow-[0_4px_12px_-2px_rgba(28,25,23,0.08),0_2px_4px_-2px_rgba(28,25,23,0.05)] transition-shadow duration-300">
+                                <!-- Photo Area -->
+                                <div class="aspect-square bg-[#1c1917] rounded-[16px] mb-[18px] flex items-center justify-center relative overflow-hidden">
+                                    <!-- Faux Book -->
+                                    <div class="w-[70%] h-[80%] bg-[#1c1917] border border-[#2a2625] rounded-[4px] flex flex-col items-center justify-center shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] relative transition-transform duration-300 hover:-translate-y-2 cursor-pointer">
+                                        <div class="flex items-center gap-2 relative">
+                                            <span class="font-serif text-[30px] text-[#57534e] font-medium leading-none" style="font-family: Georgia, serif;">P</span>
+                                            <span class="font-serif text-[30px] text-[#57534e] font-medium leading-none" style="font-family: Georgia, serif;">P</span>
+                                            <span class="font-script text-[38px] text-[#78716c] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-[-12deg] -mt-1">&amp;</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Content -->
+                                <div class="flex justify-between items-baseline mb-[6px]">
+                                    <p class="text-[17px] font-medium text-[#1c1917] tracking-[0.005em]">The Obsidian Journal</p>
+                                    <p class="font-mono text-[13px] text-[#7c2d12] font-bold">$32.00</p>
+                                </div>
+                                <p class="text-[12px] text-[#78716c] leading-[1.6] mb-[16px] font-light">160 pages of 120gsm dot-grid paper. Bound in charcoal linen. Lay-flat design for uninterrupted thought.</p>
+                                <button class="w-full p-[13px] bg-[#7c2d12] text-[#fff7ed] border-0 rounded-[10px] font-mono text-[10px] font-bold tracking-[0.25em] uppercase shadow-[0_1px_2px_rgba(28,25,23,0.06),0_1px_1px_rgba(28,25,23,0.04)] hover:bg-[#9a3412] transition-colors">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Category 5: App Patterns -->
+            <div>
+                <h3 class="font-mono text-xs uppercase tracking-widest-mono text-[#78716c] mb-6 pl-2">5. App Patterns</h3>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+                    
+                    <!-- Mobile Navigation & Scan Button -->
+                    <div class="pp-card p-6 md:p-8 bg-[#f5f5f4] border-none overflow-hidden relative">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6 text-center">Mobile Navigation &amp; Scan Action</p>
+                        
+                        <!-- Mobile Frame Mockup -->
+                        <div class="w-full max-w-[320px] h-[240px] bg-[#fafaf9] border border-[#e7e5e4] rounded-t-[32px] mx-auto relative flex flex-col justify-end shadow-inner overflow-hidden">
+                            
+                            <!-- Central Content Placeholder -->
+                            <div class="absolute inset-0 flex flex-col items-center justify-center text-[#d6d3d1] pb-12">
+                                <span class="font-script text-4xl mb-2 opacity-50">Paper &amp; Ponder</span>
+                                <span class="font-mono text-[8px] uppercase tracking-widest-mono opacity-50">Vault Empty</span>
+                            </div>
+
+                            <!-- Bottom Bar -->
+                            <div class="bg-white h-[70px] w-full border-t border-[#efece8] flex items-center justify-between px-6 relative z-10 pb-2 shadow-[0_-4px_12px_rgba(28,25,23,0.02)]">
+                                
+                                <!-- Left Nav Group -->
+                                <div class="flex gap-5">
+                                    <button class="flex flex-col items-center gap-1 text-[#a8a29e] hover:text-[#7c2d12] transition-colors group">
+                                        <span class="text-xl leading-none group-hover:-translate-y-0.5 transition-transform">&#x270E;</span>
+                                        <span class="font-mono text-[7px] uppercase tracking-widest-mono font-bold">Chat</span>
+                                    </button>
+                                    <button class="flex flex-col items-center gap-1 text-[#a8a29e] hover:text-[#7c2d12] transition-colors group">
+                                        <span class="text-xl leading-none group-hover:-translate-y-0.5 transition-transform">&#x25A2;</span>
+                                        <span class="font-mono text-[7px] uppercase tracking-widest-mono font-bold">Vault</span>
+                                    </button>
+                                </div>
+
+                                <!-- Center Scan Button -->
+                                <div class="absolute left-1/2 -translate-x-1/2 -top-7">
+                                    <button class="w-[64px] h-[64px] bg-[#7c2d12] hover:bg-[#9a3412] text-[#fff7ed] rounded-full flex flex-col items-center justify-center shadow-[0_8px_16px_-4px_rgba(124,45,18,0.4)] transition-transform hover:-translate-y-1 border-[4px] border-[#fafaf9]">
+                                        <span class="text-2xl leading-none">&#x25CE;</span>
+                                    </button>
+                                </div>
+
+                                <!-- Right Nav Group -->
+                                <div class="flex gap-5">
+                                    <button class="flex flex-col items-center gap-1 text-[#a8a29e] hover:text-[#7c2d12] transition-colors group">
+                                        <span class="text-xl leading-none group-hover:-translate-y-0.5 transition-transform">&#x2299;</span>
+                                        <span class="font-mono text-[7px] uppercase tracking-widest-mono font-bold">Reports</span>
+                                    </button>
+                                    <button class="flex flex-col items-center gap-1 text-[#a8a29e] hover:text-[#7c2d12] transition-colors group">
+                                        <span class="text-xl leading-none group-hover:-translate-y-0.5 transition-transform">&#x26F6;</span>
+                                        <span class="font-mono text-[7px] uppercase tracking-widest-mono font-bold">Account</span>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Persona Card -->
+                    <div class="pp-card p-0 overflow-hidden shadow-sm flex flex-col max-w-[360px] mx-auto w-full border-[#e7e5e4]">
+                        <!-- Colored Header -->
+                        <div class="px-6 py-5 bg-[#7c2d12]">
+                            <p class="font-mono text-[9px] uppercase tracking-widest-mono text-[#ffedd5] opacity-80 mb-1 font-bold">Clinical • Objective</p>
+                            <h4 class="font-sans text-xl text-white font-medium tracking-tight">The Researcher</h4>
+                        </div>
+                        <!-- Content -->
+                        <div class="p-6 flex-1 flex flex-col">
+                            <div class="space-y-4 mb-6">
+                                <div>
+                                    <strong class="block text-[#7c2d12] font-mono text-[9px] uppercase tracking-widest-mono mb-1">What it does:</strong>
+                                    <p class="text-[13px] text-[#1c1917] leading-relaxed">Analyzes nervous system states and trauma mechanisms — no pity, just clear mapping. Draws only from documented psychological frameworks.</p>
+                                </div>
+                                <div>
+                                    <strong class="block text-[#7c2d12] font-mono text-[9px] uppercase tracking-widest-mono mb-1">When to use:</strong>
+                                    <p class="text-[13px] text-[#1c1917] leading-relaxed">When you feel numb or confused and need to understand the why behind your reactions logically.</p>
+                                </div>
+                            </div>
+                            <!-- Quote Callout -->
+                            <div class="mt-auto p-4 rounded-xl text-[12px] italic text-[#7c2d12] bg-[#fff7ed] border border-[#fde4c4]">
+                                “This drop in fine motor control aligns with a dorsal vagal freeze state triggered by the administrative task.”
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prompt Example Library -->
+                    <div class="pp-card p-6 md:p-8 lg:col-span-2">
+                        <p class="font-mono text-[9px] text-[#a8a29e] uppercase tracking-widest-mono font-bold mb-6">Prompt Library Block</p>
+                        
+                        <div class="bg-[#1c1917] rounded-[16px] p-6 relative group border-l-4 border-[#fb923c] shadow-inner overflow-hidden">
+                            <div class="absolute top-4 right-5 font-mono text-[8px] font-bold uppercase tracking-widest-mono text-[#78716c]">
+                                Perspective Shift
+                            </div>
+                            <p class="font-mono text-[13px] text-[#ffedd5] leading-[1.8] pr-20 md:pr-24 mt-2">
+                                "I feel like I haven't made any progress at all this year. <strong class="text-[#fb923c] font-bold">As the Historian</strong>, compare my entries from this week to my entries from exactly one year ago. Highlight three specific metrics of growth that I am currently incapable of seeing."
+                            </p>
+                            <!-- Action button overlay -->
+                            <div class="mt-6 border-t border-[#3a322c] pt-4 flex justify-between items-center">
+                                <span class="font-mono text-[10px] text-[#78716c] uppercase tracking-wide-mono">System Prompt</span>
+                                <button class="text-[#fb923c] border border-[#fb923c] px-4 py-1.5 rounded-lg font-mono text-[9px] uppercase tracking-widest-mono font-bold hover:bg-[#fb923c] hover:text-[#1c1917] transition-colors">
+                                    Copy Script
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</main>
+
+<script>
+// State Management
+const appState = {
+    currentTab: 'view-who-we-are'
+};
+
+let colorChartInstance = null;
+let typeChartInstance = null;
+
+// Navigation Logic
+function initTabs() {
+    const btns = document.querySelectorAll('.nav-btn');
+    btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const target = e.currentTarget.getAttribute('data-target');
+            switchTab(target);
+        });
+    });
+}
+
+function switchTab(targetId) {
+    // Hide all sections
+    document.querySelectorAll('.view-section').forEach(sec => {
+        sec.classList.add('hidden-view');
+        sec.classList.remove('fade-in');
+    });
+    
+    // Reset all buttons
+    document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('text-[#78716c]');
+    });
+
+    // Show target section
+    const targetSec = document.getElementById(targetId);
+    targetSec.classList.remove('hidden-view');
+    // Trigger reflow for animation
+    void targetSec.offsetWidth; 
+    targetSec.classList.add('fade-in');
+
+    // Activate corresponding button (if it exists, e.g., not from the logo click)
+    const activeBtn = document.querySelector(`.nav-btn[data-target="${targetId}"]`);
+    if(activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.classList.remove('text-[#78716c]');
+    }
+
+    appState.currentTab = targetId;
+
+    // Initialize Chart.js only when respective tabs are opened
+    if (targetId === 'view-colors' && !colorChartInstance) {
+        setTimeout(initColorChart, 100);
+    }
+    
+    if (targetId === 'view-typography' && !typeChartInstance) {
+        setTimeout(initTypeChart, 100);
+    }
+    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Typography Explorer: Tab Logic
+function switchFontTab(tabId, btnElement) {
+    // Hide all content
+    const contents = document.querySelectorAll('.font-content');
+    contents.forEach(content => {
+        content.classList.add('hidden');
+        content.classList.remove('fade-in');
+    });
+
+    // Reset all buttons
+    const btns = document.querySelectorAll('.tab-btn');
+    btns.forEach(btn => {
+        btn.classList.remove('active');
+        // Reset icons to dull color
+        const icon = btn.querySelector('span');
+        if(icon) {
+            icon.classList.remove('text-[#fb923c]');
+            icon.classList.add('text-[#a8a29e]');
+        }
+    });
+
+    // Show selected content
+    const targetContent = document.getElementById(`tab-${tabId}`);
+    if(targetContent) {
+        targetContent.classList.remove('hidden');
+        void targetContent.offsetWidth; 
+        targetContent.classList.add('fade-in');
+    }
+
+    // Activate button
+    if(btnElement) {
+        btnElement.classList.add('active');
+        const targetIcon = btnElement.querySelector('span');
+        if(targetIcon) {
+            targetIcon.classList.remove('text-[#a8a29e]');
+            targetIcon.classList.add('text-[#fb923c]');
+        }
+    }
+}
+
+// Color Copy Logic
+function initColorCopy() {
+    const swatches = document.querySelectorAll('.color-swatch');
+    const toast = document.getElementById('copy-toast-colors');
+    
+    swatches.forEach(sw => {
+        sw.addEventListener('click', () => {
+            const hex = sw.getAttribute('data-hex');
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(hex).then(() => {
+                    showToast(toast, hex);
+                });
+            } else {
+                const textArea = document.createElement("textarea");
+                textArea.value = hex;
+                textArea.style.position = "fixed";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast(toast, hex);
+                } catch (err) {}
+                document.body.removeChild(textArea);
+            }
+        });
+    });
+}
+
+function showToast(toastEl, hex) {
+    if(!toastEl) return;
+    toastEl.textContent = `Copied ${hex}`;
+    toastEl.classList.remove('opacity-0');
+    setTimeout(() => { toastEl.classList.add('opacity-0'); }, 2000);
+}
+
+// Data Visualization: Color Proportions
+function initColorChart() {
+    const canvas = document.getElementById('colorProportionChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const dataValues = [60, 25, 10, 5];
+    const bgColors = ['#fafaf9', '#ffedd5', '#1c1917', '#7c2d12'];
+    const borderColors = ['#efece8', '#fde4c4', '#1c1917', '#7c2d12'];
+    const labels = ['Alabaster (~60%)', 'Sand (~25%)', 'Charcoal (~10%)', 'Deep Clay (~5%)'];
+
+    colorChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                data: dataValues,
+                backgroundColor: bgColors,
+                borderColor: borderColors,
+                borderWidth: 1,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            cutout: '70%',
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { family: 'Montserrat', size: 11 },
+                        color: '#57534e',
+                        padding: 20,
+                        usePointStyle: true,
+                        pointStyle: 'circle'
+                    }
+                },
+                tooltip: {
+                    backgroundColor: '#1c1917',
+                    titleFont: { family: 'Space Mono', size: 10 },
+                    bodyFont: { family: 'Montserrat', size: 12 },
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) { return context.label; }
+                    }
+                }
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    });
+}
+
+// Data Visualization: Type Progression
+function initTypeChart() {
+    const canvas = document.getElementById('typeChart');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    const labels = ['Small', 'Body', 'H3', 'H2', 'H1', 'Display'];
+    const sizes = [13, 15, 24, 32, 48, 96];
+
+    typeChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Font Size (px)',
+                data: sizes,
+                borderColor: '#7c2d12',
+                backgroundColor: 'rgba(124, 45, 18, 0.1)',
+                borderWidth: 2,
+                pointBackgroundColor: '#fb923c',
+                pointBorderColor: '#ffffff',
+                pointBorderWidth: 2,
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                fill: true,
+                tension: 0.4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1c1917',
+                    titleFont: { family: 'Space Mono', size: 10 },
+                    bodyFont: { family: 'Montserrat', size: 13 },
+                    padding: 12,
+                    cornerRadius: 8,
+                    displayColors: false,
+                    callbacks: {
+                        label: function(context) { return context.parsed.y + 'px'; }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: { display: false, drawBorder: false },
+                    ticks: { font: { family: 'Space Mono', size: 10 }, color: '#78716c' }
+                },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#efece8', drawBorder: false },
+                    ticks: { 
+                        font: { family: 'Space Mono', size: 10 }, 
+                        color: '#a8a29e',
+                        stepSize: 20
+                    }
+                }
+            },
+            animation: {
+                duration: 1500,
+                easing: 'easeOutQuart'
+            }
+        }
+    });
+}
+
+// Interactive Components Logic
+function toggleSwitch(btn) {
+    const knob = btn.querySelector('.toggle-knob');
+    if (btn.classList.contains('bg-[#fb923c]')) {
+        // Turn OFF
+        btn.classList.replace('bg-[#fb923c]', 'bg-[#e7e5e4]');
+        knob.classList.replace('left-[21px]', 'left-[3px]');
+    } else {
+        // Turn ON
+        btn.classList.replace('bg-[#e7e5e4]', 'bg-[#fb923c]');
+        knob.classList.replace('left-[3px]', 'left-[21px]');
+    }
+}
+
+function toggleCheck(container) {
+    const box = container.querySelector('.pp-checkbox');
+    box.classList.toggle('checked');
+}
+
+// Initialize application
+document.addEventListener('DOMContentLoaded', () => {
+    initTabs();
+    initColorCopy();
+    
+    // Bind typography live tester
+    const inputTester = document.getElementById('typeTester');
+    if (inputTester) {
+        const boundElements = document.querySelectorAll('[data-bound="true"]');
+        inputTester.addEventListener('input', function(e) {
+            const val = e.target.value || ' ';
+            boundElements.forEach(el => { el.textContent = val; });
+        });
+    }
+});
+</script>
+</body>
+</html>

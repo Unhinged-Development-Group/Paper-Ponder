@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&amp;display=swap');
+      
+      .wordmark { 
+        font-family: 'Dancing Script', cursive; 
+        font-size: 130px; 
+        font-weight: 500;
+        fill: #7c2d12; /* Deep Clay */
+        text-anchor: middle; 
+        dominant-baseline: central;
+      }
+      .ampersand { 
+        fill: #fb923c; /* Terracotta */
+      }
+    </style>
+  </defs>
+  
+  <!-- Transparent Background for versatile placement -->
+  <rect width="100%" height="100%" fill="transparent" />
+  
+  <!-- The Full Wordmark -->
+  <!-- Centered horizontally and vertically in the viewBox -->
+  <text x="400" y="95" class="wordmark">
+    Paper <tspan class="ampersand">&amp;</tspan> Ponder
+  </text>
+</svg>
